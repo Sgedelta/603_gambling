@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dvcohurd1jc2x"]
+
+[ext_resource type="Script" uid="uid://dhcvffw4nmoif" path="res://Scenes/Menus/MainMenu.cs" id="1_pha2q"]
+[ext_resource type="PackedScene" uid="uid://bpq60q3sla7m6" path="res://Scenes/main_game.tscn" id="2_penys"]
+
+[node name="MainMenu" type="MarginContainer" unique_id=775266463]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_top = 250
+theme_override_constants/margin_right = 250
+theme_override_constants/margin_bottom = 300
+script = ExtResource("1_pha2q")
+MainGameScene = ExtResource("2_penys")
+
+[node name="MenuLayout" type="VBoxContainer" parent="." unique_id=704814600]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Title" type="Label" parent="MenuLayout" unique_id=475323484]
+layout_mode = 2
+theme_override_font_sizes/font_size = 200
+text = "LETS GO GAMBLING!!!!"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="MenuLayout" unique_id=109336768]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "AW DANGIT!"
+
+[connection signal="pressed" from="MenuLayout/Button" to="." method="PlayGame"]
