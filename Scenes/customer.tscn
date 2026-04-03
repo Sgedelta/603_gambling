@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cya10pgwhsewr"]
+
+[ext_resource type="Script" uid="uid://1i2qe34y8h1m" path="res://Scenes/Customer.cs" id="1_7c3kf"]
+[ext_resource type="Texture2D" uid="uid://bm1736cna0y4l" path="res://icon.svg" id="1_fp685"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7c3kf"]
+radius = 80.280754
+
+[node name="Customer" type="CharacterBody2D" unique_id=623982277]
+motion_mode = 1
+script = ExtResource("1_7c3kf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1269357853]
+texture = ExtResource("1_fp685")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1264802872]
+shape = SubResource("CircleShape2D_7c3kf")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="." unique_id=461178616]

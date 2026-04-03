@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d1d5abjjndtow"]
+
+[ext_resource type="Script" uid="uid://d0mtdbaevqf4r" path="res://Scenes/Machine.cs" id="1_xuuum"]
+[ext_resource type="Texture2D" uid="uid://bm1736cna0y4l" path="res://icon.svg" id="2_h612m"]
+
+[node name="Machine" type="Node2D" unique_id=2110455865]
+script = ExtResource("1_xuuum")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=571050210]
+texture = ExtResource("2_h612m")
+
+[node name="Label" type="Label" parent="." unique_id=1659348115]
+offset_left = -54.0
+offset_top = -94.0
+offset_right = 63.0
+offset_bottom = -71.0
+text = "GAMBLING!!!"

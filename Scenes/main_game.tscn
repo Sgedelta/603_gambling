@@ -1,3 +1,18 @@
 [gd_scene format=3 uid="uid://bpq60q3sla7m6"]
 
+[ext_resource type="Script" uid="uid://q0awupa5o3hu" path="res://Scenes/MainGame.cs" id="1_l756w"]
+[ext_resource type="PackedScene" uid="uid://cya10pgwhsewr" path="res://Scenes/customer.tscn" id="2_pu3va"]
+[ext_resource type="PackedScene" uid="uid://d1d5abjjndtow" path="res://Scenes/machine.tscn" id="3_0e3vx"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_4rmt8"]
+vertices = PackedVector2Array(3885.0313, -38.023438, 3891.961, 2198.9688, -28, 2188.0234, -28, -48.96875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-38, -59, -38, 2198, 3902, 2209, 3895, -48)])
+
 [node name="MainGame" type="Node2D" unique_id=227326744]
+script = ExtResource("1_l756w")
+_customerPrefab = ExtResource("2_pu3va")
+_machinePrefab = ExtResource("3_0e3vx")
+
+[node name="NavRegion" type="NavigationRegion2D" parent="." unique_id=1726240980]
+navigation_polygon = SubResource("NavigationPolygon_4rmt8")
