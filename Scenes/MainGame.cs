@@ -17,11 +17,22 @@ public partial class MainGame : Node2D
 	{
 		_rng = new RandomNumberGenerator();
 
-		PopulateRandomCustomersAndMachines(3, 5);
+		PopulateRandomCustomersAndMachines(10, 15);
 
 		Tween MoveCustomers = CreateTween();
 		MoveCustomers.SetLoops(); //loop forever
 		MoveCustomers.TweenCallback(Callable.From(MoveAllCustomersToRandomOpenMachine)).SetDelay(10f);
+
+
+		//DEBUG TESTING PERCIEVED WINRATE
+		//LivingCustomers[0].ActiveMachine = ActiveMachines[0];
+		//for(int i = 0; i < 500; i++)
+		//{
+		//	bool win = _rng.Randf() > .5f;
+		//	GD.Print(win);
+        //    LivingCustomers[0].RegisterGame(win);
+		//	LivingCustomers[0].GetPercievedWinRate(ActiveMachines[0]);
+		//}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -17,3 +17,5 @@ texture = ExtResource("1_fp685")
 shape = SubResource("CircleShape2D_7c3kf")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="." unique_id=461178616]
+radius = 50.0
+max_speed = 300.0
