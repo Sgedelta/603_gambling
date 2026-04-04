@@ -8,6 +8,7 @@ public partial class GameManager : Node
     public GameManager GDInstance { get { return instance; } }
 
 
+    public MainGame ActiveMainGame;
 
 
     public override void _EnterTree()

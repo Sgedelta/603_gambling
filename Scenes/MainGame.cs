@@ -12,16 +12,21 @@ public partial class MainGame : Node2D
 	[Export] private PackedScene _customerPrefab;
 	[Export] private PackedScene _machinePrefab;
 
+	[Export] public Rect2 CasinoBounds;
+	[Export] public Vector2 CasinoExit = Vector2.Zero;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_rng = new RandomNumberGenerator();
 
-		PopulateRandomCustomersAndMachines(10, 15);
+		//PopulateRandomCustomersAndMachines(10, 15);
 
 		Tween MoveCustomers = CreateTween();
 		MoveCustomers.SetLoops(); //loop forever
 		MoveCustomers.TweenCallback(Callable.From(MoveAllCustomersToRandomOpenMachine)).SetDelay(10f);
+
+		GameManager.instance.ActiveMainGame = this;
 
 
 		//DEBUG TESTING PERCIEVED WINRATE

@@ -45,6 +45,7 @@ public partial class Customer : CharacterBody2D
     //======NAV CONTROLS======
     private NavigationAgent2D _navAgent;
     [Export] public float Speed = 300.0f;
+	[Export] public float FleeSpeed = 1500f;
 	private float _movementDelta;
 
 	private Vector2 _targetPos = Vector2.Zero;
@@ -57,6 +58,7 @@ public partial class Customer : CharacterBody2D
 
 	//======EXTRA VARS======
 	private RandomNumberGenerator _rng;
+	private Tween ReWanderTween;
 
     public override void _Ready()
     {
@@ -72,6 +74,16 @@ public partial class Customer : CharacterBody2D
 
 		_rng = new RandomNumberGenerator();
 
+		Callable.From(DelayedSetup).CallDeferred();
+
+    }
+
+	public void DelayedSetup()
+	{
+
+        ReWanderTween = CreateTween().SetLoops();
+        ReWanderTween.TweenCallback(Callable.From(() => { if (CurrentGoal == CustomerGoal.WANDER) TargetPos = GetNewWanderLoc(); })).SetDelay(_wanderRecalcTime);
+        TargetPos = GetNewWanderLoc();
 
     }
 
@@ -79,6 +91,17 @@ public partial class Customer : CharacterBody2D
 	{
 		base._PhysicsProcess(delta);
 
+		if(CurrentGoal == CustomerGoal.GAMBLE)
+		{
+			//see if we have an active machine
+
+			//if we don't have an active machine, try to find an open machine
+
+			//if we do have an active machine, wait a time, gamble, then reconsider our life choices. 
+		}
+
+
+		//move
 
 		if(_navAgent.IsNavigationFinished())
 		{
@@ -115,6 +138,7 @@ public partial class Customer : CharacterBody2D
 				if(CurrentEarningPercent <= -1)
 				{
 					CurrentGoal = CustomerGoal.FLEE;
+					FleeCasino();
 					return;
 				}
 
@@ -132,6 +156,7 @@ public partial class Customer : CharacterBody2D
                     if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
 					{
 						CurrentGoal = CustomerGoal.FLEE;
+						FleeCasino();
 						return;
 					}
 
@@ -162,6 +187,7 @@ public partial class Customer : CharacterBody2D
                     if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
                     {
                         CurrentGoal = CustomerGoal.FLEE;
+						FleeCasino();
                         return;
                     }
 
@@ -216,6 +242,7 @@ public partial class Customer : CharacterBody2D
 				if(_rng.Randf() <= leaveChance)
 				{
 					CurrentGoal = CustomerGoal.LEAVE;
+					LeaveCasino();
 					return;
 				}
 				else
@@ -229,11 +256,31 @@ public partial class Customer : CharacterBody2D
 
 
 		//we didn't reach any real conclusion, in which case we should just wander...
+		ActiveMachine = null;
 		CurrentGoal = CustomerGoal.WANDER;
 		GetTree().CreateTimer(_wanderTime).Timeout += ReevaluateGoal;
 	}
 
+	public Vector2 GetNewWanderLoc()
+	{
+		Vector2 size = GameManager.instance.ActiveMainGame.CasinoBounds.Size;
+		return GameManager.instance.ActiveMainGame.CasinoBounds.GetCenter() + new Vector2(_rng.RandfRange(-size.X/2, size.X/2), _rng.RandfRange(-size.Y/2, size.Y/2));	
+	}
 
+	public void LeaveCasino()
+	{
+		ActiveMachine = null;
+		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
+	}
+
+	public void FleeCasino()
+	{
+		ActiveMachine = null;
+		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
+		Speed = FleeSpeed;
+		_navAgent.PathDesiredDistance *= 10;
+		_navAgent.TargetDesiredDistance *= 10;
+	}
 
 	public void OnVelocityComputed(Vector2 safeVelocity)
 	{
