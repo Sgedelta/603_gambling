@@ -7,6 +7,7 @@ public partial class Customer : CharacterBody2D
 	//======BEHAVIOUR CONTROLS======
 	public CustomerGoal CurrentGoal = CustomerGoal.WANDER;
 	private float _wanderTime = 5f; //number of seconds to wander
+	private float _wanderRecalcTime = 3f;
 
 	//How "Hopeful"/satisfied this character is - factors into decision making. ranges 0-1
 	private float _hopeAmount = 1;
@@ -19,10 +20,12 @@ public partial class Customer : CharacterBody2D
     //Hope controls represent an offset/scalar (depending) applied to _hopeAmount when used in calculations
     [ExportGroup("Hope Controls")]
 	[Export] public float HopeWinRateStrength = .1f; //how much hope shifts percieved win rate when deciding if we can make a profit
-	[Export] public float HopeBorrowWillingness = .75f; //the maximum chance the customer is willing to put themselves in debt (when hope = 1)
-	[Export] public float HopeLeaveRateStrength = .3f;
+	[Export] public float HopeBorrowWillingness = .75f; //the maximum chance the customer is willing to put themselves in debt / more in debt (when hope = 1)
+	[Export] public float HopeLeaveRateStrength = .25f; //The predisposition to leave. What the Hope function is "centered" around - when hope is at 50%, this will be the chance to leave
 
-    [ExportGroup("")]
+	[ExportGroup("")]
+
+	[Export] public float Indecisiveness = .2f; //chance of a gambler to wander again when leaving wander state
 	
 
 
@@ -35,6 +38,8 @@ public partial class Customer : CharacterBody2D
 
 	public Machine ActiveMachine;
 	private const int MIN_PLAYS_TO_GUESS_RATE = 5;
+
+	private int _playCount = 0; //how many times we've gambled...
 
 
     //======NAV CONTROLS======
@@ -105,12 +110,33 @@ public partial class Customer : CharacterBody2D
 		switch(CurrentGoal)
 		{
 			case CustomerGoal.GAMBLE:
+
+				//first priority, have we gambled *too* much? (this is no matter what, no one can gamble this much!)
+				if(CurrentEarningPercent <= -1)
+				{
+					CurrentGoal = CustomerGoal.FLEE;
+					return;
+				}
+
+                //debtAcceptance represents how willing I am to risk debt. It is the WIN rate, multiplied by how willing I am to lose money
+                float debtAcceptance = GetPercievedWinRate(ActiveMachine) * (_hopeAmount * HopeBorrowWillingness);
+
+                //a level of debt Acceptance, adjusted by how in debt I already am, compared to my "max limit" of -1
+                float debtAcceptanceAdjusted = Mathf.Lerp(debtAcceptance, 0, -CurrentEarningPercent);
+
                 //if we are gambling and think we can stand to make a profit at this machine, KEEP GOING BABY MORE GAMBLING!! (maybe)
                 if (GetPercievedMachineProfit(ActiveMachine) > 0)
                 {
-                    //check if using this machine even once will put us into debt
-                    float debtChance = (1 - GetPercievedWinRate(ActiveMachine)) * (_hopeAmount * HopeBorrowWillingness);
-                    if ((ActiveMachine.Cost >= CurrentMoney && _rng.Randf() >= Mathf.Min(debtChance, 1 - _addictionStrength)) || ActiveMachine.Cost < CurrentMoney)
+
+                    //check if we're already in debt - if we are, we might decide to flee instead of just wandering to another machine
+                    if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
+					{
+						CurrentGoal = CustomerGoal.FLEE;
+						return;
+					}
+
+                    //if we accept the risk that this puts us into debt, or it won't put us into debt, HIT IT AGAIN BABEYYY
+                    if ((ActiveMachine.Cost >= CurrentMoney && _rng.Randf() <= Mathf.Max(debtAcceptance, _addictionStrength)) || ActiveMachine.Cost < CurrentMoney)
                     {
                         //it either WON'T put us into debt OR we think that it's an acceptable risk (rolled lower than debtChance or we're addicted)
                         CurrentGoal = CustomerGoal.GAMBLE;
@@ -130,6 +156,16 @@ public partial class Customer : CharacterBody2D
 						CurrentGoal = CustomerGoal.GAMBLE;
 						return;
 					}
+
+                    //we're not wrong
+					//if we're in debt we need to consider fleeing RIGHT NOW
+                    if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
+                    {
+                        CurrentGoal = CustomerGoal.FLEE;
+                        return;
+                    }
+
+					//if we're not in debt OR we're confident enough that we don't need to flee, go to another machine / reconsider life (fall through)
                 }
 
 
@@ -138,31 +174,61 @@ public partial class Customer : CharacterBody2D
 			case CustomerGoal.WANDER:
 				//if we're wandering, we either just entered or we left a machine for some reason. We need to analyze what we want to do.
 
+				//maybe we're indecisive...
+				if(_rng.Randf() < Indecisiveness)
+				{
+					//wander around again lol
+					break;
+				}
+
 				//NOTE: fleeing from "max debt" is NOT included in this logic, when we lose money so that CurrentEarningPercent is <= -1, the character should ALWAYS flee, otherwise addicts might never leave
 				//case "0" -> gambling addicition. No matter what, if we're addicted to gambling, there's a chance we gamble again
-				if (_rng.Randi() < _addictionStrength)
+				if (_rng.Randf() < _addictionStrength)
 				{
 					CurrentGoal = CustomerGoal.GAMBLE;
 					return;
 				}
 
 				//case 1: we've made profit
-					//consider leaving? if our hope is low, we should leave, otherwise we should stay
+				//consider leaving? if our hope is low, we should leave, otherwise we should stay
 
 				//case 2: we're at our break even
-					//again consider leaving, but if our hope is low we should REALLY consider leaving. With high hope we should REALLY consider staying
+				//again consider leaving, but if our hope is low we should REALLY consider leaving. With high hope we should REALLY consider staying
 
 				//case 3: we're at a loss
-					//again consider leaving, but if our hope is low we should ABSOLUTELY consider leaving. with high hope we should ABSOLUTELY stay!! we can make it back!!
+				//again consider leaving, but if our hope is low we should ABSOLUTELY consider leaving. with high hope we should ABSOLUTELY stay!! we can make it back!!
 
 				//case 4: we're in debt
-					//oh shit. oh fuck. either we can make it back or we need to FLEE.
+				//oh shit. oh fuck. either we can make it back or we need to FLEE.
+				//THIS CASE IS HANDLED IN GAMBLE. We should ALWAYS decide if we flee from where we make/lose money.
 
-				break;
+				//cases 1-3 are similar enough to have one calculation, which is then scaled based on how we're doing.
+				//people who make profit are at their break even are the most "indecisve" - hope does not affect them greatly either way
+				//people in deep loss or great profit are more "impulsive" - with low hope, they are more likely to leave. with high hope, they are more likely to stay
+
+				//this falls on a sigmoid curve, which is then clamped
+				//how strong the decision is. A value closer to 0 is "flatter", higher values result in a "steeper" version
+				float decisionStrength = Mathf.Pow(Mathf.Abs(Mathf.Log(CurrentEarningPercent)), CurrentEarningPercent); //don't ask, it just works...
+				//the chance of leaving
+				float leaveChance = Mathf.Clamp((-1.0f * (Mathf.Log(_hopeAmount / (1 - _hopeAmount)) * decisionStrength)) + HopeLeaveRateStrength, 0, 1);
+
+				//if we're going to leave, do it
+				if(_rng.Randf() <= leaveChance)
+				{
+					CurrentGoal = CustomerGoal.LEAVE;
+					return;
+				}
+				else
+				{
+					CurrentGoal = CustomerGoal.GAMBLE;
+					return;
+				}
+
+				break; //yes, i know, unreachable. just preventing in case there's ever further states.
 		}
 
 
-		//safety check, we didn't reach any real conclusion, in which case we should just wander...
+		//we didn't reach any real conclusion, in which case we should just wander...
 		CurrentGoal = CustomerGoal.WANDER;
 		GetTree().CreateTimer(_wanderTime).Timeout += ReevaluateGoal;
 	}
