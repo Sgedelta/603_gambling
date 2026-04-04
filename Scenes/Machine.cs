@@ -34,7 +34,7 @@ public partial class Machine : Node2D
 
 		//decide if we win
 
-		EmitSignal(SignalName.OnGamePlayed, false); //TEMP TRUE MEANS ALWAYS WIN!! this casino sucks ASS 
+		EmitSignal(SignalName.OnGamePlayed, true); //TEMP TRUE MEANS ALWAYS WIN!! this casino sucks ASS 
 
 	}
 }
