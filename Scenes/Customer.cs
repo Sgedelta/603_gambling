@@ -1,10 +1,11 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Reflection.PortableExecutable;
 
 public partial class Customer : CharacterBody2D
 {
-	//======BEHAVIOUR CONTROLS======
+	//======BEHAVIOR CONTROLS======
 	public CustomerGoal CurrentGoal = CustomerGoal.WANDER;
 	private float _wanderTime = 5f; //number of seconds to wander
 	private float _wanderRecalcTime = 3f;
@@ -16,21 +17,22 @@ public partial class Customer : CharacterBody2D
 	//how addicted to gambling this character is. The more addicted to gambling someone is, the less rationally they act!
 	private float _addictionStrength = 0.05f;
 	public float AddictionStrength { get { return _addictionStrength; } set { _addictionStrength += Mathf.Clamp(value, 0, 1); } }
+	[ExportGroup("Behavior Controls")]
 
     //Hope controls represent an offset/scalar (depending) applied to _hopeAmount when used in calculations
-    [ExportGroup("Hope Controls")]
+    [ExportSubgroup("Hope Controls")]
 	[Export] public float HopeWinRateStrength = .1f; //how much hope shifts percieved win rate when deciding if we can make a profit
 	[Export] public float HopeBorrowWillingness = .75f; //the maximum chance the customer is willing to put themselves in debt / more in debt (when hope = 1)
 	[Export] public float HopeLeaveRateStrength = .25f; //The predisposition to leave. What the Hope function is "centered" around - when hope is at 50%, this will be the chance to leave
 
-	[ExportGroup("")]
+	[ExportSubgroup("")]
 
 	[Export] public float Indecisiveness = .2f; //chance of a gambler to wander again when leaving wander state
-	
 
 
 	//======GAMBLING CONTROLS======
-	public float CurrentMoney = 100; //100 temp value
+	[ExportGroup("Gambling Controls")]
+    public float CurrentMoney = 100; //100 temp value
 	public float StartingMoney = 100; //100 temp value
 	//represents how much this character has "made" - 1 is no profit but no loss, 0-1 is some amount of loss but no debt, >1 is profiting, <0 is in debt 
 	public float CurrentEarningPercent { get { return CurrentMoney / StartingMoney; } }
@@ -38,9 +40,13 @@ public partial class Customer : CharacterBody2D
 
 	public Machine ActiveMachine;
 	private const int MIN_PLAYS_TO_GUESS_RATE = 5;
+	private bool _isWaitingForGame = false;
 
 	private int _playCount = 0; //how many times we've gambled...
 
+	[Export] public MachinePickConsiderations MachineConsiderations = 0;
+
+    [ExportGroup("")]
 
     //======NAV CONTROLS======
     private NavigationAgent2D _navAgent;
@@ -57,6 +63,7 @@ public partial class Customer : CharacterBody2D
 	}
 
 	//======EXTRA VARS======
+	[Export] private bool DEBUG = false;
 	private RandomNumberGenerator _rng;
 	private Tween ReWanderTween;
 
@@ -82,8 +89,22 @@ public partial class Customer : CharacterBody2D
 	{
 
         ReWanderTween = CreateTween().SetLoops();
-        ReWanderTween.TweenCallback(Callable.From(() => { if (CurrentGoal == CustomerGoal.WANDER) TargetPos = GetNewWanderLoc(); })).SetDelay(_wanderRecalcTime);
+        ReWanderTween.TweenCallback(Callable.From(() => {
+
+			if (CurrentGoal == CustomerGoal.WANDER)
+			{
+				TargetPos = GetNewWanderLoc();
+                if (DEBUG)
+                {
+                    GD.Print($"[C] {Name}: Picked new wander location -> {TargetPos}");
+                }
+            }
+		
+		})).SetDelay(_wanderRecalcTime);
         TargetPos = GetNewWanderLoc();
+
+		//BEGINS CONTROL LOGIC
+		ReevaluateGoal();
 
     }
 
@@ -91,13 +112,33 @@ public partial class Customer : CharacterBody2D
 	{
 		base._PhysicsProcess(delta);
 
+		//handle our gambling!
 		if(CurrentGoal == CustomerGoal.GAMBLE)
 		{
 			//see if we have an active machine
+			//if we don't have an active machine, try to find the "best" open machine, based on our own considerations
+			if(ActiveMachine == null)
+			{
+				ActiveMachine = GameManager.instance.ActiveMainGame.GetBestMachineForCustomer(this);
+				ActiveMachine.IsAvailable = false; //mark this machine as taken
+				TargetPos = ActiveMachine.PlayPosition.GlobalPosition;
+                if (DEBUG)
+                {
+                    GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
+                }
 
-			//if we don't have an active machine, try to find an open machine
+            }
 
-			//if we do have an active machine, wait a time, gamble, then reconsider our life choices. 
+			//see if we are AT our active machine
+			if(GlobalPosition.DistanceSquaredTo(ActiveMachine.GlobalPosition) <= Mathf.Pow(ActiveMachine.PlayDistance, 2))
+			{
+				//if we are, we can play if we aren't already
+				if(!_isWaitingForGame)
+				{
+					Gamble();
+				}
+			}
+
 		}
 
 
@@ -137,7 +178,10 @@ public partial class Customer : CharacterBody2D
 				//first priority, have we gambled *too* much? (this is no matter what, no one can gamble this much!)
 				if(CurrentEarningPercent <= -1)
 				{
-					CurrentGoal = CustomerGoal.FLEE;
+					if(DEBUG)
+					{
+						GD.Print($"[C] {Name}: Fleeing because CurrentEarningPercent ({CurrentEarningPercent} is less than -1");
+					}
 					FleeCasino();
 					return;
 				}
@@ -155,7 +199,10 @@ public partial class Customer : CharacterBody2D
                     //check if we're already in debt - if we are, we might decide to flee instead of just wandering to another machine
                     if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
 					{
-						CurrentGoal = CustomerGoal.FLEE;
+                        if (DEBUG)
+                        {
+                            GD.Print($"[C] {Name}: Fleeing because CurrentEarningPercent ({CurrentEarningPercent} is too risky!");
+                        }
 						FleeCasino();
 						return;
 					}
@@ -163,6 +210,10 @@ public partial class Customer : CharacterBody2D
                     //if we accept the risk that this puts us into debt, or it won't put us into debt, HIT IT AGAIN BABEYYY
                     if ((ActiveMachine.Cost >= CurrentMoney && _rng.Randf() <= Mathf.Max(debtAcceptance, _addictionStrength)) || ActiveMachine.Cost < CurrentMoney)
                     {
+                        if (DEBUG)
+                        {
+                            GD.Print($"[C] {Name}: Gambling because we decided the risk was okay or there was none!");
+						}
                         //it either WON'T put us into debt OR we think that it's an acceptable risk (rolled lower than debtChance or we're addicted)
                         CurrentGoal = CustomerGoal.GAMBLE;
                         return;
@@ -178,7 +229,11 @@ public partial class Customer : CharacterBody2D
                     //if we're gambling but we don't think we can make a profit, maybe we're wrong?
 					if(_rng.Randf() < _addictionStrength)
 					{
-						CurrentGoal = CustomerGoal.GAMBLE;
+                        if (DEBUG)
+                        {
+                            GD.Print($"[C] {Name}: Gambling because we're ADDICTED to it! Wahoo!!");
+                        }
+                        CurrentGoal = CustomerGoal.GAMBLE;
 						return;
 					}
 
@@ -186,7 +241,11 @@ public partial class Customer : CharacterBody2D
 					//if we're in debt we need to consider fleeing RIGHT NOW
                     if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
                     {
-                        CurrentGoal = CustomerGoal.FLEE;
+                        if (DEBUG)
+                        {
+                            GD.Print($"[C] {Name}: Fleeing because we are in debt and this machine won't make us money.");
+                        }
+                        
 						FleeCasino();
                         return;
                     }
@@ -203,15 +262,34 @@ public partial class Customer : CharacterBody2D
 				//maybe we're indecisive...
 				if(_rng.Randf() < Indecisiveness)
 				{
-					//wander around again lol
-					break;
+                    if (DEBUG)
+                    {
+                        GD.Print($"[C] {Name}: Can't Decide, Wandering Again.");
+                    }
+                    //wander around again lol
+                    break;
 				}
 
 				//NOTE: fleeing from "max debt" is NOT included in this logic, when we lose money so that CurrentEarningPercent is <= -1, the character should ALWAYS flee, otherwise addicts might never leave
 				//case "0" -> gambling addicition. No matter what, if we're addicted to gambling, there's a chance we gamble again
 				if (_rng.Randf() < _addictionStrength)
 				{
-					CurrentGoal = CustomerGoal.GAMBLE;
+                    if (DEBUG)
+                    {
+                        GD.Print($"[C] {Name}: Gambling again because we're addicted to it anyway");
+                    }
+                    CurrentGoal = CustomerGoal.GAMBLE;
+					return;
+				}
+
+				//If we haven't played enough games, go gamble..
+				if(_playCount < GameManager.instance.NumMinGames) 
+				{
+                    if (DEBUG)
+                    {
+                        GD.Print($"[C] {Name}: Gambling because we just got here! we've only played {_playCount}");
+                    }
+                    CurrentGoal = CustomerGoal.GAMBLE;
 					return;
 				}
 
@@ -241,13 +319,21 @@ public partial class Customer : CharacterBody2D
 				//if we're going to leave, do it
 				if(_rng.Randf() <= leaveChance)
 				{
-					CurrentGoal = CustomerGoal.LEAVE;
+                    if (DEBUG)
+                    {
+                        GD.Print($"[C] {Name}: Leaving because we rolled below our leave chance of {leaveChance}");
+                    }
+                    
 					LeaveCasino();
 					return;
 				}
 				else
 				{
-					CurrentGoal = CustomerGoal.GAMBLE;
+                    if (DEBUG)
+                    {
+                        GD.Print($"[C] {Name}: Gambling because there's nothing else to do!");
+                    }
+                    CurrentGoal = CustomerGoal.GAMBLE;
 					return;
 				}
 
@@ -255,8 +341,12 @@ public partial class Customer : CharacterBody2D
 		}
 
 
-		//we didn't reach any real conclusion, in which case we should just wander...
-		ActiveMachine = null;
+        //we didn't reach any real conclusion, in which case we should just wander...
+        if (DEBUG)
+        {
+            GD.Print($"[C] {Name}: Wandering because I don't want to do what I was doing before, which was {CurrentGoal}");
+        }
+        ActiveMachine = null;
 		CurrentGoal = CustomerGoal.WANDER;
 		GetTree().CreateTimer(_wanderTime).Timeout += ReevaluateGoal;
 	}
@@ -269,17 +359,67 @@ public partial class Customer : CharacterBody2D
 
 	public void LeaveCasino()
 	{
-		ActiveMachine = null;
+        CurrentGoal = CustomerGoal.LEAVE;
+        LeaveMachine();
 		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
 	}
 
 	public void FleeCasino()
 	{
-		ActiveMachine = null;
-		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
+        CurrentGoal = CustomerGoal.FLEE;
+        LeaveMachine();
+        TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
 		Speed = FleeSpeed;
 		_navAgent.PathDesiredDistance *= 10;
 		_navAgent.TargetDesiredDistance *= 10;
+	}
+
+	private void LeaveMachine()
+	{
+		if(ActiveMachine != null)
+		{
+            if (DEBUG)
+            {
+                GD.Print($"[C] {Name}: Leaving machine {ActiveMachine.Name}");
+            }
+            ActiveMachine.IsAvailable = true;
+            ActiveMachine = null;
+
+        }  
+    }
+
+	public async void Gamble()
+	{
+		//SAFETY, just in case, don't gamble while we're already gambling. this shouldn't be called ANYWAY but still.
+		if(_isWaitingForGame)
+		{
+			return;
+		}
+		_isWaitingForGame = true;
+
+        if (DEBUG)
+        {
+            GD.Print($"[C] {Name}: LETS GO GAMBLING!!");
+        }
+
+        //subscribe our listener(s)
+        ActiveMachine.OnGamePlayed += RegisterGame;
+
+		//play the game, then wait for it to finish
+		ActiveMachine.Play(this);
+		await ToSignal(ActiveMachine, Machine.SignalName.OnGamePlayed);
+        //count that we played!
+        _playCount += 1; 
+
+
+        //unsubscribe our listener(s)
+		//we could do this when we pick and leave a machine... but this is a bit cleaner, imo. we might leave after ANY game and we only care about it WHEN we play. so. safer! one place!
+        ActiveMachine.OnGamePlayed -= RegisterGame;
+
+		//rethink life choices
+		ReevaluateGoal();
+
+        _isWaitingForGame = false;
 	}
 
 	public void OnVelocityComputed(Vector2 safeVelocity)
@@ -289,9 +429,13 @@ public partial class Customer : CharacterBody2D
 
 	public void RegisterGame(bool win)
 	{
-		//register in win/loss dictionary
+		if (DEBUG)
+		{
+			GD.Print($"[C] {Name}: Registering game at {ActiveMachine.Name}, win state was {win}");
+		}
 
-		if(!_machineWinRates.ContainsKey(ActiveMachine))
+        //register in win/loss dictionary
+        if (!_machineWinRates.ContainsKey(ActiveMachine))
 		{
 			_machineWinRates.Add(ActiveMachine, new Array<bool>());
 		}
@@ -331,10 +475,13 @@ public partial class Customer : CharacterBody2D
 
         }
 
-		GD.Print($"Percieved Wins and Rate: {percievedWins} / {potentialMaxWins} = {percievedWins / potentialMaxWins}");
+		if(DEBUG)
+		{
+            GD.Print($"[C] {Name}: Percieved Wins and Rate from machine {m.Name}: {percievedWins} / {potentialMaxWins} = {percievedWins / potentialMaxWins}");
+        }
 
-		//return the percieved rate
-		return percievedWins / potentialMaxWins;
+        //return the percieved rate
+        return percievedWins / potentialMaxWins;
 	}
 
 	/// <summary>
@@ -358,4 +505,15 @@ public enum CustomerGoal
 	WANDER, //walk around for a little
 	LEAVE,  //Leave normally, without potentially dying (not in debt)
 	FLEE    //get the FUCK out because you're in debt and don't think you can make it back
+}
+
+[Flags]
+public enum MachinePickConsiderations
+{
+	WIN_RATE = 1 << 1,
+	PROFIT = 1 << 2,
+
+
+	RATE_AND_PROFIT = WIN_RATE | PROFIT
+
 }

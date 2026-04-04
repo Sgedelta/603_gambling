@@ -15,8 +15,10 @@ agent_radius = 75.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e3vx"]
 size = Vector2(2000, 500)
 
-[node name="MainGame" type="Node2D" unique_id=227326744]
+[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("LivingCustomers", "ActiveMachines")]
 script = ExtResource("1_l756w")
+LivingCustomers = [NodePath("TestingCustomer")]
+ActiveMachines = [NodePath("Machine"), NodePath("Machine2"), NodePath("Machine3")]
 _customerPrefab = ExtResource("2_pu3va")
 _machinePrefab = ExtResource("3_0e3vx")
 CasinoBounds = Rect2(0, 0, 3840, 2160)
@@ -61,8 +63,21 @@ texture = ExtResource("4_6j5ir")
 
 [node name="TestingCustomer" parent="." unique_id=623982277 instance=ExtResource("2_pu3va")]
 position = Vector2(135, 103)
+DEBUG = true
 
 [node name="NavAgent" parent="TestingCustomer" index="2" unique_id=461178616]
 debug_enabled = true
+
+[node name="Machine" parent="." unique_id=2110455865 instance=ExtResource("3_0e3vx")]
+position = Vector2(2659, 155)
+PlayTime = 1.0
+
+[node name="Machine2" parent="." unique_id=31816360 instance=ExtResource("3_0e3vx")]
+position = Vector2(255, 1215)
+PlayTime = 1.0
+
+[node name="Machine3" parent="." unique_id=455676682 instance=ExtResource("3_0e3vx")]
+position = Vector2(3639, 1131)
+PlayTime = 1.0
 
 [editable path="TestingCustomer"]

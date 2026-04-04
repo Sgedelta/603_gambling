@@ -15,3 +15,6 @@ offset_top = -94.0
 offset_right = 63.0
 offset_bottom = -71.0
 text = "GAMBLING!!!"
+
+[node name="PlayPosition" type="Node2D" parent="." unique_id=795440727]
+position = Vector2(95, 0)

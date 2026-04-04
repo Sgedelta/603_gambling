@@ -6,8 +6,8 @@ public partial class MainGame : Node2D
 {
 	private RandomNumberGenerator _rng;
 
-	private Array<Customer> LivingCustomers = new Array<Customer>();
-	private Array<Machine> ActiveMachines = new Array<Machine>();
+	[Export] private Array<Customer> LivingCustomers = new Array<Customer>();
+	[Export] private Array<Machine> ActiveMachines = new Array<Machine>();
 
 	[Export] private PackedScene _customerPrefab;
 	[Export] private PackedScene _machinePrefab;
@@ -22,9 +22,9 @@ public partial class MainGame : Node2D
 
 		//PopulateRandomCustomersAndMachines(10, 15);
 
-		Tween MoveCustomers = CreateTween();
-		MoveCustomers.SetLoops(); //loop forever
-		MoveCustomers.TweenCallback(Callable.From(MoveAllCustomersToRandomOpenMachine)).SetDelay(10f);
+		//Tween MoveCustomers = CreateTween();
+		//MoveCustomers.SetLoops(); //loop forever
+		//MoveCustomers.TweenCallback(Callable.From(MoveAllCustomersToRandomOpenMachine)).SetDelay(10f);
 
 		GameManager.instance.ActiveMainGame = this;
 
@@ -66,7 +66,68 @@ public partial class MainGame : Node2D
         }
     }
 
-	//for testing - we'll break this up into 
+	//Returns the "best" machine for a given customer. Decided by the game because the customer doesn't know about all the machines
+	//Note: is this particularly effecient? No! but it doesn't run that often, so it's alright...
+	//to make this better, we could cache this data in the machine or customer and then we can do this faster. I think?
+	public Machine GetBestMachineForCustomer(Customer customer)
+	{
+		//the best rating found by the customer, based on if the consider win rate or profit
+		float bestRating = 0;
+
+		//loop through all machines, log the best score
+		foreach(Machine m in ActiveMachines)
+		{
+			//do not consider busy machines
+			if(!m.IsAvailable)
+			{
+				continue;
+			}
+
+			//using bitflag in customer to see what we consider here
+			float rating = 0;
+			if((customer.MachineConsiderations & MachinePickConsiderations.WIN_RATE) != 0)
+			{
+				rating += customer.GetPercievedWinRate(m);
+			}
+			if((customer.MachineConsiderations & MachinePickConsiderations.PROFIT) != 0)
+			{
+				rating += customer.GetPercievedMachineProfit(m);
+			}
+
+			//track if actually better
+			if(rating > bestRating)
+			{
+				bestRating = rating;
+			}
+
+		}
+
+		//loop through all machines and gather all with a score equal to the best score
+		Array<Machine> bestMachines = new Array<Machine> ();
+        foreach (var m in ActiveMachines)
+        {
+            //using bitflag in customer to see what we consider here
+            float rating = 0;
+            if ((customer.MachineConsiderations & MachinePickConsiderations.WIN_RATE) != 0)
+            {
+                rating += customer.GetPercievedWinRate(m);
+            }
+            if ((customer.MachineConsiderations & MachinePickConsiderations.PROFIT) != 0)
+            {
+                rating += customer.GetPercievedMachineProfit(m);
+            }
+
+			if(rating >= bestRating)
+			{
+				bestMachines.Add(m);
+			}
+        }
+
+        //pick one of those randomly and return it
+        return bestMachines[_rng.RandiRange(0, bestMachines.Count-1)];
+	}
+
+	//for testing - we'll break this up into customer logic
 	public void MoveAllCustomersToRandomOpenMachine()
 	{
 		//clear all machines

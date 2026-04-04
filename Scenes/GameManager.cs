@@ -10,6 +10,9 @@ public partial class GameManager : Node
 
     public MainGame ActiveMainGame;
 
+    //EVERY customer will play this amount of games before they consider leaving (NOT Fleeing)
+    public int NumMinGames = 3;
+
 
     public override void _EnterTree()
     {

@@ -9,6 +9,7 @@ radius = 80.280754
 [node name="Customer" type="CharacterBody2D" unique_id=623982277]
 motion_mode = 1
 script = ExtResource("1_7c3kf")
+MachineConsiderations = 6
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1269357853]
 texture = ExtResource("1_fp685")
