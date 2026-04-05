@@ -1,0 +1,163 @@
+[gd_scene format=3 uid="uid://dyj52h7fxajnv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhmqa"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqo3n"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="Control" type="Control" unique_id=1495320504]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1093248748]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="ScrollContainer" unique_id=1765821559]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FoldableContainer" type="FoldableContainer" parent="ScrollContainer/VBoxContainer3" unique_id=538281886]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qhmqa")
+title = "Billing Address"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer3/FoldableContainer" unique_id=1863250009]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=125819761]
+layout_mode = 2
+text = "Enter a billing address."
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=707545604]
+layout_mode = 2
+text = "Full Name:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=2130425928]
+layout_mode = 2
+
+[node name="LineEdit2" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer/HBoxContainer" unique_id=218941894]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "First name"
+
+[node name="LineEdit3" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer/HBoxContainer" unique_id=1480705442]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Last name"
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1078744091]
+layout_mode = 2
+text = "Address line 1:"
+
+[node name="LineEdit3" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1568698474]
+layout_mode = 2
+placeholder_text = "Street Address, P.O. box, company name, etc."
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=386719030]
+layout_mode = 2
+text = "Address line 2:"
+
+[node name="LineEdit4" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1889384116]
+layout_mode = 2
+placeholder_text = "Apartment, suite, building, floor, etc."
+
+[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=737344577]
+layout_mode = 2
+text = "City:"
+
+[node name="LineEdit5" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=31329558]
+layout_mode = 2
+
+[node name="Label6" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1899063737]
+layout_mode = 2
+text = "State/Province/Region:"
+
+[node name="LineEdit6" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1802614157]
+layout_mode = 2
+
+[node name="Label7" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=2014107460]
+layout_mode = 2
+text = "ZIP:"
+
+[node name="LineEdit7" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1094731513]
+layout_mode = 2
+
+[node name="Label8" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1008675386]
+layout_mode = 2
+text = "Country:"
+
+[node name="LineEdit8" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=551968570]
+layout_mode = 2
+
+[node name="Label9" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=299301973]
+layout_mode = 2
+text = "Phone number:"
+
+[node name="LineEdit9" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=171777732]
+layout_mode = 2
+
+[node name="FoldableContainer2" type="FoldableContainer" parent="ScrollContainer/VBoxContainer3" unique_id=1283128842]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eqo3n")
+title = "Card information"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer3/FoldableContainer2" unique_id=1405803858]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=1939769252]
+layout_mode = 2
+text = "Add card."
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=1418427144]
+layout_mode = 2
+text = "Card number:"
+
+[node name="LineEdit2" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=751225687]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=1031824405]
+layout_mode = 2
+text = "Expiration date:"
+
+[node name="LineEdit3" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=860922276]
+layout_mode = 2
+placeholder_text = "MM/YY"
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=34667770]
+layout_mode = 2
+text = "Security code:"
+
+[node name="LineEdit4" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=571867043]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=1355802363]
+layout_mode = 2
+text = "Name on card"
+
+[node name="LineEdit5" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=447345776]
+layout_mode = 2
