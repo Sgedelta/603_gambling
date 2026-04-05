@@ -15,6 +15,9 @@ public partial class MainGame : Node2D
 	[Export] public Rect2 CasinoBounds;
 	[Export] public Vector2 CasinoExit = Vector2.Zero;
 
+	//Casino starting money, can adjust this if needed
+	[Export] public float CasinoMoney = 100;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -55,6 +58,10 @@ public partial class MainGame : Node2D
 			newMachine.GlobalPosition = new Vector2(_rng.RandiRange(200, 3640), _rng.RandiRange(200, 1960)); //pick a random point within a smaller area of the screen
 			AddChild(newMachine);
 			ActiveMachines.Add(newMachine);
+
+			//Subsrible to money change signal
+			//This wasn't working so it's assinged in editor now, ideally should fix later
+			//newMachine.OnCasinoMoneyChange += UpdateCasinoMoney;
 		}
 
         for (int i = 0; i < customers; i++)
@@ -65,6 +72,21 @@ public partial class MainGame : Node2D
 			LivingCustomers.Add(newCustomer);
         }
     }
+
+	//Updates total money casino has
+	public void UpdateCasinoMoney(float amount)
+	{
+		//Adds amount (can be negative)
+		CasinoMoney += amount;
+
+		//If it's under 0, even out to 0 (unless we're allowed to go into debt...that's a design question)
+		if (CasinoMoney < 0)
+		{
+			CasinoMoney = 0;
+		}
+
+		GD.Print("Casino gets: " + amount);
+	}
 
 	//Returns the "best" machine for a given customer. Decided by the game because the customer doesn't know about all the machines
 	//Note: is this particularly effecient? No! but it doesn't run that often, so it's alright...

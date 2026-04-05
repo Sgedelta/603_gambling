@@ -80,4 +80,8 @@ PlayTime = 1.0
 position = Vector2(3639, 1131)
 PlayTime = 1.0
 
+[connection signal="OnCasinoMoneyChange" from="Machine" to="." method="UpdateCasinoMoney"]
+[connection signal="OnCasinoMoneyChange" from="Machine2" to="." method="UpdateCasinoMoney"]
+[connection signal="OnCasinoMoneyChange" from="Machine3" to="." method="UpdateCasinoMoney"]
+
 [editable path="TestingCustomer"]

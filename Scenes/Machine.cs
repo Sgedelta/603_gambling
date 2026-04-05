@@ -14,6 +14,7 @@ public partial class Machine : Node2D
 
 	[Export] public float PlayDistance = 100;
 	[Signal] public delegate void OnGamePlayedEventHandler(bool won); //signal for when the game is over
+	[Signal] public delegate void OnCasinoMoneyChangeEventHandler(float amount); //Used to display the amount to adjust casino money by
 
     private RandomNumberGenerator rng;
     
@@ -43,11 +44,15 @@ public partial class Machine : Node2D
 		//Adjust customer's money and casino's money
 		//customer has to spend to even play, always reduce their money by cost
 		c.CurrentMoney -= Cost;
+		EmitSignal(SignalName.OnCasinoMoneyChange, Cost);
 
 		//Add money
 		if (win)
 		{
 			c.CurrentMoney += Profit;
+
+			//casino loses money
+			EmitSignal(SignalName.OnCasinoMoneyChange, -Profit);
 		}
 
 		GD.Print(c.CurrentMoney);
