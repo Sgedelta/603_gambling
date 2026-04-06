@@ -28,8 +28,8 @@ public partial class MainGame : Node2D
 	[Export] private bool DEBUG = false;
 	
 	[Export] private PackedScene _adScene;
-	[Export] private float _adMinWait = 3f;
-	[Export] private float _adMaxWait = 5f;
+	[Export] private float _adMinWait = 30f;
+	[Export] private float _adMaxWait = 60f;
 	
 	private Timer _adTimer;
 	private bool _adPlaying = false;
