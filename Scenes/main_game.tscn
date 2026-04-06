@@ -15,7 +15,7 @@ atlas = ExtResource("5_r0mdn")
 region = Rect2(307.00574, 433.0633, 114.06326, 112.01422)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_4rmt8"]
-vertices = PackedVector2Array(3063, 987, 3779.7422, 1808, 3509, 1808, 1276, 1704, 1276, 1159, 2629, 990, 3506, 614, 3759.0469, 614, 3063, 442, 3506, 339, 1356, 339, 2597, 442, 3784.6016, 2089, 3787.6797, 2267.0938, 72.89844, 2271.8984, 3509, 2089, 298, 1808, 78.46875, 1808, 90.39844, 814, 378, 1159, 378, 1704, 2597, 445, 2163, 445, 1356, 814, 2163, 990, 2629, 987, 75.10156, 2089, 298, 2089)
+vertices = PackedVector2Array(3063, 970, 3779.7422, 1808, 3509, 1808, 1276, 1687, 1276, 1070, 2629, 973, 3506, 614, 3759.0469, 614, 3063, 353, 3506, 339, 1356, 339, 2597, 353, 3784.6016, 2089, 3787.6797, 2267.0938, 72.89844, 2271.8984, 3509, 2089, 298, 1808, 78.46875, 1808, 90.39844, 814, 378, 1070, 378, 1687, 2597, 356, 2163, 356, 1356, 814, 2163, 973, 2629, 970, 75.10156, 2089, 298, 2089)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(0, 6, 7, 1), PackedInt32Array(6, 0, 8, 9), PackedInt32Array(10, 9, 8, 11), PackedInt32Array(12, 13, 14, 15), PackedInt32Array(16, 17, 18, 19, 20), PackedInt32Array(11, 21, 22, 10), PackedInt32Array(23, 10, 22, 24), PackedInt32Array(5, 25, 0), PackedInt32Array(24, 5, 4), PackedInt32Array(18, 23, 24, 4, 19), PackedInt32Array(14, 26, 27), PackedInt32Array(2, 15, 14, 27, 3), PackedInt32Array(20, 3, 27, 16)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(22, 264, -3, 2347, 3864, 2342, 3828, 264)])
 source_geometry_mode = 2
@@ -53,6 +53,7 @@ script = ExtResource("4_73nn6")
 
 [node name="MoneyAmount" type="Label" parent="MainUI/MoneyDisplay" unique_id=1654412506]
 layout_mode = 2
+theme_override_constants/outline_size = 30
 theme_override_font_sizes/font_size = 100
 text = "Five Dabloons"
 
@@ -118,4 +119,24 @@ position = Vector2(1043, 1389)
 
 [node name="Customer" parent="." unique_id=623982277 instance=ExtResource("2_pu3va")]
 position = Vector2(2164, 1499)
+_currentMoney = 250.0
+DEBUG = true
+
+[node name="Customer2" parent="." unique_id=1592249952 instance=ExtResource("2_pu3va")]
+position = Vector2(2851, 1647)
+DEBUG = true
+
+[node name="Customer3" parent="." unique_id=665779205 instance=ExtResource("2_pu3va")]
+position = Vector2(1561, 1873)
+_currentMoney = 1000.0
+DEBUG = true
+
+[node name="Customer4" parent="." unique_id=1765008703 instance=ExtResource("2_pu3va")]
+position = Vector2(1665, 1073)
+_currentMoney = 300.0
+DEBUG = true
+
+[node name="Customer5" parent="." unique_id=1921225989 instance=ExtResource("2_pu3va")]
+position = Vector2(3306, 1151)
+_currentMoney = 420.0
 DEBUG = true

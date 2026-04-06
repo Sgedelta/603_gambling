@@ -2,19 +2,21 @@
 
 [ext_resource type="Script" uid="uid://d0mtdbaevqf4r" path="res://Scenes/Machine.cs" id="1_xuuum"]
 [ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_h612m"]
+[ext_resource type="Script" uid="uid://dbey1ghwcyljk" path="res://Scenes/MachineControlUI.cs" id="3_mg6tx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mg6tx"]
 atlas = ExtResource("2_h612m")
 region = Rect2(5, 425, 170.39935, 251.49176)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h612m"]
-size = Vector2(316, 395)
+size = Vector2(316, 467)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mg6tx"]
-size = Vector2(250, 100)
+size = Vector2(250, 140)
 
 [node name="Machine" type="StaticBody2D" unique_id=1215231208 groups=["collisionObjects"]]
 y_sort_enabled = true
+input_pickable = true
 script = ExtResource("1_xuuum")
 PlayTime = 3.0
 
@@ -24,14 +26,109 @@ scale = Vector2(2, 2)
 texture = SubResource("AtlasTexture_mg6tx")
 
 [node name="MachineCollision" type="CollisionShape2D" parent="." unique_id=1983746980]
-position = Vector2(0, 46.5)
+position = Vector2(0, -6.5)
 shape = SubResource("RectangleShape2D_h612m")
-
-[node name="PlayPosition" type="Node2D" parent="." unique_id=795440727]
-position = Vector2(-1, 264)
 
 [node name="PlayArea" type="Area2D" parent="." unique_id=635118710]
 position = Vector2(0, 283)
 
 [node name="PlayAreaShape" type="CollisionShape2D" parent="PlayArea" unique_id=1720976707]
+position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_mg6tx")
+
+[node name="ControlUI" type="Panel" parent="." unique_id=1833735756]
+visible = false
+z_index = 1
+offset_left = -200.0
+offset_top = -500.0
+offset_right = 200.0
+offset_bottom = 100.0
+script = ExtResource("3_mg6tx")
+
+[node name="ControlMargins" type="MarginContainer" parent="ControlUI" unique_id=1916754401]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 30
+
+[node name="VertFlow" type="VFlowContainer" parent="ControlUI/ControlMargins" unique_id=487832412]
+layout_mode = 2
+theme_override_constants/v_separation = 40
+
+[node name="CostUI" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=561254894]
+custom_minimum_size = Vector2(370, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/CostUI" unique_id=122060906]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "MACHINE COST"
+
+[node name="HSlider" type="HSlider" parent="ControlUI/ControlMargins/VertFlow/CostUI" unique_id=1756085607]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = 1.0
+max_value = 500.0
+value = 1.0
+
+[node name="PayoutUI" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=267073112]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/PayoutUI" unique_id=546004623]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "MACHINE PAYOUT"
+
+[node name="HSlider" type="HSlider" parent="ControlUI/ControlMargins/VertFlow/PayoutUI" unique_id=1674680438]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = 1.0
+max_value = 500.0
+value = 1.0
+
+[node name="WinrateUI" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=1530887748]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/WinrateUI" unique_id=1044295538]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "MACHINE WINRATE"
+
+[node name="HSlider" type="HSlider" parent="ControlUI/ControlMargins/VertFlow/WinrateUI" unique_id=661855893]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+
+[node name="CloseButton" type="Button" parent="ControlUI" unique_id=788367458]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_bottom = 32.0
+grow_horizontal = 0
+pivot_offset_ratio = Vector2(1, 0)
+text = "X"
+
+[connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/CostUI/HSlider" to="." method="SetCost"]
+[connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/PayoutUI/HSlider" to="." method="SetPayout"]
+[connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="." method="SetWinrate"]
+[connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]

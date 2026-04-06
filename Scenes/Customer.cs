@@ -6,7 +6,16 @@ using System.Reflection.PortableExecutable;
 public partial class Customer : CharacterBody2D
 {
 	//======BEHAVIOR CONTROLS======
-	public CustomerGoal CurrentGoal = CustomerGoal.WANDER;
+	private CustomerGoal _currentGoal = CustomerGoal.WANDER;
+	public CustomerGoal CurrentGoal { 
+		get { return _currentGoal;  } 
+		set { 
+			if(DEBUG)
+			{
+				GD.Print($"[C] {Name}: old goal was {_currentGoal}, new goal is {value}");
+            }
+			_currentGoal = value;
+		} }
 	private float _wanderTime = 5f; //number of seconds to wander
 	private float _wanderRecalcTime = 3f;
 
@@ -43,9 +52,9 @@ public partial class Customer : CharacterBody2D
 
 	//======GAMBLING CONTROLS======
 	[ExportGroup("Gambling Controls")]
-	private float _currentMoney = 100; //100 temp value
+	[Export] private float _currentMoney = 100; //100 temp value
     public float CurrentMoney { get { return _currentMoney; } set { _currentMoney = value; _moneyDisplay.Display(value); } }
-	public float StartingMoney = 100; //100 temp value
+	public float StartingMoney;
 
 
 	//represents how much this character has "made" - 1 is no profit but no loss, 0-1 is some amount of loss but no debt, >1 is profiting, <0 is in debt 
@@ -96,6 +105,8 @@ public partial class Customer : CharacterBody2D
 
 		_navAgent.VelocityComputed += OnVelocityComputed;
 
+		StartingMoney = _currentMoney;
+
 		_rng = new RandomNumberGenerator();
 		_sprite = GetNode<Sprite2D>("Display");
 		_moneyDisplay = GetNode<MoneyDisplay>("MoneyDisplay");
@@ -118,6 +129,11 @@ public partial class Customer : CharacterBody2D
                 {
                     GD.Print($"[C] {Name}: Picked new wander location -> {TargetPos}");
                 }
+            }
+			else if(DEBUG)
+			{
+				GD.Print($"[C] {Name}: did NOT pick a new loc, because my current goal is {CurrentGoal}");
+
             }
 		
 		})).SetDelay(_wanderRecalcTime);
@@ -142,14 +158,31 @@ public partial class Customer : CharacterBody2D
 			if(ActiveMachine == null)
 			{
 				ActiveMachine = GameManager.instance.ActiveMainGame.GetBestMachineForCustomer(this);
-				ActiveMachine.IsAvailable = false; //mark this machine as taken
-				TargetPos = ActiveMachine.PlayPosition;
-                if (DEBUG)
-                {
-                    GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
+				if (ActiveMachine != null) //sometimes, no machines are open.
+				{
+                    ActiveMachine.IsAvailable = false; //mark this machine as taken
+                    TargetPos = ActiveMachine.PlayPosition;
+                    if (DEBUG)
+                    {
+                        GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
+                    }
                 }
+				else
+				{
+					BeginWander(); //welp. just wander if nothing's op
+					return;
+				}
 
             }
+
+			//safety check because I think it's breaking some?
+			if(ActiveMachine != null)
+			{
+				if(TargetPos != ActiveMachine.PlayPosition)
+				{
+					TargetPos = ActiveMachine.PlayPosition;
+				}
+			}
 
             //see if we are AT our active machine
             //GlobalPosition.DistanceSquaredTo(ActiveMachine.GlobalPosition) <= Mathf.Pow(ActiveMachine.PlayDistance, 2)
@@ -369,9 +402,7 @@ public partial class Customer : CharacterBody2D
         {
             GD.Print($"[C] {Name}: Wandering because I don't want to do what I was doing before, which was {CurrentGoal}");
         }
-        ActiveMachine = null;
-		CurrentGoal = CustomerGoal.WANDER;
-		GetTree().CreateTimer(_wanderTime).Timeout += ReevaluateGoal;
+		BeginWander();
 	}
 
 	public Vector2 GetNewWanderLoc()
@@ -396,6 +427,13 @@ public partial class Customer : CharacterBody2D
 		_navAgent.PathDesiredDistance *= 10;
 		_navAgent.TargetDesiredDistance *= 10;
 	}
+
+	public void BeginWander()
+	{
+		LeaveMachine();
+        CurrentGoal = CustomerGoal.WANDER;
+        GetTree().CreateTimer(_wanderTime).Timeout += ReevaluateGoal;
+    }
 
 	private void LeaveMachine()
 	{

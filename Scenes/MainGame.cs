@@ -24,6 +24,9 @@ public partial class MainGame : Node2D
     //EVERY customer will play this amount of games before they consider leaving (NOT Fleeing)
     [Export] public int NumMinGames = 3;
 
+
+	[Export] private bool DEBUG = false;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
@@ -54,6 +57,17 @@ public partial class MainGame : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		//some debug shit
+		if(DEBUG)
+		{
+            int openMachines = 0;
+            foreach (Machine m in ActiveMachines)
+            {
+                if (m.IsAvailable) { openMachines++; }
+            }
+            GD.Print($"[MG] Open Machines: {openMachines}");
+        }
+		
 	}
 
 	//for testing, creates and places randomly a number of customers and machines
@@ -116,6 +130,12 @@ public partial class MainGame : Node2D
 				bestRating = rating;
 			}
 
+		}
+
+		//will only happen if NO machines are free
+		if(bestRating == float.MinValue)
+		{
+			return null;
 		}
 
 		//loop through all machines and gather all with a score equal to the best score

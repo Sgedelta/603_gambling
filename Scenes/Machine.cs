@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Machine : Node2D
+public partial class Machine : StaticBody2D
 {
 	//hii juliaaaa this is now some basic shit needed from customer side lmk if there's anything else ya need me for kthxbye -Sam
 	public bool IsAvailable = true;
@@ -18,6 +18,8 @@ public partial class Machine : Node2D
 
     private RandomNumberGenerator _rng;
 	private Area2D _playArea;
+
+	private MachineControlUI _control;
     
 
     // Called when the node enters the scene tree for the first time.
@@ -25,6 +27,8 @@ public partial class Machine : Node2D
 	{
         _rng = new RandomNumberGenerator();
 		_playArea = GetNode<Area2D>("PlayArea");
+		_control = GetNode<MachineControlUI>("ControlUI");
+		_control.SetAllSlidersToValues(Cost, Profit, WinChance); //set initial states downstream
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -65,4 +69,39 @@ public partial class Machine : Node2D
 	{
 		return _playArea.OverlapsBody(c);
 	}
+
+    public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
+    {
+        base._InputEvent(viewport, @event, shapeIdx);
+
+		if (@event.IsActionReleased("MachineUIInteract"))
+		{
+            if (!_control.Visible)
+            {
+                SetUIControlVis(true);
+            }
+        }
+    }
+
+	public void SetCost(float newCost)
+	{
+		Cost = newCost;
+	}
+
+	public void SetPayout(float newPayout)
+	{
+		Profit = newPayout;
+	}
+
+	public void SetWinrate(float newWinrate)
+	{
+		WinChance = newWinrate;
+	}
+
+	public void SetUIControlVis(bool visible)
+	{
+		_control.Visible = visible;
+	}
+
+
 }
