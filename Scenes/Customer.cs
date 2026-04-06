@@ -13,7 +13,7 @@ public partial class Customer : CharacterBody2D
 			if(DEBUG)
 			{
 				GD.Print($"[C] {Name}: old goal was {_currentGoal}, new goal is {value}");
-            }
+			}
 			_currentGoal = value;
 		} }
 	private float _wanderTime = 5f; //number of seconds to wander
@@ -28,8 +28,8 @@ public partial class Customer : CharacterBody2D
 	public float AddictionStrength { get { return _addictionStrength; } set { _addictionStrength += Mathf.Clamp(value, 0, 1); } }
 	[ExportGroup("Behavior Controls")]
 
-    //Hope controls represent an offset/scalar (depending) applied to _hopeAmount when used in calculations
-    [ExportSubgroup("Hope Modifier Controls")]
+	//Hope controls represent an offset/scalar (depending) applied to _hopeAmount when used in calculations
+	[ExportSubgroup("Hope Modifier Controls")]
 	[Export] public float HopeWinRateStrength = .1f; //how much hope shifts percieved win rate when deciding if we can make a profit
 	[Export] public float HopeBorrowWillingness = .75f; //the maximum chance the customer is willing to put themselves in debt / more in debt (when hope = 1)
 	[Export] public float HopeLeaveRateStrength = .25f; //The predisposition to leave. What the Hope function is "centered" around - when hope is at 50%, this will be the chance to leave
@@ -53,7 +53,7 @@ public partial class Customer : CharacterBody2D
 	//======GAMBLING CONTROLS======
 	[ExportGroup("Gambling Controls")]
 	[Export] private float _currentMoney = 100; //100 temp value
-    public float CurrentMoney { get { return _currentMoney; } set { _currentMoney = value; _moneyDisplay.Display(value); } }
+	public float CurrentMoney { get { return _currentMoney; } set { _currentMoney = value; _moneyDisplay.Display(value); } }
 	public float StartingMoney;
 
 
@@ -69,11 +69,11 @@ public partial class Customer : CharacterBody2D
 
 	[Export] public MachinePickConsiderations MachineConsiderations = 0;
 
-    [ExportGroup("")]
+	[ExportGroup("")]
 
-    //======NAV CONTROLS======
-    private NavigationAgent2D _navAgent;
-    [Export] public float Speed = 300.0f;
+	//======NAV CONTROLS======
+	private NavigationAgent2D _navAgent;
+	[Export] public float Speed = 300.0f;
 	[Export] public float FleeSpeed = 1500f;
 	private float _movementDelta;
 	private Sprite2D _sprite;
@@ -93,8 +93,8 @@ public partial class Customer : CharacterBody2D
 	private Tween _rewanderTween;
 	private MoneyDisplay _moneyDisplay;
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		base._Ready();
 
 		_navAgent = GetNode<NavigationAgent2D>("NavAgent");
@@ -114,37 +114,37 @@ public partial class Customer : CharacterBody2D
 
 		Callable.From(DelayedSetup).CallDeferred();
 
-    }
+	}
 
 	public void DelayedSetup()
 	{
 
-        _rewanderTween = CreateTween().SetLoops();
-        _rewanderTween.TweenCallback(Callable.From(() => {
+		_rewanderTween = CreateTween().SetLoops();
+		_rewanderTween.TweenCallback(Callable.From(() => {
 
 			if (CurrentGoal == CustomerGoal.WANDER)
 			{
 				TargetPos = GetNewWanderLoc();
-                if (DEBUG)
-                {
-                    GD.Print($"[C] {Name}: Picked new wander location -> {TargetPos}");
-                }
-            }
+				if (DEBUG)
+				{
+					GD.Print($"[C] {Name}: Picked new wander location -> {TargetPos}");
+				}
+			}
 			else if(DEBUG)
 			{
 				GD.Print($"[C] {Name}: did NOT pick a new loc, because my current goal is {CurrentGoal}");
 
-            }
+			}
 		
 		})).SetDelay(_wanderRecalcTime);
-        TargetPos = GetNewWanderLoc();
+		TargetPos = GetNewWanderLoc();
 
 		//BEGINS CONTROL LOGIC
 		ReevaluateGoal();
 
-    }
+	}
 
-    public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
 
@@ -160,20 +160,20 @@ public partial class Customer : CharacterBody2D
 				ActiveMachine = GameManager.instance.ActiveMainGame.GetBestMachineForCustomer(this);
 				if (ActiveMachine != null) //sometimes, no machines are open.
 				{
-                    ActiveMachine.IsAvailable = false; //mark this machine as taken
-                    TargetPos = ActiveMachine.PlayPosition;
-                    if (DEBUG)
-                    {
-                        GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
-                    }
-                }
+					ActiveMachine.IsAvailable = false; //mark this machine as taken
+					TargetPos = ActiveMachine.PlayPosition;
+					if (DEBUG)
+					{
+						GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
+					}
+				}
 				else
 				{
 					BeginWander(); //welp. just wander if nothing's op
 					return;
 				}
 
-            }
+			}
 
 			//safety check because I think it's breaking some?
 			if(ActiveMachine != null)
@@ -184,9 +184,9 @@ public partial class Customer : CharacterBody2D
 				}
 			}
 
-            //see if we are AT our active machine
-            //GlobalPosition.DistanceSquaredTo(ActiveMachine.GlobalPosition) <= Mathf.Pow(ActiveMachine.PlayDistance, 2)
-            if (ActiveMachine.IsCustomerInPlayArea(this))
+			//see if we are AT our active machine
+			//GlobalPosition.DistanceSquaredTo(ActiveMachine.GlobalPosition) <= Mathf.Pow(ActiveMachine.PlayDistance, 2)
+			if (ActiveMachine.IsCustomerInPlayArea(this))
 			{
 				//if we are, we can play if we aren't already
 				if(!_isWaitingForGame)
@@ -242,75 +242,75 @@ public partial class Customer : CharacterBody2D
 					return;
 				}
 
-                //debtAcceptance represents how willing I am to risk debt. It is the WIN rate, multiplied by how willing I am to lose money
-                float debtAcceptance = GetPercievedWinRate(ActiveMachine) * (_hopeAmount * HopeBorrowWillingness);
+				//debtAcceptance represents how willing I am to risk debt. It is the WIN rate, multiplied by how willing I am to lose money
+				float debtAcceptance = GetPercievedWinRate(ActiveMachine) * (_hopeAmount * HopeBorrowWillingness);
 
-                //a level of debt Acceptance, adjusted by how in debt I already am, compared to my "max limit" of -1
-                float debtAcceptanceAdjusted = Mathf.Lerp(debtAcceptance, 0, -CurrentEarningPercent);
+				//a level of debt Acceptance, adjusted by how in debt I already am, compared to my "max limit" of -1
+				float debtAcceptanceAdjusted = Mathf.Lerp(debtAcceptance, 0, -CurrentEarningPercent);
 
-                //if we are gambling and think we can stand to make a profit at this machine, KEEP GOING BABY MORE GAMBLING!! (maybe)
-                if (GetPercievedMachineProfit(ActiveMachine) > 0)
-                {
+				//if we are gambling and think we can stand to make a profit at this machine, KEEP GOING BABY MORE GAMBLING!! (maybe)
+				if (GetPercievedMachineProfit(ActiveMachine) > 0)
+				{
 
-                    //check if we're already in debt - if we are, we might decide to flee instead of just wandering to another machine
-                    if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
+					//check if we're already in debt - if we are, we might decide to flee instead of just wandering to another machine
+					if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
 					{
-                        if (DEBUG)
-                        {
-                            GD.Print($"[C] {Name}: Fleeing because CurrentEarningPercent ({CurrentEarningPercent} is too risky!");
-                        }
+						if (DEBUG)
+						{
+							GD.Print($"[C] {Name}: Fleeing because CurrentEarningPercent ({CurrentEarningPercent} is too risky!");
+						}
 						FleeCasino();
 						return;
 					}
 
-                    //if we accept the risk that this puts us into debt, or it won't put us into debt, HIT IT AGAIN BABEYYY
-                    if ((ActiveMachine.Cost >= _currentMoney && _rng.Randf() <= Mathf.Max(debtAcceptance, _addictionStrength)) || ActiveMachine.Cost < _currentMoney)
-                    {
-                        if (DEBUG)
-                        {
-                            GD.Print($"[C] {Name}: Gambling because we decided the risk was okay or there was none!");
+					//if we accept the risk that this puts us into debt, or it won't put us into debt, HIT IT AGAIN BABEYYY
+					if ((ActiveMachine.Cost >= _currentMoney && _rng.Randf() <= Mathf.Max(debtAcceptance, _addictionStrength)) || ActiveMachine.Cost < _currentMoney)
+					{
+						if (DEBUG)
+						{
+							GD.Print($"[C] {Name}: Gambling because we decided the risk was okay or there was none!");
 						}
-                        //it either WON'T put us into debt OR we think that it's an acceptable risk (rolled lower than debtChance or we're addicted)
-                        CurrentGoal = CustomerGoal.GAMBLE;
-                        return;
-                    }
+						//it either WON'T put us into debt OR we think that it's an acceptable risk (rolled lower than debtChance or we're addicted)
+						CurrentGoal = CustomerGoal.GAMBLE;
+						return;
+					}
 
 					//decided it was too risky, fall through to wander
 					break;
 
-                }
+				}
 				else
 				{
 
-                    //if we're gambling but we don't think we can make a profit, maybe we're wrong?
+					//if we're gambling but we don't think we can make a profit, maybe we're wrong?
 					if(_rng.Randf() < _addictionStrength)
 					{
-                        if (DEBUG)
-                        {
-                            GD.Print($"[C] {Name}: Gambling because we're ADDICTED to it! Wahoo!!");
-                        }
-                        CurrentGoal = CustomerGoal.GAMBLE;
+						if (DEBUG)
+						{
+							GD.Print($"[C] {Name}: Gambling because we're ADDICTED to it! Wahoo!!");
+						}
+						CurrentGoal = CustomerGoal.GAMBLE;
 						return;
 					}
 
-                    //we're not wrong
+					//we're not wrong
 					//if we're in debt we need to consider fleeing RIGHT NOW
-                    if (_currentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
-                    {
-                        if (DEBUG)
-                        {
-                            GD.Print($"[C] {Name}: Fleeing because we are in debt and this machine won't make us money.");
-                        }
-                        
+					if (_currentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
+					{
+						if (DEBUG)
+						{
+							GD.Print($"[C] {Name}: Fleeing because we are in debt and this machine won't make us money.");
+						}
+						
 						FleeCasino();
-                        return;
-                    }
+						return;
+					}
 
 					//if we're not in debt OR we're confident enough that we don't need to flee, go to another machine / reconsider life (fall through)
-                }
+				}
 
 
-                break;
+				break;
 
 			case CustomerGoal.WANDER:
 				//if we're wandering, we either just entered or we left a machine for some reason. We need to analyze what we want to do.
@@ -318,34 +318,34 @@ public partial class Customer : CharacterBody2D
 				//maybe we're indecisive...
 				if(_rng.Randf() < Indecisiveness)
 				{
-                    if (DEBUG)
-                    {
-                        GD.Print($"[C] {Name}: Can't Decide, Wandering Again.");
-                    }
-                    //wander around again lol
-                    break;
+					if (DEBUG)
+					{
+						GD.Print($"[C] {Name}: Can't Decide, Wandering Again.");
+					}
+					//wander around again lol
+					break;
 				}
 
 				//NOTE: fleeing from "max debt" is NOT included in this logic, when we lose money so that CurrentEarningPercent is <= -1, the character should ALWAYS flee, otherwise addicts might never leave
 				//case "0" -> gambling addicition. No matter what, if we're addicted to gambling, there's a chance we gamble again
 				if (_rng.Randf() < _addictionStrength)
 				{
-                    if (DEBUG)
-                    {
-                        GD.Print($"[C] {Name}: Gambling again because we're addicted to it anyway");
-                    }
-                    CurrentGoal = CustomerGoal.GAMBLE;
+					if (DEBUG)
+					{
+						GD.Print($"[C] {Name}: Gambling again because we're addicted to it anyway");
+					}
+					CurrentGoal = CustomerGoal.GAMBLE;
 					return;
 				}
 
 				//If we haven't played enough games, go gamble..
 				if(_playCount < GameManager.instance.ActiveMainGame.NumMinGames) 
 				{
-                    if (DEBUG)
-                    {
-                        GD.Print($"[C] {Name}: Gambling because we just got here! we've only played {_playCount}");
-                    }
-                    CurrentGoal = CustomerGoal.GAMBLE;
+					if (DEBUG)
+					{
+						GD.Print($"[C] {Name}: Gambling because we just got here! we've only played {_playCount}");
+					}
+					CurrentGoal = CustomerGoal.GAMBLE;
 					return;
 				}
 
@@ -375,21 +375,21 @@ public partial class Customer : CharacterBody2D
 				//if we're going to leave, do it
 				if(_rng.Randf() <= leaveChance)
 				{
-                    if (DEBUG)
-                    {
-                        GD.Print($"[C] {Name}: Leaving because we rolled below our leave chance of {leaveChance}");
-                    }
-                    
+					if (DEBUG)
+					{
+						GD.Print($"[C] {Name}: Leaving because we rolled below our leave chance of {leaveChance}");
+					}
+					
 					LeaveCasino();
 					return;
 				}
 				else
 				{
-                    if (DEBUG)
-                    {
-                        GD.Print($"[C] {Name}: Gambling because there's nothing else to do!");
-                    }
-                    CurrentGoal = CustomerGoal.GAMBLE;
+					if (DEBUG)
+					{
+						GD.Print($"[C] {Name}: Gambling because there's nothing else to do!");
+					}
+					CurrentGoal = CustomerGoal.GAMBLE;
 					return;
 				}
 
@@ -397,11 +397,11 @@ public partial class Customer : CharacterBody2D
 		}
 
 
-        //we didn't reach any real conclusion, in which case we should just wander...
-        if (DEBUG)
-        {
-            GD.Print($"[C] {Name}: Wandering because I don't want to do what I was doing before, which was {CurrentGoal}");
-        }
+		//we didn't reach any real conclusion, in which case we should just wander...
+		if (DEBUG)
+		{
+			GD.Print($"[C] {Name}: Wandering because I don't want to do what I was doing before, which was {CurrentGoal}");
+		}
 		BeginWander();
 	}
 
@@ -413,16 +413,16 @@ public partial class Customer : CharacterBody2D
 
 	public void LeaveCasino()
 	{
-        CurrentGoal = CustomerGoal.LEAVE;
-        LeaveMachine();
+		CurrentGoal = CustomerGoal.LEAVE;
+		LeaveMachine();
 		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
 	}
 
 	public void FleeCasino()
 	{
-        CurrentGoal = CustomerGoal.FLEE;
-        LeaveMachine();
-        TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
+		CurrentGoal = CustomerGoal.FLEE;
+		LeaveMachine();
+		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
 		Speed = FleeSpeed;
 		_navAgent.PathDesiredDistance *= 10;
 		_navAgent.TargetDesiredDistance *= 10;
@@ -431,23 +431,23 @@ public partial class Customer : CharacterBody2D
 	public void BeginWander()
 	{
 		LeaveMachine();
-        CurrentGoal = CustomerGoal.WANDER;
-        GetTree().CreateTimer(_wanderTime).Timeout += ReevaluateGoal;
-    }
+		CurrentGoal = CustomerGoal.WANDER;
+		GetTree().CreateTimer(_wanderTime).Timeout += ReevaluateGoal;
+	}
 
 	private void LeaveMachine()
 	{
 		if(ActiveMachine != null)
 		{
-            if (DEBUG)
-            {
-                GD.Print($"[C] {Name}: Leaving machine {ActiveMachine.Name}");
-            }
-            ActiveMachine.IsAvailable = true;
-            ActiveMachine = null;
+			if (DEBUG)
+			{
+				GD.Print($"[C] {Name}: Leaving machine {ActiveMachine.Name}");
+			}
+			ActiveMachine.IsAvailable = true;
+			ActiveMachine = null;
 
-        }  
-    }
+		}  
+	}
 
 	public async void Gamble()
 	{
@@ -458,29 +458,29 @@ public partial class Customer : CharacterBody2D
 		}
 		_isWaitingForGame = true;
 
-        if (DEBUG)
-        {
-            GD.Print($"[C] {Name}: LETS GO GAMBLING!!");
-        }
+		if (DEBUG)
+		{
+			GD.Print($"[C] {Name}: LETS GO GAMBLING!!");
+		}
 
-        //subscribe our listener(s)
-        ActiveMachine.OnGamePlayed += RegisterGame;
+		//subscribe our listener(s)
+		ActiveMachine.OnGamePlayed += RegisterGame;
 
 		//play the game, then wait for it to finish
 		ActiveMachine.Play(this);
 		await ToSignal(ActiveMachine, Machine.SignalName.OnGamePlayed);
-        //count that we played!
-        _playCount += 1; 
+		//count that we played!
+		_playCount += 1; 
 
 
-        //unsubscribe our listener(s)
+		//unsubscribe our listener(s)
 		//we could do this when we pick and leave a machine... but this is a bit cleaner, imo. we might leave after ANY game and we only care about it WHEN we play. so. safer! one place!
-        ActiveMachine.OnGamePlayed -= RegisterGame;
+		ActiveMachine.OnGamePlayed -= RegisterGame;
 
 		//rethink life choices
 		ReevaluateGoal();
 
-        _isWaitingForGame = false;
+		_isWaitingForGame = false;
 	}
 
 	public void OnVelocityComputed(Vector2 safeVelocity)
@@ -495,8 +495,8 @@ public partial class Customer : CharacterBody2D
 			GD.Print($"[C] {Name}: Registering game at {ActiveMachine.Name}, win state was {win}");
 		}
 
-        //register in win/loss dictionary
-        if (!_machineWinRates.ContainsKey(ActiveMachine))
+		//register in win/loss dictionary
+		if (!_machineWinRates.ContainsKey(ActiveMachine))
 		{
 			_machineWinRates.Add(ActiveMachine, new Array<bool>());
 		}
@@ -505,13 +505,13 @@ public partial class Customer : CharacterBody2D
 		if (win)
 		{
 			_winLossStreak = Mathf.Max(1, _winLossStreak + 1);
-            _hopeAmount += _baseWinHopeGain * _winLossStreak;
-        }
+			_hopeAmount += _baseWinHopeGain * _winLossStreak;
+		}
 		else
 		{
 			_winLossStreak = Mathf.Min(-1, _winLossStreak - 1);
-            _hopeAmount += _baseLossHopeLoss * _winLossStreak;
-        }
+			_hopeAmount += _baseLossHopeLoss * _winLossStreak;
+		}
 		//hope must be from 0-1
 		_hopeAmount = Mathf.Clamp(_hopeAmount, 0, 1);
 
@@ -534,11 +534,11 @@ public partial class Customer : CharacterBody2D
 			return 1; //assume the machine is good
 		}
 
-        float percievedWins = 0;
-        float potentialMaxWins = 0;
+		float percievedWins = 0;
+		float potentialMaxWins = 0;
 
-        //check entire history - scale recent history (at end) to be stronger than old history, because recency bias!
-        for (int i = 0; i < _machineWinRates[m].Count; i++)
+		//check entire history - scale recent history (at end) to be stronger than old history, because recency bias!
+		for (int i = 0; i < _machineWinRates[m].Count; i++)
 		{
 			float winVal = _machineWinRates[m][_machineWinRates[m].Count - 1 - i] ? 1 : 0;
 			//if its within the last MIN_PLAYS, treat it at "full value", otherwise, scale it by some value
@@ -551,17 +551,17 @@ public partial class Customer : CharacterBody2D
 			{
 				potentialMaxWins += 1;
 			}
-            percievedWins += winVal;
+			percievedWins += winVal;
 
-        }
+		}
 
 		if(DEBUG)
 		{
-            GD.Print($"[C] {Name}: Percieved Wins and Rate from machine {m.Name}: {percievedWins} / {potentialMaxWins} = {percievedWins / potentialMaxWins}");
-        }
+			GD.Print($"[C] {Name}: Percieved Wins and Rate from machine {m.Name}: {percievedWins} / {potentialMaxWins} = {percievedWins / potentialMaxWins}");
+		}
 
-        //return the percieved rate
-        return percievedWins / potentialMaxWins;
+		//return the percieved rate
+		return percievedWins / potentialMaxWins;
 	}
 
 	/// <summary>
@@ -579,29 +579,29 @@ public partial class Customer : CharacterBody2D
 
 	public float GetMachinePercievedGoodness(Machine m)
 	{
-        //do not consider busy machines
-        if (!m.IsAvailable)
-        {
+		//do not consider busy machines
+		if (!m.IsAvailable)
+		{
 			return float.MinValue;
-        }
+		}
 
-        //using bitflag in customer to see what we consider here
-        float rating = 0;
-        if ((MachineConsiderations & MachinePickConsiderations.WIN_RATE) != 0)
-        {
-            rating += GetPercievedWinRate(m) * _rateStr;
-        }
-        if ((MachineConsiderations & MachinePickConsiderations.PROFIT) != 0)
-        {
-            rating += GetPercievedMachineProfit(m) * _profitStr;
-        }
+		//using bitflag in customer to see what we consider here
+		float rating = 0;
+		if ((MachineConsiderations & MachinePickConsiderations.WIN_RATE) != 0)
+		{
+			rating += GetPercievedWinRate(m) * _rateStr;
+		}
+		if ((MachineConsiderations & MachinePickConsiderations.PROFIT) != 0)
+		{
+			rating += GetPercievedMachineProfit(m) * _profitStr;
+		}
 		if((MachineConsiderations & MachinePickConsiderations.DISTANCE) != 0)
 		{
 			rating -= (GlobalPosition.DistanceTo(m.GlobalPosition) / _distUnit) * _distStr;
 		}
 
 		return rating;
-    }
+	}
 
 }
 

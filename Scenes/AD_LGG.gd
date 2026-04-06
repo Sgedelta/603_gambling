@@ -1,11 +1,22 @@
-extends Control
+extends CanvasLayer
 
+signal ad_closed
 
-@onready var label = $TimeLeft
-@onready var timer = $Timer
+@export var ad_videos: Array[VideoStream] = []
+@onready var label = $Control/TimeLeft
+@onready var timer = $Control/Timer
+@onready var background = $Control
+@onready var video_player = $Control/VideoStreamPlayer
 
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	if ad_videos.size() > 0:
+		video_player.stream = ad_videos[randi() % ad_videos.size()]
+		video_player.play()
+	
 func _on_button_pressed() -> void:
-	hide()
+	ad_closed.emit()
+	queue_free()
 
 func find_time_left():
 	var time_left = timer.time_left

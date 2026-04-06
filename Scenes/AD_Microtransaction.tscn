@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://dyj52h7fxajnv"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhmqa"]
+[ext_resource type="Script" uid="uid://b6mkc4l6atpwb" path="res://Scenes/confirm_purchase_button.gd" id="1_eqo3n"]
+[ext_resource type="Script" uid="uid://d1pa7h2cli7cx" path="res://Scenes/back_to_game_button.gd" id="2_bstut"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqo3n"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
@@ -10,7 +13,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqo3n"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhmqa"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
@@ -28,6 +31,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=772316323]
+layout_mode = 0
+offset_right = 3832.0
+offset_bottom = 2382.0
+color = Color(0, 0, 0, 0.19215687)
+
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1093248748]
 layout_mode = 1
 anchors_preset = 15
@@ -41,123 +50,213 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="FoldableContainer" type="FoldableContainer" parent="ScrollContainer/VBoxContainer3" unique_id=538281886]
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer3" unique_id=321855778]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qhmqa")
-title = "Billing Address"
+theme_override_font_sizes/font_size = 100
+text = "Play Ad-Free!"
+horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer3/FoldableContainer" unique_id=1863250009]
+[node name="CardInformation" type="FoldableContainer" parent="ScrollContainer/VBoxContainer3" unique_id=1283128842]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=125819761]
-layout_mode = 2
-text = "Enter a billing address."
-
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=707545604]
-layout_mode = 2
-text = "Full Name:"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=2130425928]
-layout_mode = 2
-
-[node name="LineEdit2" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer/HBoxContainer" unique_id=218941894]
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "First name"
-
-[node name="LineEdit3" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer/HBoxContainer" unique_id=1480705442]
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Last name"
-
-[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1078744091]
-layout_mode = 2
-text = "Address line 1:"
-
-[node name="LineEdit3" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1568698474]
-layout_mode = 2
-placeholder_text = "Street Address, P.O. box, company name, etc."
-
-[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=386719030]
-layout_mode = 2
-text = "Address line 2:"
-
-[node name="LineEdit4" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1889384116]
-layout_mode = 2
-placeholder_text = "Apartment, suite, building, floor, etc."
-
-[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=737344577]
-layout_mode = 2
-text = "City:"
-
-[node name="LineEdit5" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=31329558]
-layout_mode = 2
-
-[node name="Label6" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1899063737]
-layout_mode = 2
-text = "State/Province/Region:"
-
-[node name="LineEdit6" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1802614157]
-layout_mode = 2
-
-[node name="Label7" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=2014107460]
-layout_mode = 2
-text = "ZIP:"
-
-[node name="LineEdit7" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1094731513]
-layout_mode = 2
-
-[node name="Label8" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=1008675386]
-layout_mode = 2
-text = "Country:"
-
-[node name="LineEdit8" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=551968570]
-layout_mode = 2
-
-[node name="Label9" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=299301973]
-layout_mode = 2
-text = "Phone number:"
-
-[node name="LineEdit9" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer/VBoxContainer" unique_id=171777732]
-layout_mode = 2
-
-[node name="FoldableContainer2" type="FoldableContainer" parent="ScrollContainer/VBoxContainer3" unique_id=1283128842]
-layout_mode = 2
+theme_override_font_sizes/font_size = 50
 theme_override_styles/panel = SubResource("StyleBoxFlat_eqo3n")
 title = "Card information"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer3/FoldableContainer2" unique_id=1405803858]
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer3/CardInformation" unique_id=1405803858]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=1939769252]
+[node name="Add card_" type="Label" parent="ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=1939769252]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Add card."
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=1418427144]
+[node name="CardNumberLabel" type="Label" parent="ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=1418427144]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Card number:"
 
-[node name="LineEdit2" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=751225687]
+[node name="CardNumber" type="LineEdit" parent="ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=751225687]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
+max_length = 19
 
-[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=1031824405]
+[node name="ExpDateLabel" type="Label" parent="ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=1031824405]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Expiration date:"
 
-[node name="LineEdit3" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=860922276]
+[node name="ExpDate" type="LineEdit" parent="ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=860922276]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 placeholder_text = "MM/YY"
 
-[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=34667770]
+[node name="SecurityCodeLabel" type="Label" parent="ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=34667770]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Security code:"
 
-[node name="LineEdit4" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=571867043]
+[node name="SecurityCode" type="LineEdit" parent="ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=571867043]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
+max_length = 4
 
-[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=1355802363]
+[node name="CardNameLabel" type="Label" parent="ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=1355802363]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Name on card"
 
-[node name="LineEdit5" type="LineEdit" parent="ScrollContainer/VBoxContainer3/FoldableContainer2/VBoxContainer2" unique_id=447345776]
+[node name="CardName" type="LineEdit" parent="ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=447345776]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
+max_length = 64
+
+[node name="BillingAddress" type="FoldableContainer" parent="ScrollContainer/VBoxContainer3" unique_id=538281886]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+theme_override_styles/panel = SubResource("StyleBoxFlat_qhmqa")
+title = "Billing Address"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer3/BillingAddress" unique_id=1863250009]
+layout_mode = 2
+
+[node name="Enter a billing address" type="Label" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=125819761]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Enter a billing address."
+
+[node name="FullNameLabel" type="Label" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=707545604]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Full Name:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=2130425928]
+layout_mode = 2
+
+[node name="FirstName" type="LineEdit" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer/HBoxContainer" unique_id=218941894]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+placeholder_text = "First name"
+
+[node name="LastName" type="LineEdit" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer/HBoxContainer" unique_id=1480705442]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+placeholder_text = "Last name"
+
+[node name="Address1Label" type="Label" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1078744091]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Address line 1:"
+
+[node name="Address1" type="LineEdit" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1568698474]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+placeholder_text = "Street Address, P.O. box, company name, etc."
+
+[node name="Address2Label" type="Label" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=386719030]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Address line 2:"
+
+[node name="Address2" type="LineEdit" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1889384116]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+placeholder_text = "Apartment, suite, building, floor, etc."
+
+[node name="CityLabel" type="Label" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=737344577]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "City:"
+
+[node name="City" type="LineEdit" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=31329558]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+
+[node name="StateLabel" type="Label" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1899063737]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "State/Province/Region:"
+
+[node name="State" type="LineEdit" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1802614157]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+
+[node name="ZIPLabel" type="Label" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=2014107460]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "ZIP:"
+
+[node name="ZIP" type="LineEdit" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1094731513]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+
+[node name="CountryLabel" type="Label" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1008675386]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Country:"
+
+[node name="Country" type="LineEdit" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=551968570]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+
+[node name="PhoneNumLabel" type="Label" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=299301973]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Phone number:"
+
+[node name="PhoneNum" type="LineEdit" parent="ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=171777732]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+
+[node name="ConfirmPurchaseButton" type="Button" parent="ScrollContainer/VBoxContainer3" unique_id=1371704215]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+text = "Confirm Purchase"
+script = ExtResource("1_eqo3n")
+
+[node name="ConfirmationLabel" type="Panel" parent="." unique_id=1958081712]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationLabel" unique_id=1713402577]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -281.5
+offset_bottom = 281.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="ConfirmationLabel/VBoxContainer" unique_id=171782384]
+layout_mode = 2
+theme_override_font_sizes/font_size = 200
+text = "Purchase Confirmed!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="ConfirmationLabel/VBoxContainer" unique_id=1628310315]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "$999 Processed. Ads removed."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackToGameButton" type="Button" parent="ConfirmationLabel/VBoxContainer" unique_id=1959900737]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 100
+text = "Back to Game"
+script = ExtResource("2_bstut")
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer3/ConfirmPurchaseButton" to="ScrollContainer/VBoxContainer3/ConfirmPurchaseButton" method="_on_pressed"]
+[connection signal="pressed" from="ConfirmationLabel/VBoxContainer/BackToGameButton" to="ConfirmationLabel/VBoxContainer/BackToGameButton" method="_on_pressed"]

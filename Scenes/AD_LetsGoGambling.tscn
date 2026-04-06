@@ -2,6 +2,7 @@
 
 [ext_resource type="VideoStream" uid="uid://bx0mcoyfcd6mg" path="res://Resources/Videos/letsgogambling.ogv" id="1_0b1dc"]
 [ext_resource type="Script" uid="uid://g0hm32soo01i" path="res://Scenes/AD_LGG.gd" id="1_wa1gf"]
+[ext_resource type="VideoStream" uid="uid://buwklb162844d" path="res://Resources/Videos/mr beast.ogv" id="3_m04b5"]
 [ext_resource type="Script" uid="uid://ck31x8uohw2kc" path="res://Scenes/OutsideLink.gd" id="3_njy36"]
 [ext_resource type="Script" uid="uid://d2wpv5dl10vtm" path="res://Scenes/button.gd" id="3_v8ho3"]
 
@@ -43,79 +44,82 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[node name="Control" type="Control" unique_id=1318540178]
-custom_minimum_size = Vector2(1152, 648)
+[node name="CanvasLayer" type="CanvasLayer" unique_id=767011123]
+script = ExtResource("1_wa1gf")
+ad_videos = Array[VideoStream]([ExtResource("1_0b1dc"), ExtResource("3_m04b5")])
+
+[node name="Control" type="Control" parent="." unique_id=511564675]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_wa1gf")
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1989079643]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Control" unique_id=1989079643]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -576.0
-offset_top = -324.0
-offset_right = 576.0
-offset_bottom = 324.0
+offset_left = -1920.0
+offset_top = -1080.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
-stream = ExtResource("1_0b1dc")
 autoplay = true
 expand = true
 
-[node name="Button" type="Button" parent="VideoStreamPlayer" unique_id=1200699343]
+[node name="Button" type="Button" parent="Control/VideoStreamPlayer" unique_id=1200699343]
 layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_right = 3840.0
+offset_bottom = 2160.0
 theme = SubResource("Theme_v8ho3")
 theme_override_styles/normal = SubResource("StyleBoxFlat_njy36")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_qcemn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_m04b5")
 script = ExtResource("3_njy36")
 
-[node name="Exit Button" type="Button" parent="." unique_id=1305008425]
+[node name="Exit Button" type="Button" parent="Control" unique_id=1305008425]
 visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -38.0
-offset_top = 7.0
-offset_right = -8.0
-offset_bottom = 35.0
+offset_left = -67.0
+offset_top = 18.0
+offset_right = -17.0
+offset_bottom = 68.0
 grow_horizontal = 0
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 30
 text = "X"
 text_overrun_behavior = 1
 autowrap_trim_flags = 0
 script = ExtResource("3_v8ho3")
 
-[node name="TimeLeft" type="Label" parent="." unique_id=869140350]
+[node name="TimeLeft" type="Label" parent="Control" unique_id=869140350]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -130.0
-offset_top = -1.0
-offset_right = -53.0
-offset_bottom = 41.0
+offset_left = -301.0
+offset_top = 24.0
+offset_right = -96.0
+offset_bottom = 134.0
 grow_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 80
 text = "00:00"
 
-[node name="Timer" type="Timer" parent="." unique_id=274746150]
+[node name="Timer" type="Timer" parent="Control" unique_id=274746150]
 wait_time = 5.0
 one_shot = true
 autostart = true
 
-[connection signal="pressed" from="VideoStreamPlayer/Button" to="VideoStreamPlayer/Button" method="_on_pressed"]
-[connection signal="pressed" from="Exit Button" to="." method="_on_button_pressed"]
-[connection signal="timeout" from="Timer" to="Exit Button" method="_on_timer_timeout"]
+[connection signal="pressed" from="Control/VideoStreamPlayer/Button" to="Control/VideoStreamPlayer/Button" method="_on_pressed"]
+[connection signal="pressed" from="Control/Exit Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="Control/Timer" to="Control/Exit Button" method="_on_timer_timeout"]

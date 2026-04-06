@@ -21,17 +21,24 @@ public partial class MainGame : Node2D
 	[Export] private MoneyDisplay _mDisplay;
 
 
-    //EVERY customer will play this amount of games before they consider leaving (NOT Fleeing)
-    [Export] public int NumMinGames = 3;
+	//EVERY customer will play this amount of games before they consider leaving (NOT Fleeing)
+	[Export] public int NumMinGames = 3;
 
 
 	[Export] private bool DEBUG = false;
+	
+	[Export] private PackedScene _adScene;
+	[Export] private float _adMinWait = 3f;
+	[Export] private float _adMaxWait = 5f;
+	
+	private Timer _adTimer;
+	private bool _adPlaying = false;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
 	{
 		_rng = new RandomNumberGenerator();
-        _mDisplay.Display(CasinoMoney);
+		_mDisplay.Display(CasinoMoney);
 		
 		//hook up our inserted machines
 		foreach(Machine m in ActiveMachines)
@@ -39,7 +46,7 @@ public partial class MainGame : Node2D
 			m.OnCasinoMoneyChange += UpdateCasinoMoney;
 		}
 
-        GameManager.instance.ActiveMainGame = this;
+		GameManager.instance.ActiveMainGame = this;
 
 
 
@@ -49,9 +56,41 @@ public partial class MainGame : Node2D
 		//{
 		//	bool win = _rng.Randf() > .5f;
 		//	GD.Print(win);
-        //    LivingCustomers[0].RegisterGame(win);
+		//    LivingCustomers[0].RegisterGame(win);
 		//	LivingCustomers[0].GetPercievedWinRate(ActiveMachines[0]);
 		//}
+		
+		_adTimer = new Timer();
+		_adTimer.OneShot = true;
+		AddChild(_adTimer);
+		_adTimer.Timeout += ShowAd;
+		ScheduleNextAd();
+	}
+	
+	private void ScheduleNextAd()
+	{
+		float waitTime = _rng.RandfRange(_adMinWait, _adMaxWait);
+		_adTimer.WaitTime = waitTime;
+		_adTimer.Start();
+	}
+	
+	private void ShowAd()
+	{
+		if (_adPlaying) return;
+		_adPlaying = true;
+		
+		GetTree().Paused = true;
+		
+		var ad = _adScene.Instantiate<CanvasLayer>();
+		ad.ProcessMode = ProcessModeEnum.Always;
+		AddChild(ad);		
+		ad.Connect("ad_closed", Callable.From(() =>
+		{
+			GetTree().Paused = false;
+			_adPlaying = false;
+			ad.QueueFree();
+			ScheduleNextAd();
+		}));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -60,13 +99,13 @@ public partial class MainGame : Node2D
 		//some debug shit
 		if(DEBUG)
 		{
-            int openMachines = 0;
-            foreach (Machine m in ActiveMachines)
-            {
-                if (m.IsAvailable) { openMachines++; }
-            }
-            GD.Print($"[MG] Open Machines: {openMachines}");
-        }
+			int openMachines = 0;
+			foreach (Machine m in ActiveMachines)
+			{
+				if (m.IsAvailable) { openMachines++; }
+			}
+			GD.Print($"[MG] Open Machines: {openMachines}");
+		}
 		
 	}
 
@@ -86,14 +125,14 @@ public partial class MainGame : Node2D
 			//newMachine.OnCasinoMoneyChange += UpdateCasinoMoney;
 		}
 
-        for (int i = 0; i < customers; i++)
-        {
-            Customer newCustomer = _customerPrefab.Instantiate<Customer>();
-            newCustomer.GlobalPosition = new Vector2(_rng.RandiRange(200, 3640), _rng.RandiRange(200, 1960)); //pick a random point within a smaller area of the screen
-            AddChild(newCustomer);
+		for (int i = 0; i < customers; i++)
+		{
+			Customer newCustomer = _customerPrefab.Instantiate<Customer>();
+			newCustomer.GlobalPosition = new Vector2(_rng.RandiRange(200, 3640), _rng.RandiRange(200, 1960)); //pick a random point within a smaller area of the screen
+			AddChild(newCustomer);
 			LivingCustomers.Add(newCustomer);
-        }
-    }
+		}
+	}
 
 	//Updates total money casino has
 	public void UpdateCasinoMoney(float amount)
@@ -140,18 +179,18 @@ public partial class MainGame : Node2D
 
 		//loop through all machines and gather all with a score equal to the best score
 		Array<Machine> bestMachines = new Array<Machine> ();
-        foreach (var m in ActiveMachines)
-        {
+		foreach (var m in ActiveMachines)
+		{
 			float rating = customer.GetMachinePercievedGoodness(m);
 
 			if(rating >= bestRating)
 			{
 				bestMachines.Add(m);
 			}
-        }
+		}
 
-        //pick one of those randomly and return it
-        return bestMachines[_rng.RandiRange(0, bestMachines.Count-1)];
+		//pick one of those randomly and return it
+		return bestMachines[_rng.RandiRange(0, bestMachines.Count-1)];
 	}
 
 	//for testing - we'll break this up into customer logic
@@ -171,9 +210,9 @@ public partial class MainGame : Node2D
 			int weHateInfiniteLoops = 500;
 			while (!m.IsAvailable && weHateInfiniteLoops > 0)
 			{
-                m = ActiveMachines[_rng.RandiRange(0, ActiveMachines.Count - 1)];
+				m = ActiveMachines[_rng.RandiRange(0, ActiveMachines.Count - 1)];
 				weHateInfiniteLoops--;
-            }
+			}
 			if(weHateInfiniteLoops <= 0)
 			{
 				GD.PrintErr("[MG] We don't have enough machines to send ALL of the customers!!!");
