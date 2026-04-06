@@ -20,10 +20,21 @@ public partial class Customer : CharacterBody2D
 	[ExportGroup("Behavior Controls")]
 
     //Hope controls represent an offset/scalar (depending) applied to _hopeAmount when used in calculations
-    [ExportSubgroup("Hope Controls")]
+    [ExportSubgroup("Hope Modifier Controls")]
 	[Export] public float HopeWinRateStrength = .1f; //how much hope shifts percieved win rate when deciding if we can make a profit
 	[Export] public float HopeBorrowWillingness = .75f; //the maximum chance the customer is willing to put themselves in debt / more in debt (when hope = 1)
 	[Export] public float HopeLeaveRateStrength = .25f; //The predisposition to leave. What the Hope function is "centered" around - when hope is at 50%, this will be the chance to leave
+
+	[ExportSubgroup("Hope Adjusting Controls")]
+	[Export] private float _baseWinHopeGain = .05f;
+	[Export] private float _baseLossHopeLoss = .01f;
+	private int _winLossStreak = 0;
+
+	[ExportSubgroup("Machine Pick Controls")]
+	[Export] private float _rateStr = 1;
+	[Export] private float _profitStr = 1;
+	[Export] private float _distUnit = 200;
+	[Export] private float _distStr = 1;
 
 	[ExportSubgroup("")]
 
@@ -32,10 +43,13 @@ public partial class Customer : CharacterBody2D
 
 	//======GAMBLING CONTROLS======
 	[ExportGroup("Gambling Controls")]
-    public float CurrentMoney = 100; //100 temp value
+	private float _currentMoney = 100; //100 temp value
+    public float CurrentMoney { get { return _currentMoney; } set { _currentMoney = value; _moneyDisplay.Display(value); } }
 	public float StartingMoney = 100; //100 temp value
+
+
 	//represents how much this character has "made" - 1 is no profit but no loss, 0-1 is some amount of loss but no debt, >1 is profiting, <0 is in debt 
-	public float CurrentEarningPercent { get { return CurrentMoney / StartingMoney; } }
+	public float CurrentEarningPercent { get { return _currentMoney / StartingMoney; } }
 	private Dictionary<Machine, Array<bool>> _machineWinRates = new Dictionary<Machine, Array<bool>>();
 
 	public Machine ActiveMachine;
@@ -53,6 +67,7 @@ public partial class Customer : CharacterBody2D
     [Export] public float Speed = 300.0f;
 	[Export] public float FleeSpeed = 1500f;
 	private float _movementDelta;
+	private Sprite2D _sprite;
 
 	private Vector2 _targetPos = Vector2.Zero;
 
@@ -63,9 +78,11 @@ public partial class Customer : CharacterBody2D
 	}
 
 	//======EXTRA VARS======
+	[Export] private GradientTexture1D _hopeGradient;
 	[Export] private bool DEBUG = false;
 	private RandomNumberGenerator _rng;
-	private Tween ReWanderTween;
+	private Tween _rewanderTween;
+	private MoneyDisplay _moneyDisplay;
 
     public override void _Ready()
     {
@@ -80,6 +97,9 @@ public partial class Customer : CharacterBody2D
 		_navAgent.VelocityComputed += OnVelocityComputed;
 
 		_rng = new RandomNumberGenerator();
+		_sprite = GetNode<Sprite2D>("Display");
+		_moneyDisplay = GetNode<MoneyDisplay>("MoneyDisplay");
+		_moneyDisplay.Display(_currentMoney);
 
 		Callable.From(DelayedSetup).CallDeferred();
 
@@ -88,8 +108,8 @@ public partial class Customer : CharacterBody2D
 	public void DelayedSetup()
 	{
 
-        ReWanderTween = CreateTween().SetLoops();
-        ReWanderTween.TweenCallback(Callable.From(() => {
+        _rewanderTween = CreateTween().SetLoops();
+        _rewanderTween.TweenCallback(Callable.From(() => {
 
 			if (CurrentGoal == CustomerGoal.WANDER)
 			{
@@ -112,6 +132,8 @@ public partial class Customer : CharacterBody2D
 	{
 		base._PhysicsProcess(delta);
 
+		_sprite.Modulate = _hopeGradient.Gradient.Sample(_hopeAmount);
+
 		//handle our gambling!
 		if(CurrentGoal == CustomerGoal.GAMBLE)
 		{
@@ -121,7 +143,7 @@ public partial class Customer : CharacterBody2D
 			{
 				ActiveMachine = GameManager.instance.ActiveMainGame.GetBestMachineForCustomer(this);
 				ActiveMachine.IsAvailable = false; //mark this machine as taken
-				TargetPos = ActiveMachine.PlayPosition.GlobalPosition;
+				TargetPos = ActiveMachine.PlayPosition;
                 if (DEBUG)
                 {
                     GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
@@ -129,8 +151,9 @@ public partial class Customer : CharacterBody2D
 
             }
 
-			//see if we are AT our active machine
-			if(GlobalPosition.DistanceSquaredTo(ActiveMachine.GlobalPosition) <= Mathf.Pow(ActiveMachine.PlayDistance, 2))
+            //see if we are AT our active machine
+            //GlobalPosition.DistanceSquaredTo(ActiveMachine.GlobalPosition) <= Mathf.Pow(ActiveMachine.PlayDistance, 2)
+            if (ActiveMachine.IsCustomerInPlayArea(this))
 			{
 				//if we are, we can play if we aren't already
 				if(!_isWaitingForGame)
@@ -208,7 +231,7 @@ public partial class Customer : CharacterBody2D
 					}
 
                     //if we accept the risk that this puts us into debt, or it won't put us into debt, HIT IT AGAIN BABEYYY
-                    if ((ActiveMachine.Cost >= CurrentMoney && _rng.Randf() <= Mathf.Max(debtAcceptance, _addictionStrength)) || ActiveMachine.Cost < CurrentMoney)
+                    if ((ActiveMachine.Cost >= _currentMoney && _rng.Randf() <= Mathf.Max(debtAcceptance, _addictionStrength)) || ActiveMachine.Cost < _currentMoney)
                     {
                         if (DEBUG)
                         {
@@ -239,7 +262,7 @@ public partial class Customer : CharacterBody2D
 
                     //we're not wrong
 					//if we're in debt we need to consider fleeing RIGHT NOW
-                    if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
+                    if (_currentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
                     {
                         if (DEBUG)
                         {
@@ -283,7 +306,7 @@ public partial class Customer : CharacterBody2D
 				}
 
 				//If we haven't played enough games, go gamble..
-				if(_playCount < GameManager.instance.NumMinGames) 
+				if(_playCount < GameManager.instance.ActiveMainGame.NumMinGames) 
 				{
                     if (DEBUG)
                     {
@@ -440,6 +463,25 @@ public partial class Customer : CharacterBody2D
 			_machineWinRates.Add(ActiveMachine, new Array<bool>());
 		}
 
+		//adjust hope and do other win/loss things
+		if (win)
+		{
+			_winLossStreak = Mathf.Max(1, _winLossStreak + 1);
+            _hopeAmount += _baseWinHopeGain * _winLossStreak;
+        }
+		else
+		{
+			_winLossStreak = Mathf.Min(-1, _winLossStreak - 1);
+            _hopeAmount += _baseLossHopeLoss * _winLossStreak;
+        }
+		//hope must be from 0-1
+		_hopeAmount = Mathf.Clamp(_hopeAmount, 0, 1);
+
+		if(DEBUG)
+		{
+			GD.Print($"[C] {Name}: Hope is now {_hopeAmount}");
+		}
+
 		_machineWinRates[ActiveMachine].Add(win);
 	}
 
@@ -497,6 +539,32 @@ public partial class Customer : CharacterBody2D
 
 	}
 
+	public float GetMachinePercievedGoodness(Machine m)
+	{
+        //do not consider busy machines
+        if (!m.IsAvailable)
+        {
+			return float.MinValue;
+        }
+
+        //using bitflag in customer to see what we consider here
+        float rating = 0;
+        if ((MachineConsiderations & MachinePickConsiderations.WIN_RATE) != 0)
+        {
+            rating += GetPercievedWinRate(m) * _rateStr;
+        }
+        if ((MachineConsiderations & MachinePickConsiderations.PROFIT) != 0)
+        {
+            rating += GetPercievedMachineProfit(m) * _profitStr;
+        }
+		if((MachineConsiderations & MachinePickConsiderations.DISTANCE) != 0)
+		{
+			rating -= (GlobalPosition.DistanceTo(m.GlobalPosition) / _distUnit) * _distStr;
+		}
+
+		return rating;
+    }
+
 }
 
 public enum CustomerGoal
@@ -512,8 +580,13 @@ public enum MachinePickConsiderations
 {
 	WIN_RATE = 1 << 1,
 	PROFIT = 1 << 2,
+	DISTANCE = 1 << 3,
 
 
-	RATE_AND_PROFIT = WIN_RATE | PROFIT
+	RATE_AND_PROFIT = WIN_RATE | PROFIT,
+	RATE_AND_DISTANCE = WIN_RATE | DISTANCE,
+	PROFIT_AND_DISTANCE = PROFIT | DISTANCE,
+
+	ALL = WIN_RATE | PROFIT | DISTANCE,
 
 }

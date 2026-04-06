@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://b8vbt18755vuc"]
+
+[ext_resource type="Script" uid="uid://q0awupa5o3hu" path="res://Scenes/MainGame.cs" id="1_5vsu7"]
+[ext_resource type="PackedScene" uid="uid://cya10pgwhsewr" path="res://Scenes/customer.tscn" id="2_4oapj"]
+[ext_resource type="PackedScene" uid="uid://d1d5abjjndtow" path="res://Scenes/machine.tscn" id="3_lkdre"]
+[ext_resource type="Texture2D" uid="uid://bm1736cna0y4l" path="res://icon.svg" id="4_kppd5"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_4rmt8"]
+vertices = PackedVector2Array(2315.5234, 1958.5234, 3847.2969, 2154.3203, 16.523438, 2143.6328, 206.47656, 1958.5234, 16.523438, 1087.5234, 206.47656, 1349.4766, 1911.5234, 1087.5234, 2315.5234, 1349.4766, 2755.3906, 1195.1328, 3842.211, 511.71875, 2431.2031, 679.53125, 1911.5234, 478.47656, 16.523438, 478.47656, 16.523438, -4.3203125, 3503.2578, 5.4296875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 2, 4, 5), PackedInt32Array(5, 4, 6, 7), PackedInt32Array(8, 9, 1, 0), PackedInt32Array(8, 0, 7, 10), PackedInt32Array(10, 7, 6, 11), PackedInt32Array(12, 13, 14, 11), PackedInt32Array(11, 14, 10)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-38, -59, -38, 2198, 3902, 2209, 3895, -48)])
+source_geometry_mode = 2
+agent_radius = 75.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0e3vx"]
+size = Vector2(2000, 500)
+
+[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("LivingCustomers", "ActiveMachines")]
+script = ExtResource("1_5vsu7")
+LivingCustomers = [NodePath("TestingCustomer")]
+ActiveMachines = [NodePath("Machine"), NodePath("Machine2"), NodePath("Machine3")]
+_customerPrefab = ExtResource("2_4oapj")
+_machinePrefab = ExtResource("3_lkdre")
+CasinoBounds = Rect2(0, 0, 3840, 2160)
+CasinoExit = Vector2(1920, 2160)
+
+[node name="NavRegion" type="NavigationRegion2D" parent="." unique_id=1726240980]
+position = Vector2(0, 4)
+navigation_polygon = SubResource("NavigationPolygon_4rmt8")
+
+[node name="TestingStatic" type="StaticBody2D" parent="." unique_id=724817246 groups=["navigation_polygon_source_geometry_group"]]
+position = Vector2(3486, 379.99988)
+rotation = -0.56131876
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestingStatic" unique_id=691192171]
+shape = SubResource("RectangleShape2D_0e3vx")
+
+[node name="Sprite2D" type="Sprite2D" parent="TestingStatic" unique_id=705297749]
+scale = Vector2(15.637935, 3.9724317)
+texture = ExtResource("4_kppd5")
+
+[node name="TestingStatic2" type="StaticBody2D" parent="." unique_id=796012423 groups=["navigation_polygon_source_geometry_group"]]
+position = Vector2(864, 790)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestingStatic2" unique_id=187227643]
+position = Vector2(-7, -3.000122)
+shape = SubResource("RectangleShape2D_0e3vx")
+
+[node name="Sprite2D" type="Sprite2D" parent="TestingStatic2" unique_id=1815764813]
+scale = Vector2(15.637935, 3.9724317)
+texture = ExtResource("4_kppd5")
+
+[node name="TestingStatic3" type="StaticBody2D" parent="." unique_id=1572867068 groups=["navigation_polygon_source_geometry_group"]]
+position = Vector2(1257, 1659)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestingStatic3" unique_id=1277656480]
+position = Vector2(4, -1)
+shape = SubResource("RectangleShape2D_0e3vx")
+
+[node name="Sprite2D" type="Sprite2D" parent="TestingStatic3" unique_id=1324743479]
+scale = Vector2(15.637935, 3.9724317)
+texture = ExtResource("4_kppd5")
+
+[node name="TestingCustomer" parent="." unique_id=623982277 instance=ExtResource("2_4oapj")]
+position = Vector2(135, 103)
+DEBUG = true
+
+[node name="NavAgent" parent="TestingCustomer" index="2" unique_id=461178616]
+debug_enabled = true
+
+[node name="Machine" parent="." unique_id=2110455865 instance=ExtResource("3_lkdre")]
+position = Vector2(2659, 155)
+PlayTime = 1.0
+
+[node name="Machine2" parent="." unique_id=31816360 instance=ExtResource("3_lkdre")]
+position = Vector2(255, 1215)
+PlayTime = 1.0
+
+[node name="Machine3" parent="." unique_id=455676682 instance=ExtResource("3_lkdre")]
+position = Vector2(3639, 1131)
+PlayTime = 1.0
+
+[editable path="TestingCustomer"]

@@ -18,18 +18,26 @@ public partial class MainGame : Node2D
 	//Casino starting money, can adjust this if needed
 	[Export] public float CasinoMoney = 100;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	[Export] private MoneyDisplay _mDisplay;
+
+
+    //EVERY customer will play this amount of games before they consider leaving (NOT Fleeing)
+    [Export] public int NumMinGames = 3;
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 		_rng = new RandomNumberGenerator();
+        _mDisplay.Display(CasinoMoney);
+		
+		//hook up our inserted machines
+		foreach(Machine m in ActiveMachines)
+		{
+			m.OnCasinoMoneyChange += UpdateCasinoMoney;
+		}
 
-		//PopulateRandomCustomersAndMachines(10, 15);
+        GameManager.instance.ActiveMainGame = this;
 
-		//Tween MoveCustomers = CreateTween();
-		//MoveCustomers.SetLoops(); //loop forever
-		//MoveCustomers.TweenCallback(Callable.From(MoveAllCustomersToRandomOpenMachine)).SetDelay(10f);
-
-		GameManager.instance.ActiveMainGame = this;
 
 
 		//DEBUG TESTING PERCIEVED WINRATE
@@ -85,7 +93,7 @@ public partial class MainGame : Node2D
 			CasinoMoney = 0;
 		}
 
-		GD.Print("Casino gets: " + amount);
+		_mDisplay.Display(CasinoMoney);
 	}
 
 	//Returns the "best" machine for a given customer. Decided by the game because the customer doesn't know about all the machines
@@ -94,27 +102,13 @@ public partial class MainGame : Node2D
 	public Machine GetBestMachineForCustomer(Customer customer)
 	{
 		//the best rating found by the customer, based on if the consider win rate or profit
-		float bestRating = 0;
+		float bestRating = float.MinValue;
 
 		//loop through all machines, log the best score
 		foreach(Machine m in ActiveMachines)
 		{
-			//do not consider busy machines
-			if(!m.IsAvailable)
-			{
-				continue;
-			}
 
-			//using bitflag in customer to see what we consider here
-			float rating = 0;
-			if((customer.MachineConsiderations & MachinePickConsiderations.WIN_RATE) != 0)
-			{
-				rating += customer.GetPercievedWinRate(m);
-			}
-			if((customer.MachineConsiderations & MachinePickConsiderations.PROFIT) != 0)
-			{
-				rating += customer.GetPercievedMachineProfit(m);
-			}
+			float rating = customer.GetMachinePercievedGoodness(m);
 
 			//track if actually better
 			if(rating > bestRating)
@@ -128,16 +122,7 @@ public partial class MainGame : Node2D
 		Array<Machine> bestMachines = new Array<Machine> ();
         foreach (var m in ActiveMachines)
         {
-            //using bitflag in customer to see what we consider here
-            float rating = 0;
-            if ((customer.MachineConsiderations & MachinePickConsiderations.WIN_RATE) != 0)
-            {
-                rating += customer.GetPercievedWinRate(m);
-            }
-            if ((customer.MachineConsiderations & MachinePickConsiderations.PROFIT) != 0)
-            {
-                rating += customer.GetPercievedMachineProfit(m);
-            }
+			float rating = customer.GetMachinePercievedGoodness(m);
 
 			if(rating >= bestRating)
 			{

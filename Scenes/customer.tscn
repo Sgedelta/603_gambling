@@ -1,22 +1,53 @@
 [gd_scene format=3 uid="uid://cya10pgwhsewr"]
 
 [ext_resource type="Script" uid="uid://1i2qe34y8h1m" path="res://Scenes/Customer.cs" id="1_7c3kf"]
-[ext_resource type="Texture2D" uid="uid://bm1736cna0y4l" path="res://icon.svg" id="1_fp685"]
+[ext_resource type="Texture2D" uid="uid://c5oimy6jwksxn" path="res://Resources/Misc/CustomerHopeGradient.tres" id="2_0v30w"]
+[ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_7c3kf"]
+[ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="4_qf3me"]
+[ext_resource type="Script" uid="uid://dc6thgujw6e61" path="res://Scenes/MoneyDisplay.cs" id="4_vkxjs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0v30w"]
+atlas = ExtResource("2_7c3kf")
+region = Rect2(31.709717, 12.576523, 102.00427, 142.56207)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7c3kf"]
 radius = 80.280754
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkxjs"]
+atlas = ExtResource("4_qf3me")
+region = Rect2(307.00574, 433.0633, 114.06326, 112.01422)
+
 [node name="Customer" type="CharacterBody2D" unique_id=623982277]
+y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_7c3kf")
 MachineConsiderations = 6
+_hopeGradient = ExtResource("2_0v30w")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1269357853]
-texture = ExtResource("1_fp685")
+[node name="Display" type="Sprite2D" parent="." unique_id=1269357853]
+scale = Vector2(1.5, 1.5)
+texture = SubResource("AtlasTexture_0v30w")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1264802872]
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1264802872]
 shape = SubResource("CircleShape2D_7c3kf")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="." unique_id=461178616]
 radius = 50.0
 max_speed = 300.0
+
+[node name="MoneyDisplay" type="Node2D" parent="." unique_id=989621494]
+position = Vector2(0, -120)
+script = ExtResource("4_vkxjs")
+
+[node name="MoneyAmount" type="Label" parent="MoneyDisplay" unique_id=176192079]
+offset_left = -50.0
+offset_top = -20.0
+offset_right = 175.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 30
+text = "Five Dabloons"
+
+[node name="Sprite2D" type="Sprite2D" parent="MoneyDisplay" unique_id=1311204085]
+position = Vector2(-100, 0)
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_vkxjs")

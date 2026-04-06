@@ -1,20 +1,37 @@
 [gd_scene format=3 uid="uid://d1d5abjjndtow"]
 
 [ext_resource type="Script" uid="uid://d0mtdbaevqf4r" path="res://Scenes/Machine.cs" id="1_xuuum"]
-[ext_resource type="Texture2D" uid="uid://bm1736cna0y4l" path="res://icon.svg" id="2_h612m"]
+[ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_h612m"]
 
-[node name="Machine" type="Node2D" unique_id=2110455865]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg6tx"]
+atlas = ExtResource("2_h612m")
+region = Rect2(5, 425, 170.39935, 251.49176)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h612m"]
+size = Vector2(316, 395)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mg6tx"]
+size = Vector2(250, 100)
+
+[node name="Machine" type="StaticBody2D" unique_id=1215231208 groups=["collisionObjects"]]
+y_sort_enabled = true
 script = ExtResource("1_xuuum")
+PlayTime = 3.0
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=571050210]
-texture = ExtResource("2_h612m")
+[node name="MachineDisplay" type="Sprite2D" parent="." unique_id=571050210]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_mg6tx")
 
-[node name="Label" type="Label" parent="." unique_id=1659348115]
-offset_left = -54.0
-offset_top = -94.0
-offset_right = 63.0
-offset_bottom = -71.0
-text = "GAMBLING!!!"
+[node name="MachineCollision" type="CollisionShape2D" parent="." unique_id=1983746980]
+position = Vector2(0, 46.5)
+shape = SubResource("RectangleShape2D_h612m")
 
 [node name="PlayPosition" type="Node2D" parent="." unique_id=795440727]
-position = Vector2(95, 0)
+position = Vector2(-1, 264)
+
+[node name="PlayArea" type="Area2D" parent="." unique_id=635118710]
+position = Vector2(0, 283)
+
+[node name="PlayAreaShape" type="CollisionShape2D" parent="PlayArea" unique_id=1720976707]
+shape = SubResource("RectangleShape2D_mg6tx")
