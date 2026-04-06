@@ -25,15 +25,12 @@ func _ready() -> void:
 		field.text_changed.connect(func(_t): field.remove_theme_stylebox_override("normal"))
 		
 func _on_pressed() -> void:
-	print("test")
 	var empty_fields = required_fields.filter(func(f): return f.text.strip_edges() == "")
 
 	if empty_fields.size() > 0:
 		for field in empty_fields:
 			field.add_theme_stylebox_override("normal", _error_style())
-		print("error")
 		return
-	print("yippee")
 	get_tree().root.find_child("ConfirmationLabel", true, false).visible = true
 	
 func _error_style() -> StyleBoxFlat:
