@@ -21,6 +21,7 @@ region = Rect2(307.00574, 433.0633, 114.06326, 112.01422)
 y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_7c3kf")
+MachineConsiderations = 4
 _hopeGradient = ExtResource("2_0v30w")
 
 [node name="Display" type="Sprite2D" parent="." unique_id=1269357853]

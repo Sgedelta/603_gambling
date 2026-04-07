@@ -37,13 +37,16 @@ public partial class Customer : CharacterBody2D
 	[ExportSubgroup("Hope Adjusting Controls")]
 	[Export] private float _baseWinHopeGain = .05f;
 	[Export] private float _baseLossHopeLoss = .01f;
-	private int _winLossStreak = 0;
+	[Export] private float _machineSucksHopeLoss = .05f;
+
+    private int _winLossStreak = 0;
 
 	[ExportSubgroup("Machine Pick Controls")]
 	[Export] private float _rateStr = 1;
 	[Export] private float _profitStr = 1;
 	[Export] private float _distUnit = 200;
 	[Export] private float _distStr = 1;
+
 
 	[ExportSubgroup("")]
 
@@ -158,14 +161,32 @@ public partial class Customer : CharacterBody2D
 			if(ActiveMachine == null)
 			{
 				ActiveMachine = GameManager.instance.ActiveMainGame.GetBestMachineForCustomer(this);
+
 				if (ActiveMachine != null) //sometimes, no machines are open.
 				{
-					ActiveMachine.IsAvailable = false; //mark this machine as taken
-					TargetPos = ActiveMachine.PlayPosition;
-					if (DEBUG)
+                    float noDistanceGoodness = GetMachinePercievedGoodness(ActiveMachine, true);
+
+					//double check we actually make profit...
+					if (noDistanceGoodness > 0 || (noDistanceGoodness < 0 && RandomAddictionCheck())) 
 					{
-						GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
+                        ActiveMachine.IsAvailable = false; //mark this machine as taken
+                        TargetPos = ActiveMachine.PlayPosition;
+                        if (DEBUG)
+                        {
+                            GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
+                        }
+                    }
+					else
+					{
+                        if (DEBUG)
+                        {
+                            GD.Print($"[C] {Name}: Going to Wander because my new machine, {ActiveMachine.Name}, sucks ({noDistanceGoodness})");
+                        }
+						_hopeAmount -= _machineSucksHopeLoss;
+                        BeginWander();
+						return;
 					}
+
 				}
 				else
 				{
@@ -253,7 +274,7 @@ public partial class Customer : CharacterBody2D
 				{
 
 					//check if we're already in debt - if we are, we might decide to flee instead of just wandering to another machine
-					if (CurrentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
+					if (CurrentMoney < 0 && !RandomAddictionCheck(debtAcceptanceAdjusted))
 					{
 						if (DEBUG)
 						{
@@ -264,7 +285,7 @@ public partial class Customer : CharacterBody2D
 					}
 
 					//if we accept the risk that this puts us into debt, or it won't put us into debt, HIT IT AGAIN BABEYYY
-					if ((ActiveMachine.Cost >= _currentMoney && _rng.Randf() <= Mathf.Max(debtAcceptance, _addictionStrength)) || ActiveMachine.Cost < _currentMoney)
+					if ((ActiveMachine.Cost >= _currentMoney && RandomAddictionCheck(debtAcceptance)) || ActiveMachine.Cost < _currentMoney)
 					{
 						if (DEBUG)
 						{
@@ -283,7 +304,7 @@ public partial class Customer : CharacterBody2D
 				{
 
 					//if we're gambling but we don't think we can make a profit, maybe we're wrong?
-					if(_rng.Randf() < _addictionStrength)
+					if(RandomAddictionCheck())
 					{
 						if (DEBUG)
 						{
@@ -295,7 +316,7 @@ public partial class Customer : CharacterBody2D
 
 					//we're not wrong
 					//if we're in debt we need to consider fleeing RIGHT NOW
-					if (_currentMoney < 0 && _rng.Randf() > Mathf.Max(debtAcceptanceAdjusted, _addictionStrength))
+					if (_currentMoney < 0 && !RandomAddictionCheck(debtAcceptanceAdjusted))
 					{
 						if (DEBUG)
 						{
@@ -328,7 +349,7 @@ public partial class Customer : CharacterBody2D
 
 				//NOTE: fleeing from "max debt" is NOT included in this logic, when we lose money so that CurrentEarningPercent is <= -1, the character should ALWAYS flee, otherwise addicts might never leave
 				//case "0" -> gambling addicition. No matter what, if we're addicted to gambling, there's a chance we gamble again
-				if (_rng.Randf() < _addictionStrength)
+				if (RandomAddictionCheck())
 				{
 					if (DEBUG)
 					{
@@ -368,7 +389,8 @@ public partial class Customer : CharacterBody2D
 
 				//this falls on a sigmoid curve, which is then clamped
 				//how strong the decision is. A value closer to 0 is "flatter", higher values result in a "steeper" version
-				float decisionStrength = Mathf.Pow(Mathf.Abs(Mathf.Log(CurrentEarningPercent)), CurrentEarningPercent); //don't ask, it just works...
+				float EarnAbs = Mathf.Abs(CurrentEarningPercent);
+				float decisionStrength = Mathf.Pow(Mathf.Abs(Mathf.Log(EarnAbs + 1)), EarnAbs + 1); //don't ask, it just works...
 				//the chance of leaving
 				float leaveChance = Mathf.Clamp((-1.0f * (Mathf.Log(_hopeAmount / (1 - _hopeAmount)) * decisionStrength)) + HopeLeaveRateStrength, 0, 1);
 
@@ -387,7 +409,7 @@ public partial class Customer : CharacterBody2D
 				{
 					if (DEBUG)
 					{
-						GD.Print($"[C] {Name}: Gambling because there's nothing else to do!");
+						GD.Print($"[C] {Name}: Gambling because there's nothing else to do! leave chance was {leaveChance} | {decisionStrength}");
 					}
 					CurrentGoal = CustomerGoal.GAMBLE;
 					return;
@@ -413,6 +435,12 @@ public partial class Customer : CharacterBody2D
 
 	public void LeaveCasino()
 	{
+		//there is no leaving when in debt...
+		if(CurrentEarningPercent < 0)
+		{
+			FleeCasino();
+			return;
+		}
 		CurrentGoal = CustomerGoal.LEAVE;
 		LeaveMachine();
 		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
@@ -433,6 +461,11 @@ public partial class Customer : CharacterBody2D
 		LeaveMachine();
 		CurrentGoal = CustomerGoal.WANDER;
 		GetTree().CreateTimer(_wanderTime).Timeout += ReevaluateGoal;
+	}
+
+	private bool RandomAddictionCheck(float otherConsideration = 0)
+	{
+		return _rng.Randf() <= Mathf.Max(_addictionStrength, otherConsideration);
 	}
 
 	private void LeaveMachine()
@@ -586,7 +619,7 @@ public partial class Customer : CharacterBody2D
 
 	}
 
-	public float GetMachinePercievedGoodness(Machine m)
+	public float GetMachinePercievedGoodness(Machine m, bool ignoreDistance = false)
 	{
 		//do not consider busy machines
 		if (!m.IsAvailable)
@@ -604,7 +637,7 @@ public partial class Customer : CharacterBody2D
 		{
 			rating += GetPercievedMachineProfit(m) * _profitStr;
 		}
-		if((MachineConsiderations & MachinePickConsiderations.DISTANCE) != 0)
+		if(!ignoreDistance && (MachineConsiderations & MachinePickConsiderations.DISTANCE) != 0)
 		{
 			rating -= (GlobalPosition.DistanceTo(m.GlobalPosition) / _distUnit) * _distStr;
 		}
