@@ -21,7 +21,6 @@ region = Rect2(307.00574, 433.0633, 114.06326, 112.01422)
 y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_7c3kf")
-MachineConsiderations = 6
 _hopeGradient = ExtResource("2_0v30w")
 
 [node name="Display" type="Sprite2D" parent="." unique_id=1269357853]
@@ -32,7 +31,9 @@ texture = SubResource("AtlasTexture_0v30w")
 shape = SubResource("CircleShape2D_7c3kf")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="." unique_id=461178616]
-radius = 50.0
+target_desired_distance = 30.0
+avoidance_enabled = true
+radius = 75.0
 max_speed = 300.0
 
 [node name="MoneyDisplay" type="Node2D" parent="." unique_id=989621494]
