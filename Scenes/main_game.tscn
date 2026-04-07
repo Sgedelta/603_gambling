@@ -41,7 +41,7 @@ _mDisplay = NodePath("MainUI/MoneyDisplay")
 _adScene = ExtResource("4_r0mdn")
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]
-layer = 100
+layer = 5
 
 [node name="MoneyDisplay" type="MarginContainer" parent="MainUI" unique_id=1409587683]
 offset_right = 1200.0

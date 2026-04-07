@@ -45,6 +45,7 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [node name="CanvasLayer" type="CanvasLayer" unique_id=767011123]
+layer = 10
 script = ExtResource("1_wa1gf")
 ad_videos = Array[VideoStream]([ExtResource("1_0b1dc"), ExtResource("3_m04b5")])
 
