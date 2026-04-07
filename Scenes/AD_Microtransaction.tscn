@@ -23,6 +23,18 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bstut"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0.8745098)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
 [node name="Control" type="CanvasLayer" unique_id=2017079953]
 layer = 10
 
@@ -233,13 +245,13 @@ text = "Confirm Purchase"
 script = ExtResource("1_eqo3n")
 
 [node name="ConfirmationLabel" type="Panel" parent="Control" unique_id=1958081712]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bstut")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/ConfirmationLabel" unique_id=1713402577]
 layout_mode = 1
