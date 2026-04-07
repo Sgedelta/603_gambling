@@ -13,7 +13,8 @@ public partial class MoneyDisplay : Node
 
 	public void Display(float money)
 	{
-		_label.Text = $"{money.ToString("C0")}";
+		string neg = money < 0 ? "-" : "";
+		_label.Text = $"{neg}${money.ToString("F0")}";
 	}
 
 

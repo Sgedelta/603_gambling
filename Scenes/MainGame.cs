@@ -48,7 +48,7 @@ public partial class MainGame : Node2D
 
 		GameManager.instance.ActiveMainGame = this;
 
-
+		
 
 		//DEBUG TESTING PERCIEVED WINRATE
 		//LivingCustomers[0].ActiveMachine = ActiveMachines[0];
