@@ -14,7 +14,7 @@ public partial class MoneyDisplay : Node
 	public void Display(float money)
 	{
 		string neg = money < 0 ? "-" : "";
-		_label.Text = $"{neg}${money.ToString("F0")}";
+		_label.Text = $"{neg}${Mathf.Abs(money).ToString("F0")}";
 	}
 
 

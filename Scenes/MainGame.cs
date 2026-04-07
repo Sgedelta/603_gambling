@@ -22,7 +22,7 @@ public partial class MainGame : Node2D
 
 
 	//EVERY customer will play this amount of games before they consider leaving (NOT Fleeing)
-	[Export] public int NumMinGames = 3;
+	[Export] public int NumMinGames = 0;
 
 
 	[Export] private bool DEBUG = false;

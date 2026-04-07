@@ -573,7 +573,16 @@ public partial class Customer : CharacterBody2D
 	{
 		float rate = GetPercievedWinRate(m);
 
-		return (m.Profit * Mathf.Clamp(rate +  _hopeAmount * HopeWinRateStrength, 0, 1)) - (m.Cost * (1 - rate));
+		float profit = (m.Profit * Mathf.Clamp(rate + _hopeAmount * HopeWinRateStrength, 0, 1)) - m.Cost;
+
+
+        if (DEBUG) 
+		{
+			GD.Print($"[C] {Name}: Percieved Profit from {m.Name} is {profit}: win {m.Profit} x {Mathf.Clamp(rate + _hopeAmount * HopeWinRateStrength, 0, 1)}, lose {m.Cost}"); 
+		}
+
+
+        return profit;
 
 	}
 
