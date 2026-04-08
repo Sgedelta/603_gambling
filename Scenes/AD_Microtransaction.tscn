@@ -245,6 +245,7 @@ text = "Confirm Purchase"
 script = ExtResource("1_eqo3n")
 
 [node name="ConfirmationLabel" type="Panel" parent="Control" unique_id=1958081712]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

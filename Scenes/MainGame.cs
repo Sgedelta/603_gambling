@@ -30,7 +30,8 @@ public partial class MainGame : Node2D
 	[Export] private PackedScene _adScene;
 	[Export] private float _adMinWait = 30f;
 	[Export] private float _adMaxWait = 60f;
-	
+
+	[Export] private bool _allowAds = true;
 	private Timer _adTimer;
 	private bool _adPlaying = false;
 
@@ -76,6 +77,7 @@ public partial class MainGame : Node2D
 	
 	private void ShowAd()
 	{
+		if (!_allowAds) return;
 		if (_adPlaying) return;
 		_adPlaying = true;
 		
