@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://d1d5abjjndtow" path="res://Scenes/machine.tscn" id="3_0e3vx"]
 [ext_resource type="Texture2D" uid="uid://bcgq8nalh30dw" path="res://Resources/Sprites/floor.png" id="4_6j5ir"]
 [ext_resource type="Script" uid="uid://dc6thgujw6e61" path="res://Scenes/MoneyDisplay.cs" id="4_73nn6"]
-[ext_resource type="PackedScene" uid="uid://bu7xcxndd43wr" path="res://Scenes/AD_LetsGoGambling.tscn" id="4_r0mdn"]
 [ext_resource type="Texture2D" uid="uid://ostfnt14d7hk" path="res://Resources/Sprites/walls.png" id="5_mgc0q"]
 [ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="5_r0mdn"]
 [ext_resource type="PackedScene" uid="uid://b2hoywkyuduhe" path="res://Scenes/plant.tscn" id="6_18r40"]
@@ -44,7 +43,6 @@ CasinoBounds = Rect2(0, 0, 3840, 2160)
 CasinoExit = Vector2(1920, 2700)
 CasinoMoney = 5000.0
 _mDisplay = NodePath("MainUI/MoneyDisplay")
-_adScene = ExtResource("4_r0mdn")
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]
 layer = 5
