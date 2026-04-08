@@ -45,6 +45,7 @@ CasinoExit = Vector2(1920, 2700)
 CasinoMoney = 5000.0
 _mDisplay = NodePath("MainUI/MoneyDisplay")
 _adScene = ExtResource("4_r0mdn")
+_allowAds = false
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]
 layer = 5
@@ -99,6 +100,11 @@ scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("RectangleShape2D_0xqxu")
 
 [node name="ExitZone" parent="." unique_id=1638611041 instance=ExtResource("9_0xqxu")]
+position = Vector2(1910, 2180)
+
+[node name="CollisionShape2D" parent="ExitZone" index="0" unique_id=1013735403]
+position = Vector2(-2.9999995, 291)
+scale = Vector2(3.08, 1)
 
 [node name="Plant" parent="." unique_id=1754925861 instance=ExtResource("6_18r40")]
 position = Vector2(3654, 375)
@@ -161,3 +167,5 @@ DEBUG = true
 position = Vector2(3306, 1151)
 _currentMoney = 420.0
 DEBUG = true
+
+[editable path="ExitZone"]
