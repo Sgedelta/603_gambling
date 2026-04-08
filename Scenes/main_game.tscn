@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://b2hoywkyuduhe" path="res://Scenes/plant.tscn" id="6_18r40"]
 [ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="6_bb2iq"]
 [ext_resource type="PackedScene" uid="uid://u628dtjb67e0" path="res://Scenes/exit_zone.tscn" id="9_0xqxu"]
+[ext_resource type="PackedScene" uid="uid://bjocyxmliin75" path="res://Scenes/casino_entrance.tscn" id="12_tpqse"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkxjs"]
 atlas = ExtResource("5_r0mdn")
@@ -100,10 +101,10 @@ scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("RectangleShape2D_0xqxu")
 
 [node name="ExitZone" parent="." unique_id=1638611041 instance=ExtResource("9_0xqxu")]
-position = Vector2(1910, 2180)
+position = Vector2(1910, 2621)
 
 [node name="CollisionShape2D" parent="ExitZone" index="0" unique_id=1013735403]
-position = Vector2(-2.9999995, 291)
+position = Vector2(0, 0)
 scale = Vector2(3.08, 1)
 
 [node name="Plant" parent="." unique_id=1754925861 instance=ExtResource("6_18r40")]
@@ -147,25 +148,23 @@ position = Vector2(1043, 1389)
 [node name="Customer" parent="." unique_id=623982277 instance=ExtResource("2_pu3va")]
 position = Vector2(2164, 1499)
 _currentMoney = 250.0
-DEBUG = true
 
 [node name="Customer2" parent="." unique_id=1592249952 instance=ExtResource("2_pu3va")]
 position = Vector2(2851, 1647)
-DEBUG = true
 
 [node name="Customer3" parent="." unique_id=665779205 instance=ExtResource("2_pu3va")]
 position = Vector2(1561, 1873)
 _currentMoney = 1000.0
-DEBUG = true
 
 [node name="Customer4" parent="." unique_id=1765008703 instance=ExtResource("2_pu3va")]
 position = Vector2(1665, 1073)
 _currentMoney = 300.0
-DEBUG = true
 
 [node name="Customer5" parent="." unique_id=1921225989 instance=ExtResource("2_pu3va")]
 position = Vector2(3306, 1151)
 _currentMoney = 420.0
-DEBUG = true
+
+[node name="CasinoEntrance" parent="." unique_id=1858262204 instance=ExtResource("12_tpqse")]
+position = Vector2(1911, 2308)
 
 [editable path="ExitZone"]

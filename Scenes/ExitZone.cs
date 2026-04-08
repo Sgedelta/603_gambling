@@ -17,8 +17,10 @@ public partial class ExitZone : Area2D
 
 	public void CheckForKill(Node2D body)
 	{
+		GD.Print($"Checking {body.Name} For Kill!");
+
 		//we only care about customers
-		if(body is not Customer)
+		if(!(body is Customer))
 		{
 			return;
 		}
@@ -26,7 +28,7 @@ public partial class ExitZone : Area2D
 		Customer c = (Customer)body;
 
 		//safety check, only kill a Leaving or Fleeing Customer
-		if(c.CurrentGoal != CustomerGoal.LEAVE || c.CurrentGoal != CustomerGoal.FLEE)
+		if(c.CurrentGoal != CustomerGoal.LEAVE && c.CurrentGoal != CustomerGoal.FLEE)
 		{
 			return;
 		}
