@@ -108,8 +108,6 @@ public partial class Customer : CharacterBody2D
 
 		_navAgent.VelocityComputed += OnVelocityComputed;
 
-		StartingMoney = _currentMoney;
-
 		_rng = new RandomNumberGenerator();
 		_sprite = GetNode<Sprite2D>("Display");
 		_moneyDisplay = GetNode<MoneyDisplay>("MoneyDisplay");
@@ -146,6 +144,21 @@ public partial class Customer : CharacterBody2D
 		ReevaluateGoal();
 
 	}
+
+	//set values, from CasinoEntrance. INDEX MATTERS, IF YOU CHANGE INDEX, CHANGE GetCustVals()
+	public void SetupCustomerValues(Array<float> vals)
+	{
+		_currentMoney = vals[0];
+		StartingMoney = vals[0];
+		_hopeAmount = vals[1];
+		_addictionStrength = vals[2];
+		HopeWinRateStrength = vals[3];
+		HopeBorrowWillingness = vals[4];
+		HopeLeaveRateStrength = vals[5];
+		_baseWinHopeGain = vals[6];
+		_baseLossHopeLoss = vals[7];
+		_machineSucksHopeLoss = vals[8];
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{

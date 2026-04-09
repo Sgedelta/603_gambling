@@ -37,6 +37,7 @@ position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_mg6tx")
 
 [node name="ControlUI" type="Panel" parent="." unique_id=1833735756]
+visible = false
 z_index = 1
 offset_left = -200.0
 offset_top = -500.0
@@ -131,3 +132,4 @@ text = "X"
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/CostUI/HSlider" to="." method="SetCost"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/PayoutUI/HSlider" to="." method="SetPayout"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="." method="SetWinrate"]
+[connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]

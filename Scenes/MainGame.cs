@@ -6,6 +6,8 @@ public partial class MainGame : Node2D
 {
 	private RandomNumberGenerator _rng;
 
+	[Signal] public delegate void GameStartedEventHandler();
+
 	[Export] private Array<Customer> LivingCustomers = new Array<Customer>();
 	[Export] private Array<Machine> ActiveMachines = new Array<Machine>();
 
@@ -66,6 +68,8 @@ public partial class MainGame : Node2D
 		AddChild(_adTimer);
 		_adTimer.Timeout += ShowAd;
 		ScheduleNextAd();
+
+		EmitSignal(SignalName.GameStarted);
 	}
 	
 	private void ScheduleNextAd()
@@ -194,6 +198,25 @@ public partial class MainGame : Node2D
 		//pick one of those randomly and return it
 		return bestMachines[_rng.RandiRange(0, bestMachines.Count-1)];
 	}
+
+	private void RegisterNewCustomer(Customer customer)
+	{
+		LivingCustomers.Add(customer);
+	}
+
+	private void UnregisterCustomer(Customer customer)
+	{
+		if(LivingCustomers.Contains(customer))
+		{
+            LivingCustomers.Remove(customer);
+        }
+	}
+
+	private void RegisterNewMachine(Machine machine)
+	{
+		ActiveMachines.Add(machine);
+	}
+
 
 	//for testing - we'll break this up into customer logic
 	public void MoveAllCustomersToRandomOpenMachine()

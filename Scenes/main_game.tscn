@@ -37,7 +37,7 @@ size = Vector2(611, 234)
 
 [node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("LivingCustomers", "ActiveMachines", "_mDisplay")]
 script = ExtResource("1_l756w")
-LivingCustomers = [NodePath("Customer"), NodePath("Customer2"), NodePath("Customer3"), NodePath("Customer4"), NodePath("Customer5")]
+LivingCustomers = [NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath("")]
 ActiveMachines = [NodePath("Machine"), NodePath("Machine2"), NodePath("Machine3"), NodePath("Machine4")]
 _customerPrefab = ExtResource("2_pu3va")
 _machinePrefab = ExtResource("3_0e3vx")
@@ -99,6 +99,9 @@ position = Vector2(621.2289, 550.7284)
 scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("RectangleShape2D_0xqxu")
 
+[node name="CasinoEntrance" parent="." unique_id=1858262204 instance=ExtResource("12_tpqse")]
+position = Vector2(1911, 2308)
+
 [node name="ExitZone" parent="." unique_id=1638611041 instance=ExtResource("9_0xqxu")]
 position = Vector2(1910, 2621)
 
@@ -144,26 +147,8 @@ WinChance = 0.05
 [node name="Machine4" parent="." unique_id=264896314 instance=ExtResource("3_0e3vx")]
 position = Vector2(1043, 1389)
 
-[node name="Customer" parent="." unique_id=623982277 instance=ExtResource("2_pu3va")]
-position = Vector2(2164, 1499)
-_currentMoney = 250.0
-
-[node name="Customer2" parent="." unique_id=1592249952 instance=ExtResource("2_pu3va")]
-position = Vector2(2851, 1647)
-
-[node name="Customer3" parent="." unique_id=665779205 instance=ExtResource("2_pu3va")]
-position = Vector2(1561, 1873)
-_currentMoney = 1000.0
-
-[node name="Customer4" parent="." unique_id=1765008703 instance=ExtResource("2_pu3va")]
-position = Vector2(1665, 1073)
-_currentMoney = 300.0
-
-[node name="Customer5" parent="." unique_id=1921225989 instance=ExtResource("2_pu3va")]
-position = Vector2(3306, 1151)
-_currentMoney = 420.0
-
-[node name="CasinoEntrance" parent="." unique_id=1858262204 instance=ExtResource("12_tpqse")]
-position = Vector2(1911, 2308)
+[connection signal="GameStarted" from="." to="CasinoEntrance" method="SpawnStartingCustomers"]
+[connection signal="CustomerCreated" from="CasinoEntrance" to="." method="RegisterNewCustomer"]
+[connection signal="CustomerMarkedKill" from="ExitZone" to="." method="UnregisterCustomer"]
 
 [editable path="ExitZone"]
