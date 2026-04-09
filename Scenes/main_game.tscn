@@ -18,9 +18,9 @@ atlas = ExtResource("5_r0mdn")
 region = Rect2(307.00574, 433.0633, 114.06326, 112.01422)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_4rmt8"]
-vertices = PackedVector2Array(3063, 970, 3759.0703, 1808, 3509, 1808, 1276, 1687, 2629, 973, 2066.0938, 2219.2188, 2098.8516, 2219.2188, 2093.6328, 2833.2813, 1714.7813, 2829.7031, 3063, 407.72656, 3506, 406.10938, 3506, 614, 1356, 413.95313, 2163, 411.0078, 2163, 973, 1356, 814, 1713, 2219.2188, 1742.9063, 2219.2188, 2066.0938, 2030.7813, 3509, 2030.7813, 1742.9063, 2030.7813, 378, 1687, 298, 2030.7813, 298, 1808, 2629, 970, 3741.2266, 614, 1276, 1070, 61.648438, 814, 378, 1070, 88.359375, 1808)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 10, 11, 0), PackedInt32Array(12, 13, 14, 15), PackedInt32Array(8, 16, 17), PackedInt32Array(5, 8, 17, 18), PackedInt32Array(2, 19, 18, 3), PackedInt32Array(18, 17, 20), PackedInt32Array(3, 18, 20), PackedInt32Array(21, 3, 20, 22, 23), PackedInt32Array(4, 24, 0), PackedInt32Array(11, 25, 1, 0), PackedInt32Array(14, 4, 3), PackedInt32Array(15, 14, 3, 26), PackedInt32Array(27, 15, 26, 28), PackedInt32Array(29, 27, 28, 21, 23)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-26, 344, 24, 2205, 1638, 2217, 1640, 2904, 2168, 2909, 2174, 2202, 3840, 2205, 3812, 330)])
+vertices = PackedVector2Array(3063, 970, 3759.0703, 1808, 3509, 1808, 1276, 1687, 2629, 973, 2082.25, 3149.2969, 1707.4609, 3166.461, 1712.9922, 2219.2188, 1742.9063, 2219.2188, 2066.0938, 2219.2188, 2098.6875, 2219.2188, 3063, 407.72656, 3506, 406.10938, 3506, 614, 1356, 413.95313, 2163, 411.0078, 2163, 973, 1356, 814, 3509, 2030.7813, 2066.0938, 2030.7813, 1742.9063, 2030.7813, 378, 1687, 298, 2030.7813, 298, 1808, 2629, 970, 3741.2266, 614, 1276, 1070, 61.648438, 814, 378, 1070, 88.359375, 1808)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 10, 5), PackedInt32Array(9, 5, 8), PackedInt32Array(11, 12, 13, 0), PackedInt32Array(14, 15, 16, 17), PackedInt32Array(2, 18, 19, 3), PackedInt32Array(19, 9, 8, 20), PackedInt32Array(3, 19, 20), PackedInt32Array(21, 3, 20, 22, 23), PackedInt32Array(4, 24, 0), PackedInt32Array(13, 25, 1, 0), PackedInt32Array(16, 4, 3), PackedInt32Array(17, 16, 3, 26), PackedInt32Array(27, 17, 26, 28), PackedInt32Array(29, 27, 28, 21, 23)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-26, 344, 24, 2205, 1638, 2217, 1632, 3245, 2156, 3221, 2174, 2202, 3840, 2205, 3812, 330)])
 source_geometry_mode = 2
 source_geometry_group_name = &"collisionObjects"
 agent_radius = 75.0
@@ -46,7 +46,6 @@ CasinoExit = Vector2(1920, 2700)
 CasinoMoney = 5000.0
 _mDisplay = NodePath("MainUI/MoneyDisplay")
 _adScene = ExtResource("4_r0mdn")
-_allowAds = false
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]
 layer = 5

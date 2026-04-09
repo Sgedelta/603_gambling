@@ -4,6 +4,8 @@ using System;
 public partial class CasinoEntrance : Node2D
 {
 
+	[Signal] public delegate void CustomerCreatedEventHandler(Customer customer);
+
 	[Export] private PackedScene _customerScene;
 
 
@@ -29,9 +31,15 @@ public partial class CasinoEntrance : Node2D
 	{
 		if(_rng.Randf() <= _spawnChancePerTick)
 		{
-			//Create customer here
+			Customer newCust = (Customer)_customerScene.Instantiate();
 
-			//emit signal?
+			newCust.GlobalPosition = GlobalPosition;
+
+			GameManager.instance.ActiveMainGame.AddChild(newCust);
+
+            newCust.BeginWander();
+
+            EmitSignal(SignalName.CustomerCreated, newCust);
 		}
 
 

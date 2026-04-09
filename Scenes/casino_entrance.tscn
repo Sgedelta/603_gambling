@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://bjocyxmliin75"]
 
 [ext_resource type="Script" uid="uid://br2y4so2jy4rt" path="res://Scenes/CasinoEntrance.cs" id="1_3cv30"]
+[ext_resource type="PackedScene" uid="uid://cya10pgwhsewr" path="res://Scenes/customer.tscn" id="2_fqs6p"]
 
 [node name="CasinoEntrance" type="Node2D" unique_id=1858262204]
 script = ExtResource("1_3cv30")
+_customerScene = ExtResource("2_fqs6p")
 
 [node name="Timer" type="Timer" parent="." unique_id=1804657292]
 one_shot = true
