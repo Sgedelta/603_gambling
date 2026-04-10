@@ -14,6 +14,13 @@ point_count = 4
 [sub_resource type="CurveTexture" id="CurveTexture_7bw7q"]
 curve = SubResource("Curve_u5vn2")
 
+[sub_resource type="Curve" id="Curve_7bw7q"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.20945948, 1), 0.0, 0.0, 0, 0, Vector2(0.49324328, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_hmw8i"]
+curve = SubResource("Curve_7bw7q")
+
 [sub_resource type="Curve" id="Curve_th3yh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.89954334, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.4000386, 0.0, 0, 0]
 point_count = 3
@@ -32,6 +39,9 @@ initial_velocity_min = 293.78
 initial_velocity_max = 393.78
 angular_velocity_min = -160.00002
 angular_velocity_max = 159.99998
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 204.29997
+radial_velocity_curve = SubResource("CurveTexture_hmw8i")
 gravity = Vector3(0, 98, 0)
 damping_min = 6.6150002
 damping_max = 6.6150002
