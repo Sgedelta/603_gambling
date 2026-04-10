@@ -14,6 +14,10 @@ public partial class CasinoEntrance : Node2D
 	[Export] private float _spawnChancePerTick = .05f;
 	public float SpawnChancePerTick { get { return _spawnChancePerTick; } set { _spawnChancePerTick = value; }}
 
+	[Export] private float _spawnIncreasePerFail = .025f;
+	public float SpawnIncreasePerFail { get { return _spawnIncreasePerFail; } set { _spawnIncreasePerFail = value; }}
+	private int _failedSpawnAttempts = 0;
+
 	[Export] private int _gameStartedCustomerCount = 3;
 	[Export] private float _gameStartedCustomerInRate = 1;
 
@@ -54,11 +58,20 @@ public partial class CasinoEntrance : Node2D
 
 	public void TrySpawnCustomer()
 	{
-		if(_rng.Randf() <= _spawnChancePerTick)
+		//don't spawn customers over the max
+		if(GameManager.instance.ActiveMainGame.CustomerCount < GameManager.instance.ActiveMainGame.MaxCustomerCount)
 		{
-			SpawnCustomer();
-		}
-
+            //maybe we spawn?
+            if (_rng.Randf() <= _spawnChancePerTick + (_failedSpawnAttempts * _spawnIncreasePerFail))
+            {
+                SpawnCustomer();
+                _failedSpawnAttempts = 0;
+            }
+            else
+            {
+                _failedSpawnAttempts++;
+            }
+        }
 
 		_spawnTimer.Start(_spawnTickSpeed);
 

@@ -101,6 +101,7 @@ shape = SubResource("RectangleShape2D_0xqxu")
 
 [node name="CasinoEntrance" parent="." unique_id=1858262204 instance=ExtResource("12_tpqse")]
 position = Vector2(1911, 2308)
+_spawnTickSpeed = 3.0
 
 [node name="ExitZone" parent="." unique_id=1638611041 instance=ExtResource("9_0xqxu")]
 position = Vector2(1910, 2621)

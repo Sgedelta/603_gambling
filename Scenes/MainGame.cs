@@ -10,6 +10,7 @@ public partial class MainGame : Node2D
 
 	[Export] private Array<Customer> LivingCustomers = new Array<Customer>();
 	[Export] private Array<Machine> ActiveMachines = new Array<Machine>();
+	public int CustomerCount { get { return LivingCustomers.Count; } }
 
 	[Export] private PackedScene _customerPrefab;
 	[Export] private PackedScene _machinePrefab;
@@ -26,6 +27,7 @@ public partial class MainGame : Node2D
 	//EVERY customer will play this amount of games before they consider leaving (NOT Fleeing)
 	[Export] public int NumMinGames = 0;
 
+	[Export] public int MaxCustomerCount = 15;
 
 	[Export] private bool DEBUG = false;
 	
