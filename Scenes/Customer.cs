@@ -70,6 +70,9 @@ public partial class Customer : CharacterBody2D
 
 	private int _playCount = 0; //how many times we've gambled...
 
+	private bool _customerLocked = false;
+	private Vector2 _lockPosition;
+
 	[Export] public MachinePickConsiderations MachineConsiderations = 0;
 
 	[ExportGroup("")]
@@ -107,6 +110,7 @@ public partial class Customer : CharacterBody2D
 		_navAgent.TargetDesiredDistance = 5f;
 
 		_navAgent.VelocityComputed += OnVelocityComputed;
+		_navAgent.NavigationFinished += CheckNavLock;
 
 		_rng = new RandomNumberGenerator();
 		_sprite = GetNode<Sprite2D>("Display");
@@ -234,8 +238,15 @@ public partial class Customer : CharacterBody2D
 
 		//move
 
+		if(_customerLocked)
+		{
+			GlobalPosition = _lockPosition;
+			return;
+		}
+
 		if(_navAgent.IsNavigationFinished())
 		{
+
 			return;
 		}
 
@@ -491,6 +502,7 @@ public partial class Customer : CharacterBody2D
 			}
 			ActiveMachine.IsAvailable = true;
 			ActiveMachine = null;
+			UnlockCustomer();
 
 		}  
 	}
@@ -522,11 +534,31 @@ public partial class Customer : CharacterBody2D
 		//unsubscribe our listener(s)
 		//we could do this when we pick and leave a machine... but this is a bit cleaner, imo. we might leave after ANY game and we only care about it WHEN we play. so. safer! one place!
 		ActiveMachine.OnGamePlayed -= RegisterGame;
+        
 
-		//rethink life choices
-		ReevaluateGoal();
+        //rethink life choices
+        ReevaluateGoal();
 
 		_isWaitingForGame = false;
+	}
+
+	private void CheckNavLock()
+	{
+		if(CurrentGoal == CustomerGoal.GAMBLE)
+		{
+			LockCustomer(GlobalPosition);
+		}
+	}
+
+	private void LockCustomer(Vector2 pos)
+	{
+		_lockPosition = pos;
+		_customerLocked = true;
+	}
+
+	private void UnlockCustomer(bool typeFix = false)
+	{
+		_customerLocked = false;
 	}
 
 	public void OnVelocityComputed(Vector2 safeVelocity)
