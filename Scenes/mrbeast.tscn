@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://bj12erd2xdrpw"]
+
+[ext_resource type="Script" uid="uid://mfpcf0xjitjw" path="res://Scenes/MrBeast.cs" id="1_syq0r"]
+[ext_resource type="Texture2D" uid="uid://cv2gw4vmg0crb" path="res://Resources/Sprites/MrBeast.png" id="2_0og8q"]
+[ext_resource type="Texture2D" uid="uid://dv8mf3rr284nr" path="res://Resources/Sprites/single_dollar.png" id="3_th3yh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_th3yh"]
+radius = 80.280754
+
+[sub_resource type="Curve" id="Curve_u5vn2"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.31506848, 0), 0.0, 0.0, 0, 0, Vector2(0.80821913, 0.022471905), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_7bw7q"]
+curve = SubResource("Curve_u5vn2")
+
+[sub_resource type="Curve" id="Curve_th3yh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.89954334, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.4000386, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_u5vn2"]
+curve = SubResource("Curve_th3yh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u5vn2"]
+particle_flag_disable_z = true
+particle_flag_damping_as_friction = true
+angle_min = -270.0
+angle_max = 270.0
+direction = Vector3(0, -1, 0)
+spread = 60.0
+initial_velocity_min = 293.78
+initial_velocity_max = 393.78
+angular_velocity_min = -160.00002
+angular_velocity_max = 159.99998
+gravity = Vector3(0, 98, 0)
+damping_min = 6.6150002
+damping_max = 6.6150002
+damping_curve = SubResource("CurveTexture_7bw7q")
+scale_min = 0.5
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_u5vn2")
+
+[node name="Mrbeast" type="CharacterBody2D" unique_id=2083618555]
+motion_mode = 1
+script = ExtResource("1_syq0r")
+
+[node name="Display" type="Sprite2D" parent="." unique_id=1011107096]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_0og8q")
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1405226930]
+shape = SubResource("CircleShape2D_th3yh")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="." unique_id=240020175]
+target_desired_distance = 30.0
+avoidance_enabled = true
+radius = 75.0
+max_speed = 300.0
+
+[node name="MoneyParticles" type="GPUParticles2D" parent="." unique_id=2006666152]
+z_index = 5
+position = Vector2(0, -64)
+emitting = false
+amount = 100
+texture = ExtResource("3_th3yh")
+lifetime = 7.0
+speed_scale = 2.0
+process_material = SubResource("ParticleProcessMaterial_u5vn2")

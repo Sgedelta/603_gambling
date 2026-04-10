@@ -129,6 +129,9 @@ grow_horizontal = 0
 pivot_offset_ratio = Vector2(1, 0)
 text = "X"
 
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=366683848]
+radius = 200.0
+
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/CostUI/HSlider" to="." method="SetCost"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/PayoutUI/HSlider" to="." method="SetPayout"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="." method="SetWinrate"]

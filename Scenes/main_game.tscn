@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="6_bb2iq"]
 [ext_resource type="PackedScene" uid="uid://u628dtjb67e0" path="res://Scenes/exit_zone.tscn" id="9_0xqxu"]
 [ext_resource type="PackedScene" uid="uid://bjocyxmliin75" path="res://Scenes/casino_entrance.tscn" id="12_tpqse"]
+[ext_resource type="PackedScene" uid="uid://bj12erd2xdrpw" path="res://Scenes/mrbeast.tscn" id="13_c78sm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkxjs"]
 atlas = ExtResource("5_r0mdn")
@@ -100,7 +101,7 @@ scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("RectangleShape2D_0xqxu")
 
 [node name="CasinoEntrance" parent="." unique_id=1858262204 instance=ExtResource("12_tpqse")]
-position = Vector2(1911, 2308)
+position = Vector2(1920, 2300)
 _spawnTickSpeed = 3.0
 
 [node name="ExitZone" parent="." unique_id=1638611041 instance=ExtResource("9_0xqxu")]
@@ -147,6 +148,9 @@ WinChance = 0.05
 
 [node name="Machine4" parent="." unique_id=264896314 instance=ExtResource("3_0e3vx")]
 position = Vector2(1043, 1389)
+
+[node name="Mrbeast" parent="." unique_id=2083618555 instance=ExtResource("13_c78sm")]
+position = Vector2(-629, 1230)
 
 [connection signal="GameStarted" from="." to="CasinoEntrance" method="SpawnStartingCustomers"]
 [connection signal="CustomerCreated" from="CasinoEntrance" to="." method="RegisterNewCustomer"]
