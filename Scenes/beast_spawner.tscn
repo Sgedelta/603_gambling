@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bewcbu4cpph7g"]
+
+[ext_resource type="Script" uid="uid://c6qwogm32dpf6" path="res://Scenes/BeastSpawner.cs" id="1_ygo88"]
+[ext_resource type="Theme" uid="uid://bhe6vbsyx6syi" path="res://Resources/Themes/UI.tres" id="2_q5krd"]
+[ext_resource type="Texture2D" uid="uid://cwe5peqkuoie" path="res://Resources/Themes/BeastBarGradient.tres" id="2_ygo88"]
+
+[node name="BeastSpawner" type="Node2D" unique_id=765329749]
+script = ExtResource("1_ygo88")
+_beastInterval = 10.0
+_barGradient = ExtResource("2_ygo88")
+
+[node name="BeastUI" type="CanvasLayer" parent="." unique_id=999595748]
+layer = 8
+
+[node name="BeastBar" type="ProgressBar" parent="BeastUI" unique_id=1738331156]
+offset_right = 3840.0
+offset_bottom = 100.0
+size_flags_horizontal = 3
+theme = ExtResource("2_q5krd")
+show_percentage = false

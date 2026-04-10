@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bcgq8nalh30dw" path="res://Resources/Sprites/floor.png" id="4_6j5ir"]
 [ext_resource type="Script" uid="uid://dc6thgujw6e61" path="res://Scenes/MoneyDisplay.cs" id="4_73nn6"]
 [ext_resource type="PackedScene" uid="uid://bu7xcxndd43wr" path="res://Scenes/AD_LetsGoGambling.tscn" id="4_r0mdn"]
+[ext_resource type="PackedScene" uid="uid://bewcbu4cpph7g" path="res://Scenes/beast_spawner.tscn" id="5_i47ox"]
 [ext_resource type="Texture2D" uid="uid://ostfnt14d7hk" path="res://Resources/Sprites/walls.png" id="5_mgc0q"]
 [ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="5_r0mdn"]
 [ext_resource type="PackedScene" uid="uid://b2hoywkyuduhe" path="res://Scenes/plant.tscn" id="6_18r40"]
@@ -49,11 +50,15 @@ _mDisplay = NodePath("MainUI/MoneyDisplay")
 _adScene = ExtResource("4_r0mdn")
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]
-layer = 5
+layer = 15
+
+[node name="BeastSpawner" parent="MainUI" unique_id=765329749 node_paths=PackedStringArray("_mrBeast") instance=ExtResource("5_i47ox")]
+_mrBeast = NodePath("../../Mrbeast")
 
 [node name="MoneyDisplay" type="MarginContainer" parent="MainUI" unique_id=1409587683]
+offset_top = 111.0
 offset_right = 1200.0
-offset_bottom = 300.0
+offset_bottom = 411.0
 theme_override_constants/margin_left = 300
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
@@ -150,10 +155,8 @@ WinChance = 0.05
 position = Vector2(1043, 1389)
 
 [node name="Mrbeast" parent="." unique_id=2083618555 instance=ExtResource("13_c78sm")]
-position = Vector2(-629, 1230)
+position = Vector2(-775, 1104)
 
-[connection signal="GameStarted" from="." to="CasinoEntrance" method="SpawnStartingCustomers"]
-[connection signal="CustomerCreated" from="CasinoEntrance" to="." method="RegisterNewCustomer"]
 [connection signal="CustomerMarkedKill" from="ExitZone" to="." method="UnregisterCustomer"]
 
 [editable path="ExitZone"]

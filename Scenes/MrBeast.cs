@@ -42,8 +42,6 @@ public partial class MrBeast : CharacterBody2D
 
         _navAgent.VelocityComputed += OnVelocityComputed;
 
-        //DEBUG
-        TriggerMrBeast();
 
     }
 
@@ -130,6 +128,7 @@ public partial class MrBeast : CharacterBody2D
         EmitSignal(SignalName.MrBeastLeft);
 
         GD.Print("Beast Left");
+        _MrBeastIsHere = false;
 
         //send to shadow realm to not fuck with other nav agents
         GlobalPosition += new Vector2(5000, 5000);

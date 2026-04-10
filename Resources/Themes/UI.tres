@@ -1,0 +1,13 @@
+[gd_resource type="Theme" format=3 uid="uid://bhe6vbsyx6syi"]
+
+[ext_resource type="Texture2D" uid="uid://cwe5peqkuoie" path="res://Resources/Themes/BeastBarGradient.tres" id="1_jtnms"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e5i2t"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_th13g"]
+texture = ExtResource("1_jtnms")
+axis_stretch_horizontal = 1
+
+[resource]
+ProgressBar/styles/background = SubResource("StyleBoxEmpty_e5i2t")
+ProgressBar/styles/fill = SubResource("StyleBoxTexture_th13g")
