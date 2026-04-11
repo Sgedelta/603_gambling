@@ -145,15 +145,21 @@ public partial class MrBeast : CharacterBody2D
 
         mTween.TweenCallback(Callable.From(() =>
         {
-            float randAmt = _rng.RandfRange(0, Mathf.Max(25, mLeft / 3));
+            float randAmt = _rng.RandfRange(5, Mathf.Max(25, mLeft / 3));
+            randAmt = Mathf.Min(randAmt, mLeft);
 
-            GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(randAmt);
+            GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(randAmt, true);
 
             mLeft -= randAmt;
 
+            if(mLeft < 1)
+            {
+                mTween.Kill();
+            }
+
         })).SetDelay(time / 100);
 
-        mTween.Finished += () => { GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(mLeft); };
+        mTween.Finished += () => { GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(mLeft, true); };
     }
 
 }

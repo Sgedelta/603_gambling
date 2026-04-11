@@ -157,6 +157,7 @@ position = Vector2(1043, 1389)
 
 [node name="Mrbeast" parent="." unique_id=2083618555 instance=ExtResource("13_c78sm")]
 position = Vector2(-775, 1104)
+GiveAwayMoney = 3000.0
 
 [connection signal="CustomerMarkedKill" from="ExitZone" to="." method="UnregisterCustomer"]
 

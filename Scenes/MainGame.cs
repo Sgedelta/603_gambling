@@ -221,14 +221,22 @@ public partial class MainGame : Node2D
 		ActiveMachines.Add(machine);
 	}
 
-    public void GiveRandomCustomerMoney(float amount)
+    public void GiveRandomCustomerMoney(float amount, bool considerPlayer = false)
     {
         if (CustomerCount == 0)
         {
             return;
         }
 
-        LivingCustomers[_rng.RandiRange(0, CustomerCount - 1)].CurrentMoney += amount;
+		int index = _rng.RandiRange(0, CustomerCount);
+
+		if(index == CustomerCount)
+		{
+			CasinoMoney += amount;
+			return;
+		}
+
+        LivingCustomers[index].CurrentMoney += amount;
 
     }
 
