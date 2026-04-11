@@ -42,8 +42,7 @@ public partial class Machine : StaticBody2D
 
 		//customer has to spend to even play, always reduce their money by cost
 		//Adjust customer's money and casino's money
-		float custAmountPaid = Mathf.Min(c.CurrentMoney, Cost); //we cannot take money the player does not have
-		GD.Print($"cust: {c.CurrentMoney}, {Cost}");
+		float custAmountPaid = Mathf.Clamp(c.CurrentMoney, 0, Cost); //we cannot take money the player does not have, but we also cannot take negative money
         c.CurrentMoney -= Cost;
         EmitSignal(SignalName.OnCasinoMoneyChange, custAmountPaid);
 
