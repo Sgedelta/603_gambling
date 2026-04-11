@@ -697,7 +697,9 @@ public enum CustomerGoal
 	GAMBLE, //find an active machine and use it
 	WANDER, //walk around for a little
 	LEAVE,  //Leave normally, without potentially dying (not in debt)
-	FLEE    //get the FUCK out because you're in debt and don't think you can make it back
+	FLEE,   //get the FUCK out because you're in debt and don't think you can make it back
+	RELAX   //get drinks / whatever else we eventually add
+
 }
 
 [Flags]
