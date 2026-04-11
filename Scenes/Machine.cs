@@ -38,12 +38,14 @@ public partial class Machine : StaticBody2D
 
 	public async void Play(Customer c)
 	{
-        //trigger an animation or someother visual state change here...
+		//trigger an animation or someother visual state change here...
 
-        //customer has to spend to even play, always reduce their money by cost
-        //Adjust customer's money and casino's money
+		//customer has to spend to even play, always reduce their money by cost
+		//Adjust customer's money and casino's money
+		float custAmountPaid = Mathf.Min(c.CurrentMoney, Cost); //we cannot take money the player does not have
+		GD.Print($"cust: {c.CurrentMoney}, {Cost}");
         c.CurrentMoney -= Cost;
-        EmitSignal(SignalName.OnCasinoMoneyChange, Cost);
+        EmitSignal(SignalName.OnCasinoMoneyChange, custAmountPaid);
 
         //wait for game to play (could be DIRECTLY tied to animation or something, if we wanted? but this is easier for now)
         await ToSignal(GetTree().CreateTimer(PlayTime), SceneTreeTimer.SignalName.Timeout);
