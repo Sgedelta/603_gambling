@@ -10,6 +10,7 @@ public partial class MrBeast : CharacterBody2D
 
     private NavigationAgent2D _navAgent;
     [Export] public float Speed = 300.0f;
+    [Export] public float GiveAwayMoney = 1000;
     private float _movementDelta;
 
     private Vector2 _targetPos = Vector2.Zero;
@@ -21,18 +22,19 @@ public partial class MrBeast : CharacterBody2D
     }
 
     private GpuParticles2D _particles;
-	private bool _MrBeastIsHere = false;
-	private Tween _MrBeastTween;
+    private bool _MrBeastIsHere = false;
+    private Tween _MrBeastTween;
 
-	[Export] private Vector2 _MrBeastEntrancePos = new Vector2(1920, 2300);
-	[Export] private Vector2 _MrBeastMoneyThrowingPos = new Vector2(1920, 1700);
-	[Export] private Vector2 _MrBeastFinalPos = new Vector2(1920, 700);
+    [Export] private Vector2 _MrBeastEntrancePos = new Vector2(1920, 2300);
+    [Export] private Vector2 _MrBeastMoneyThrowingPos = new Vector2(1920, 1700);
+    [Export] private Vector2 _MrBeastFinalPos = new Vector2(1920, 700);
 
+    private RandomNumberGenerator _rng;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
-	{
-		_particles = GetNode<GpuParticles2D>("MoneyParticles");
+    {
+        _particles = GetNode<GpuParticles2D>("MoneyParticles");
 
         _navAgent = GetNode<NavigationAgent2D>("NavAgent");
 
@@ -42,7 +44,7 @@ public partial class MrBeast : CharacterBody2D
 
         _navAgent.VelocityComputed += OnVelocityComputed;
 
-
+        _rng = new RandomNumberGenerator();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -80,16 +82,16 @@ public partial class MrBeast : CharacterBody2D
     }
 
     public async void TriggerMrBeast()
-	{
+    {
         if (_MrBeastIsHere)
         {
             return;
         }
-		_MrBeastIsHere = true;
+        _MrBeastIsHere = true;
 
         EmitSignal(SignalName.MrBeastEntered);
 
-		GlobalPosition = _MrBeastEntrancePos;
+        GlobalPosition = _MrBeastEntrancePos;
 
         TargetPos = _MrBeastMoneyThrowingPos;
 
@@ -102,6 +104,7 @@ public partial class MrBeast : CharacterBody2D
         EmitSignal(SignalName.MrBeastActionStarted);
 
         GD.Print("Beast Throwing");
+        GiveMoneyAway(5);
 
         await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
 
@@ -133,4 +136,24 @@ public partial class MrBeast : CharacterBody2D
         //send to shadow realm to not fuck with other nav agents
         GlobalPosition += new Vector2(5000, 5000);
     }
+
+    public void GiveMoneyAway(float time)
+    {
+        float mLeft = GiveAwayMoney;
+
+        Tween mTween = CreateTween().SetLoops(100);
+
+        mTween.TweenCallback(Callable.From(() =>
+        {
+            float randAmt = _rng.RandfRange(0, Mathf.Max(25, mLeft / 3));
+
+            GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(randAmt);
+
+            mLeft -= randAmt;
+
+        })).SetDelay(time / 100);
+
+        mTween.Finished += () => { GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(mLeft); };
+    }
+
 }

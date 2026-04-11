@@ -39,6 +39,8 @@ public partial class MainGame : Node2D
 	private Timer _adTimer;
 	private bool _adPlaying = false;
 
+	[Export] private CasinoEntrance _entrance;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -53,7 +55,7 @@ public partial class MainGame : Node2D
 
 		GameManager.instance.ActiveMainGame = this;
 
-		
+		_entrance.CustomerCreated += RegisterNewCustomer;
 
 		//DEBUG TESTING PERCIEVED WINRATE
 		//LivingCustomers[0].ActiveMachine = ActiveMachines[0];
@@ -219,9 +221,20 @@ public partial class MainGame : Node2D
 		ActiveMachines.Add(machine);
 	}
 
+    public void GiveRandomCustomerMoney(float amount)
+    {
+        if (CustomerCount == 0)
+        {
+            return;
+        }
 
-	//for testing - we'll break this up into customer logic
-	public void MoveAllCustomersToRandomOpenMachine()
+        LivingCustomers[_rng.RandiRange(0, CustomerCount - 1)].CurrentMoney += amount;
+
+    }
+
+
+    //for testing - we'll break this up into customer logic
+    public void MoveAllCustomersToRandomOpenMachine()
 	{
 		//clear all machines
 		foreach(var machine in ActiveMachines)

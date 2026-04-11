@@ -37,9 +37,8 @@ region = Rect2(14, 155, 610, 250)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bb2iq"]
 size = Vector2(611, 234)
 
-[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("LivingCustomers", "ActiveMachines", "_mDisplay")]
+[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("ActiveMachines", "_mDisplay", "_entrance")]
 script = ExtResource("1_l756w")
-LivingCustomers = [null, null, null, null, null]
 ActiveMachines = [NodePath("Machine"), NodePath("Machine2"), NodePath("Machine3"), NodePath("Machine4")]
 _customerPrefab = ExtResource("2_pu3va")
 _machinePrefab = ExtResource("3_0e3vx")
@@ -48,6 +47,7 @@ CasinoExit = Vector2(1920, 3100)
 CasinoMoney = 5000.0
 _mDisplay = NodePath("MainUI/MoneyDisplay")
 _adScene = ExtResource("4_r0mdn")
+_entrance = NodePath("CasinoEntrance")
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]
 layer = 15
@@ -108,6 +108,7 @@ shape = SubResource("RectangleShape2D_0xqxu")
 [node name="CasinoEntrance" parent="." unique_id=1858262204 instance=ExtResource("12_tpqse")]
 position = Vector2(1920, 2300)
 _spawnTickSpeed = 3.0
+_gameStartedCustomerCount = 1
 
 [node name="ExitZone" parent="." unique_id=1638611041 instance=ExtResource("9_0xqxu")]
 position = Vector2(1910, 2621)

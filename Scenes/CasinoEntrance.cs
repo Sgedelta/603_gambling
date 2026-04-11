@@ -46,6 +46,13 @@ public partial class CasinoEntrance : Node2D
 		_spawnTimer.Start(_spawnTickSpeed);
 
 		_rng = new RandomNumberGenerator();
+
+		Callable.From(DelayedSetup).CallDeferred();
+	}
+
+	public void DelayedSetup()
+	{
+		SpawnStartingCustomers();
 	}
 
 	public void SpawnStartingCustomers()
