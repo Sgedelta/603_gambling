@@ -212,8 +212,8 @@ public partial class MainGame : Node2D
 	{
 		if(LivingCustomers.Contains(customer))
 		{
-            LivingCustomers.Remove(customer);
-        }
+			LivingCustomers.Remove(customer);
+		}
 	}
 
 	private void RegisterNewMachine(Machine machine)
@@ -221,12 +221,12 @@ public partial class MainGame : Node2D
 		ActiveMachines.Add(machine);
 	}
 
-    public void GiveRandomCustomerMoney(float amount, bool considerPlayer = false)
-    {
-        if (CustomerCount == 0)
-        {
-            return;
-        }
+	public void GiveRandomCustomerMoney(float amount, bool considerPlayer = false)
+	{
+		if (CustomerCount == 0)
+		{
+			return;
+		}
 
 		int index = _rng.RandiRange(0, CustomerCount);
 
@@ -236,13 +236,13 @@ public partial class MainGame : Node2D
 			return;
 		}
 
-        LivingCustomers[index].CurrentMoney += amount;
+		LivingCustomers[index].CurrentMoney += amount;
 
-    }
+	}
 
 
-    //for testing - we'll break this up into customer logic
-    public void MoveAllCustomersToRandomOpenMachine()
+	//for testing - we'll break this up into customer logic
+	public void MoveAllCustomersToRandomOpenMachine()
 	{
 		//clear all machines
 		foreach(var machine in ActiveMachines)

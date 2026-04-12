@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://u628dtjb67e0" path="res://Scenes/exit_zone.tscn" id="9_0xqxu"]
 [ext_resource type="PackedScene" uid="uid://bjocyxmliin75" path="res://Scenes/casino_entrance.tscn" id="12_tpqse"]
 [ext_resource type="PackedScene" uid="uid://bj12erd2xdrpw" path="res://Scenes/mrbeast.tscn" id="13_c78sm"]
+[ext_resource type="PackedScene" uid="uid://cukj88uy34jix" path="res://Scenes/shop.tscn" id="14_sftma"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkxjs"]
 atlas = ExtResource("5_r0mdn")
@@ -154,6 +155,9 @@ WinChance = 0.05
 
 [node name="Machine4" parent="." unique_id=264896314 instance=ExtResource("3_0e3vx")]
 position = Vector2(1043, 1389)
+
+[node name="Shop" parent="." unique_id=1065227419 instance=ExtResource("14_sftma")]
+position = Vector2(1755, 511)
 
 [node name="Mrbeast" parent="." unique_id=2083618555 instance=ExtResource("13_c78sm")]
 position = Vector2(-775, 1104)

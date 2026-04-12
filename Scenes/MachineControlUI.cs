@@ -14,10 +14,10 @@ public partial class MachineControlUI : Panel
 	{
 
 		CostSlider = GetNode<Slider>("ControlMargins/VertFlow/CostUI/HSlider");
-        PayoutSlider = GetNode<Slider>("ControlMargins/VertFlow/PayoutUI/HSlider");
-        RateSlider = GetNode<Slider>("ControlMargins/VertFlow/WinrateUI/HSlider");
+		PayoutSlider = GetNode<Slider>("ControlMargins/VertFlow/PayoutUI/HSlider");
+		RateSlider = GetNode<Slider>("ControlMargins/VertFlow/WinrateUI/HSlider");
 
-    }
+	}
 
 	public void SetAllSlidersToValues(float cost, float payout, float rate)
 	{
