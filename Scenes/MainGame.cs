@@ -28,7 +28,7 @@ public partial class MainGame : Node2D
 	[Export] public int NumMinGames = 0;
 
 	[Export] public int MaxCustomerCount = 15;
-
+	
 	[Export] private bool DEBUG = false;
 	
 	[Export] private PackedScene _adScene;
@@ -74,7 +74,7 @@ public partial class MainGame : Node2D
 		ScheduleNextAd();
 
 		EmitSignal(SignalName.GameStarted);
-	}
+    }
 	
 	private void ScheduleNextAd()
 	{

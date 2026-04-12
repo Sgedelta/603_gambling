@@ -98,8 +98,13 @@ public partial class Customer : CharacterBody2D
 	private RandomNumberGenerator _rng;
 	private Tween _rewanderTween;
 	private MoneyDisplay _moneyDisplay;
+    [Export] private Texture2D killCursor;
+	[Export] private int soulValue = 1; //do we want some customers to have varying soul values? idk
 
-	public override void _Ready()
+    [Signal] public delegate void OnCustomerKillEventHandler(int value);
+	private Sprite2D alertSprite;
+
+    public override void _Ready()
 	{
 		base._Ready();
 
@@ -117,9 +122,14 @@ public partial class Customer : CharacterBody2D
 		_moneyDisplay = GetNode<MoneyDisplay>("MoneyDisplay");
 		_moneyDisplay.Display(_currentMoney);
 
+		this.InputEvent += OnClick;
+		this.MouseEntered += OnMouseEntered;
+		this.MouseExited += OnMouseExit;
+		alertSprite = GetNode<Sprite2D>("AlertSprite");
+
 		Callable.From(DelayedSetup).CallDeferred();
 
-	}
+    }
 
 	public void DelayedSetup()
 	{
@@ -149,6 +159,55 @@ public partial class Customer : CharacterBody2D
 
 	}
 
+	//Runs when the character is clicked
+	private void OnClick(Node viewport, InputEvent clickEvent, long shapeIdx)
+	{
+		if(Input.IsMouseButtonPressed(MouseButton.Left))
+		{
+			CheckKill();
+        }
+	}
+
+	//Checks customer state and if they should uh. explode when clicked
+	private void CheckKill()
+	{
+		//If the current state isn't flee, end 
+		if (CurrentGoal != CustomerGoal.FLEE)
+		{
+			return;
+		}
+
+		//Change cursor back to normal
+		//Not entirely sure this'd count as mouse exit since thing is being destroyed
+		Input.SetCustomMouseCursor(null);
+
+		//Send signal to maingame for soul change
+		EmitSignal(SignalName.OnCustomerKill, soulValue);
+
+		//Destroy object
+		QueueFree();
+	}
+
+	private void OnMouseEntered()
+	{
+		//Can we kill this guy
+		if (CurrentGoal == CustomerGoal.FLEE)
+		{
+            //Change and center crosshair
+            Input.SetCustomMouseCursor(killCursor, Input.CursorShape.Arrow, new Vector2(25, 25));
+        }
+
+        Sprite2D alertSprite = GetNode<Sprite2D>("FleeAlert");
+        GD.Print(alertSprite);
+		alertSprite.Visible = true;
+    }
+
+	private void OnMouseExit()
+	{
+		//Resets crosshair if needed
+		Input.SetCustomMouseCursor(null);
+	}
+
 	//set values, from CasinoEntrance. INDEX MATTERS, IF YOU CHANGE INDEX, CHANGE GetCustVals()
 	public void SetupCustomerValues(Array<float> vals)
 	{
@@ -170,8 +229,8 @@ public partial class Customer : CharacterBody2D
 
 		_sprite.Modulate = _hopeGradient.Gradient.Sample(_hopeAmount);
 
-		//handle our gambling!
-		if(CurrentGoal == CustomerGoal.GAMBLE)
+        //handle our gambling!
+        if (CurrentGoal == CustomerGoal.GAMBLE)
 		{
 			//see if we have an active machine
 			//if we don't have an active machine, try to find the "best" open machine, based on our own considerations
@@ -475,6 +534,13 @@ public partial class Customer : CharacterBody2D
 		CurrentGoal = CustomerGoal.FLEE;
 		LeaveMachine();
 		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
+		
+		//Color switches to purple
+		_sprite.Modulate = new Color(255, 0, 255);
+
+		//Enable flee alert sprite
+		alertSprite.Visible = true;
+
 		Speed = FleeSpeed;
 		_navAgent.PathDesiredDistance *= 10;
 		_navAgent.TargetDesiredDistance *= 10;

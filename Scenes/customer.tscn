@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://1i2qe34y8h1m" path="res://Scenes/Customer.cs" id="1_7c3kf"]
 [ext_resource type="Texture2D" uid="uid://c5oimy6jwksxn" path="res://Resources/Misc/CustomerHopeGradient.tres" id="2_0v30w"]
 [ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_7c3kf"]
+[ext_resource type="Texture2D" uid="uid://d0sxwy1ym2loo" path="res://Resources/Sprites/crosshair.png" id="3_2o0mk"]
 [ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="4_qf3me"]
 [ext_resource type="Script" uid="uid://dc6thgujw6e61" path="res://Scenes/MoneyDisplay.cs" id="4_vkxjs"]
+[ext_resource type="Texture2D" uid="uid://jauyoi2jphmc" path="res://Resources/Sprites/alertimg.png" id="5_vkxjs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0v30w"]
 atlas = ExtResource("2_7c3kf")
@@ -19,10 +21,12 @@ region = Rect2(307.00574, 433.0633, 114.06326, 112.01422)
 
 [node name="Customer" type="CharacterBody2D" unique_id=623982277]
 y_sort_enabled = true
+input_pickable = true
 motion_mode = 1
 script = ExtResource("1_7c3kf")
 MachineConsiderations = 4
 _hopeGradient = ExtResource("2_0v30w")
+killCursor = ExtResource("3_2o0mk")
 
 [node name="Display" type="Sprite2D" parent="." unique_id=1269357853]
 scale = Vector2(1.5, 1.5)
@@ -55,3 +59,9 @@ text = "Five Dabloons"
 position = Vector2(-100, 0)
 scale = Vector2(0.8, 0.8)
 texture = SubResource("AtlasTexture_vkxjs")
+
+[node name="FleeAlert" type="Sprite2D" parent="." unique_id=736653015]
+visible = false
+position = Vector2(2, -192)
+scale = Vector2(0.55668014, 0.5243902)
+texture = ExtResource("5_vkxjs")
