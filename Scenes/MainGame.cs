@@ -20,6 +20,7 @@ public partial class MainGame : Node2D
 
 	//Casino starting money, can adjust this if needed
 	[Export] public float CasinoMoney = 100;
+	[Export] public int CasinoSouls = 0;
 
 	[Export] private MoneyDisplay _mDisplay;
 
@@ -203,9 +204,15 @@ public partial class MainGame : Node2D
 		return bestMachines[_rng.RandiRange(0, bestMachines.Count-1)];
 	}
 
+	private void AddSoul(int souls)
+	{
+		CasinoSouls += souls;
+	}
+
 	private void RegisterNewCustomer(Customer customer)
 	{
 		LivingCustomers.Add(customer);
+		customer.OnCustomerKill += AddSoul;
 	}
 
 	private void UnregisterCustomer(Customer customer)
