@@ -125,7 +125,7 @@ public partial class Customer : CharacterBody2D
 		this.InputEvent += OnClick;
 		this.MouseEntered += OnMouseEntered;
 		this.MouseExited += OnMouseExit;
-		alertSprite = GetNode<Sprite2D>("AlertSprite");
+		alertSprite = GetNode<Sprite2D>("FleeAlert");
 
 		Callable.From(DelayedSetup).CallDeferred();
 
@@ -196,10 +196,6 @@ public partial class Customer : CharacterBody2D
             //Change and center crosshair
             Input.SetCustomMouseCursor(killCursor, Input.CursorShape.Arrow, new Vector2(25, 25));
         }
-
-        Sprite2D alertSprite = GetNode<Sprite2D>("FleeAlert");
-        GD.Print(alertSprite);
-		alertSprite.Visible = true;
     }
 
 	private void OnMouseExit()
@@ -227,7 +223,11 @@ public partial class Customer : CharacterBody2D
 	{
 		base._PhysicsProcess(delta);
 
-		_sprite.Modulate = _hopeGradient.Gradient.Sample(_hopeAmount);
+		//Manually changing color in fleecasino, don't want it to be overwritten here
+		if (CurrentGoal != CustomerGoal.FLEE)
+		{
+            _sprite.Modulate = _hopeGradient.Gradient.Sample(_hopeAmount);
+        }
 
         //handle our gambling!
         if (CurrentGoal == CustomerGoal.GAMBLE)
@@ -529,17 +529,20 @@ public partial class Customer : CharacterBody2D
 		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
 	}
 
-	public void FleeCasino()
+	public async void FleeCasino()
 	{
 		CurrentGoal = CustomerGoal.FLEE;
 		LeaveMachine();
 		TargetPos = GameManager.instance.ActiveMainGame.CasinoExit;
-		
+
 		//Color switches to purple
-		_sprite.Modulate = new Color(255, 0, 255);
+		_sprite.SelfModulate = new Color(1, 0, 1);
 
 		//Enable flee alert sprite
 		alertSprite.Visible = true;
+
+		//Wait for a sec then increase speed
+		await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
 
 		Speed = FleeSpeed;
 		_navAgent.PathDesiredDistance *= 10;
