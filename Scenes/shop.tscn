@@ -1,13 +1,13 @@
-[gd_scene format=3 uid="uid://cukj88uy34jix"]
+[gd_scene format=3 uid="uid://xp1qeusf06gb"]
 
 [ext_resource type="Script" uid="uid://yygdvvain5c4" path="res://Scenes/Shop.cs" id="1_io27d"]
 [ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_fdj0q"]
-[ext_resource type="StyleBox" uid="uid://df0knh70bt6vu" path="res://Resources/Themes/panel.tres" id="3_3ps1r"]
-[ext_resource type="StyleBox" uid="uid://cc63qokjtqit" path="res://Resources/Themes/button.tres" id="3_io27d"]
-[ext_resource type="StyleBox" uid="uid://dj63skhktbdfp" path="res://Resources/Themes/button_hover.tres" id="4_k6jq0"]
-[ext_resource type="StyleBox" uid="uid://ccd1ryv66tcvy" path="res://Resources/Themes/button_press.tres" id="5_3ps1r"]
+[ext_resource type="StyleBox" path="res://Resources/Themes/panel.tres" id="3_3ps1r"]
+[ext_resource type="StyleBox" path="res://Resources/Themes/button.tres" id="3_io27d"]
+[ext_resource type="StyleBox" path="res://Resources/Themes/button_hover.tres" id="4_k6jq0"]
+[ext_resource type="StyleBox" path="res://Resources/Themes/button_press.tres" id="5_3ps1r"]
 [ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="7_ymrm4"]
-[ext_resource type="Script" uid="uid://m5fgjq4hb8d6" path="res://Scenes/ad_free_button.gd" id="8_s8dlv"]
+[ext_resource type="Script" path="res://Scenes/ad_free_button.gd" id="8_s8dlv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mg6tx"]
 atlas = ExtResource("2_fdj0q")
@@ -152,6 +152,5 @@ text = "Play Ad-free
 expand_icon = true
 script = ExtResource("8_s8dlv")
 
-[connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Drinks/CoinButton1" to="." method="Upgrade1"]
-[connection signal="pressed" from="ControlUI/VBoxContainer/AdFreeButton" to="ControlUI/VBoxContainer/AdFreeButton" method="_on_pressed"]
+[connection signal="pressed" from="ControlUI/VBoxContainer/AdFreeButton" to="." method="AdFree"]

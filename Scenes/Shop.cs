@@ -40,9 +40,11 @@ public partial class Shop : StaticBody2D
 		GD.Print("Protect Exit");
 	}
 	
-	public void Upgrade3()
+	public void AdFree()
 	{
-		GD.Print("yo");
+		var payment = GD.Load("res://Scenes/AD_Microtransaction.tscn").instantiate();
+		payment.process_mode = Node.PROCESS_MODE_ALWAYS;
+		get_tree().root.add_child(payment);
 	}
 	
 	public void NewMachine()
