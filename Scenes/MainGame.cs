@@ -215,10 +215,19 @@ public partial class MainGame : Node2D
 
 	private void UnregisterCustomer(Customer customer)
 	{
-		if(LivingCustomers.Contains(customer))
-		{
-			LivingCustomers.Remove(customer);
-		}
+		//cleans array even if customer has been removed
+        Array<Customer> CleanedCustomers = new Array<Customer>();
+        for (int i = 0; i < LivingCustomers.Count; i++)
+        {
+            if (IsInstanceValid(LivingCustomers[i]) && LivingCustomers[i] != customer)
+			{
+				CleanedCustomers.Add(LivingCustomers[i]);	
+			}
+
+        }
+		LivingCustomers = CleanedCustomers;
+
+        
 	}
 
 	private void RegisterNewMachine(Machine machine)
