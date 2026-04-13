@@ -5,6 +5,12 @@
 [ext_resource type="VideoStream" uid="uid://buwklb162844d" path="res://Resources/Videos/mr beast.ogv" id="3_m04b5"]
 [ext_resource type="Script" uid="uid://ck31x8uohw2kc" path="res://Scenes/OutsideLink.gd" id="3_njy36"]
 [ext_resource type="Script" uid="uid://d2wpv5dl10vtm" path="res://Scenes/button.gd" id="3_v8ho3"]
+[ext_resource type="VideoStream" uid="uid://b0ymdscnfppgh" path="res://Resources/Videos/ffxiv.ogv" id="4_uddys"]
+[ext_resource type="VideoStream" uid="uid://bg2oyyy22lp53" path="res://Resources/Videos/naptime.ogv" id="5_faajs"]
+[ext_resource type="VideoStream" uid="uid://cnh2y4yjugraw" path="res://Resources/Videos/zorbees.ogv" id="6_rfnkn"]
+[ext_resource type="VideoStream" uid="uid://225jjib0s4i8" path="res://Resources/Videos/deeznuts.ogv" id="7_gqkgj"]
+[ext_resource type="VideoStream" uid="uid://btojmi3mk4lvp" path="res://Resources/Videos/beastburger.ogv" id="8_senms"]
+[ext_resource type="VideoStream" uid="uid://bg3rj7jyvtr2s" path="res://Resources/Videos/kitchengun.ogv" id="9_3g780"]
 
 [sub_resource type="Theme" id="Theme_v8ho3"]
 
@@ -47,7 +53,7 @@ corner_detail = 5
 [node name="CanvasLayer" type="CanvasLayer" unique_id=767011123]
 layer = 10
 script = ExtResource("1_wa1gf")
-ad_videos = Array[VideoStream]([ExtResource("1_0b1dc"), ExtResource("3_m04b5")])
+ad_videos = Array[VideoStream]([ExtResource("1_0b1dc"), ExtResource("3_m04b5"), ExtResource("4_uddys"), ExtResource("5_faajs"), ExtResource("6_rfnkn"), ExtResource("7_gqkgj"), ExtResource("8_senms"), ExtResource("9_3g780")])
 
 [node name="Control" type="Control" parent="." unique_id=511564675]
 layout_mode = 3

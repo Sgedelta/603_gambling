@@ -47,7 +47,6 @@ public partial class MainGame : Node2D
 		_rng = new RandomNumberGenerator();
 		_mDisplay.Display(CasinoMoney);
 		
-		//hook up our inserted machines
 		foreach(Machine m in ActiveMachines)
 		{
 			m.OnCasinoMoneyChange += UpdateCasinoMoney;
@@ -72,6 +71,7 @@ public partial class MainGame : Node2D
 		AddChild(_adTimer);
 		_adTimer.Timeout += ShowAd;
 		ScheduleNextAd();
+		GD.Print("ad scheduled");
 
 		EmitSignal(SignalName.GameStarted);
 	}
@@ -81,6 +81,7 @@ public partial class MainGame : Node2D
 		float waitTime = _rng.RandfRange(_adMinWait, _adMaxWait);
 		_adTimer.WaitTime = waitTime;
 		_adTimer.Start();
+		GD.Print("waiting");
 	}
 	
 	private void ShowAd()
@@ -88,7 +89,7 @@ public partial class MainGame : Node2D
 		if (!_allowAds) return;
 		if (_adPlaying) return;
 		_adPlaying = true;
-		
+		GD.Print("showing ad");
 		GetTree().Paused = true;
 		
 		var ad = _adScene.Instantiate<CanvasLayer>();
