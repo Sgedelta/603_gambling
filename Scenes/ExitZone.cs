@@ -33,7 +33,7 @@ public partial class ExitZone : Area2D
 			return;
 		}
 
-		c.QueueFree();
+		//c.QueueFree();
 
 		if(c.CurrentGoal == CustomerGoal.FLEE)
 		{

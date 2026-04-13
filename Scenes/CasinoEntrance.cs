@@ -68,17 +68,17 @@ public partial class CasinoEntrance : Node2D
 		//don't spawn customers over the max
 		if(GameManager.instance.ActiveMainGame.CustomerCount < GameManager.instance.ActiveMainGame.MaxCustomerCount)
 		{
-            //maybe we spawn?
-            if (_rng.Randf() <= _spawnChancePerTick + (_failedSpawnAttempts * _spawnIncreasePerFail))
-            {
-                SpawnCustomer();
-                _failedSpawnAttempts = 0;
-            }
-            else
-            {
-                _failedSpawnAttempts++;
-            }
-        }
+			//maybe we spawn?
+			if (_rng.Randf() <= _spawnChancePerTick + (_failedSpawnAttempts * _spawnIncreasePerFail))
+			{
+				SpawnCustomer();
+				_failedSpawnAttempts = 0;
+			}
+			else
+			{
+				_failedSpawnAttempts++;
+			}
+		}
 
 		_spawnTimer.Start(_spawnTickSpeed);
 
@@ -86,16 +86,16 @@ public partial class CasinoEntrance : Node2D
 
 	public void SpawnCustomer()
 	{
-        Customer newCust = (Customer)_customerScene.Instantiate();
+		Customer newCust = (Customer)_customerScene.Instantiate();
 
-        newCust.GlobalPosition = GlobalPosition;
+		newCust.GlobalPosition = GlobalPosition;
 
-        newCust.SetupCustomerValues(GetCustVals());
+		newCust.SetupCustomerValues(GetCustVals());
 
-        GameManager.instance.ActiveMainGame.AddChild(newCust);
+		GameManager.instance.ActiveMainGame.AddChild(newCust);
 
-        EmitSignal(SignalName.CustomerCreated, newCust);
-    }
+		EmitSignal(SignalName.CustomerCreated, newCust);
+	}
 
 	//builds an array and sends it to customer. ORDER IS IMPORTANT.
 	//IF YOU CHANGE THE ORDER, CHANGE SETUPCUSTOMERVALUES
@@ -105,7 +105,7 @@ public partial class CasinoEntrance : Node2D
 	{
 		Array<float> vals = new Array<float>();
 
-        vals.Add(GetRandom(StartingMoney));
+		vals.Add(GetRandom(StartingMoney));
 		vals.Add(GetRandom(StartingHope));
 		vals.Add(GetRandom(StartingAddiction));
 		vals.Add(GetRandom(WinRateStr ));

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dyj52h7fxajnv"]
 
 [ext_resource type="Script" uid="uid://b6mkc4l6atpwb" path="res://Scenes/confirm_purchase_button.gd" id="1_eqo3n"]
+[ext_resource type="Script" uid="uid://hluhjbmyc15j" path="res://Scenes/close_micro.gd" id="1_kwax6"]
 [ext_resource type="Script" uid="uid://d1pa7h2cli7cx" path="res://Scenes/back_to_game_button.gd" id="2_bstut"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqo3n"]
@@ -36,7 +37,7 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [node name="Control" type="CanvasLayer" unique_id=2017079953]
-layer = 10
+layer = 16
 
 [node name="Control" type="Control" parent="." unique_id=2090151498]
 layout_mode = 3
@@ -58,18 +59,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="Control/ScrollContainer" unique_id=1236113779]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "X"
-
 [node name="VBoxContainer3" type="VBoxContainer" parent="Control/ScrollContainer" unique_id=1765821559]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
-[node name="Label" type="Label" parent="Control/ScrollContainer/VBoxContainer3" unique_id=321855778]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/ScrollContainer/VBoxContainer3" unique_id=1747314127]
+layout_mode = 2
+theme_override_constants/separation = 1500
+
+[node name="Button" type="Button" parent="Control/ScrollContainer/VBoxContainer3/HBoxContainer" unique_id=1236113779]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 60
+text = "X"
+script = ExtResource("1_kwax6")
+
+[node name="Label" type="Label" parent="Control/ScrollContainer/VBoxContainer3/HBoxContainer" unique_id=321855778]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 100
@@ -78,7 +87,7 @@ horizontal_alignment = 1
 
 [node name="CardInformation" type="FoldableContainer" parent="Control/ScrollContainer/VBoxContainer3" unique_id=1283128842]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 70
 theme_override_styles/panel = SubResource("StyleBoxFlat_eqo3n")
 title = "Card information"
 
@@ -88,56 +97,56 @@ layout_mode = 2
 [node name="Add card_" type="Label" parent="Control/ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=1939769252]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Add card."
 
 [node name="CardNumberLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=1418427144]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Card number:"
 
 [node name="CardNumber" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=751225687]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 max_length = 19
 
 [node name="ExpDateLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=1031824405]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Expiration date:"
 
 [node name="ExpDate" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=860922276]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 placeholder_text = "MM/YY"
 
 [node name="SecurityCodeLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=34667770]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Security code:"
 
 [node name="SecurityCode" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=571867043]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 max_length = 4
 
 [node name="CardNameLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=1355802363]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Name on card"
 
 [node name="CardName" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/CardInformation/VBoxContainer2" unique_id=447345776]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 max_length = 64
 
 [node name="BillingAddress" type="FoldableContainer" parent="Control/ScrollContainer/VBoxContainer3" unique_id=538281886]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 70
 theme_override_styles/panel = SubResource("StyleBoxFlat_qhmqa")
 title = "Billing Address"
 
@@ -147,13 +156,13 @@ layout_mode = 2
 [node name="Enter a billing address" type="Label" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=125819761]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Enter a billing address."
 
 [node name="FullNameLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=707545604]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Full Name:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=2130425928]
@@ -162,91 +171,91 @@ layout_mode = 2
 [node name="FirstName" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer/HBoxContainer" unique_id=218941894]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 placeholder_text = "First name"
 
 [node name="LastName" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer/HBoxContainer" unique_id=1480705442]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 placeholder_text = "Last name"
 
 [node name="Address1Label" type="Label" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1078744091]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Address line 1:"
 
 [node name="Address1" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1568698474]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 placeholder_text = "Street Address, P.O. box, company name, etc."
 
 [node name="Address2Label" type="Label" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=386719030]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Address line 2:"
 
 [node name="Address2" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1889384116]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 placeholder_text = "Apartment, suite, building, floor, etc."
 
 [node name="CityLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=737344577]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "City:"
 
 [node name="City" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=31329558]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 
 [node name="StateLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1899063737]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "State/Province/Region:"
 
 [node name="State" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1802614157]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 
 [node name="ZIPLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=2014107460]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "ZIP:"
 
 [node name="ZIP" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1094731513]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 
 [node name="CountryLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=1008675386]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Country:"
 
 [node name="Country" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=551968570]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 
 [node name="PhoneNumLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=299301973]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Phone number:"
 
 [node name="PhoneNum" type="LineEdit" parent="Control/ScrollContainer/VBoxContainer3/BillingAddress/VBoxContainer" unique_id=171777732]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 
 [node name="ConfirmPurchaseButton" type="Button" parent="Control/ScrollContainer/VBoxContainer3" unique_id=1371704215]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Confirm Purchase"
 script = ExtResource("1_eqo3n")
 
@@ -293,5 +302,6 @@ theme_override_font_sizes/font_size = 100
 text = "Back to Game"
 script = ExtResource("2_bstut")
 
+[connection signal="pressed" from="Control/ScrollContainer/VBoxContainer3/HBoxContainer/Button" to="Control/ScrollContainer/VBoxContainer3/HBoxContainer/Button" method="_on_pressed"]
 [connection signal="pressed" from="Control/ScrollContainer/VBoxContainer3/ConfirmPurchaseButton" to="Control/ScrollContainer/VBoxContainer3/ConfirmPurchaseButton" method="_on_pressed"]
 [connection signal="pressed" from="Control/ConfirmationLabel/VBoxContainer/BackToGameButton" to="Control/ConfirmationLabel/VBoxContainer/BackToGameButton" method="_on_pressed"]

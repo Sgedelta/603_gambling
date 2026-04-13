@@ -35,7 +35,7 @@ public partial class MainGame : Node2D
 	[Export] private float _adMinWait = 30f;
 	[Export] private float _adMaxWait = 60f;
 
-	[Export] private bool _allowAds = true;
+	[Export] public bool AllowAds = true;
 	private Timer _adTimer;
 	private bool _adPlaying = false;
 
@@ -71,7 +71,6 @@ public partial class MainGame : Node2D
 		AddChild(_adTimer);
 		_adTimer.Timeout += ShowAd;
 		ScheduleNextAd();
-		GD.Print("ad scheduled");
 
 		EmitSignal(SignalName.GameStarted);
 	}
@@ -81,15 +80,13 @@ public partial class MainGame : Node2D
 		float waitTime = _rng.RandfRange(_adMinWait, _adMaxWait);
 		_adTimer.WaitTime = waitTime;
 		_adTimer.Start();
-		GD.Print("waiting");
 	}
 	
 	private void ShowAd()
 	{
-		if (!_allowAds) return;
+		if (!AllowAds) return;
 		if (_adPlaying) return;
 		_adPlaying = true;
-		GD.Print("showing ad");
 		GetTree().Paused = true;
 		
 		var ad = _adScene.Instantiate<CanvasLayer>();

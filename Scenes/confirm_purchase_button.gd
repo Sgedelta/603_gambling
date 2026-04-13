@@ -32,6 +32,8 @@ func _on_pressed() -> void:
 			field.add_theme_stylebox_override("normal", _error_style())
 		return
 	get_tree().root.find_child("ConfirmationLabel", true, false).visible = true
+	GameManager.GDInstance.ActiveMainGame.AllowAds = false;
+	
 	
 func _error_style() -> StyleBoxFlat:
 	var s = StyleBoxFlat.new()
