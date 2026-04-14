@@ -23,9 +23,9 @@ public partial class CasinoEntrance : Node2D
 
 
 	[ExportGroup("Debug New Customer Controls")] //only exported for debug purposes - generally, keep these values as they are "starting" values
-	[Export] public Vector2 StartingMoney = new Vector2(50, 300);
+	[Export] public Vector2 StartingMoney = new Vector2(200, 400);
 	[Export] public Vector2 StartingHope = new Vector2(.7f, 1); //represents what customers have "heard" of the casino
-	[Export] public Vector2 StartingAddiction = new Vector2(.01f, .075f);
+	[Export] public Vector2 StartingAddiction = new Vector2(.01f, .15f);
 	[Export] public Vector2 WinRateStr = new Vector2(.05f, .15f); //How much hope effects the percieved win rate 
 	[Export] public Vector2 BorrowWillingness = new Vector2(.66f, .9f); //the MAX chance a customer willingly goes into debt (or risks it)
 	[Export] public Vector2 LeaveRateCenter = new Vector2(.25f, .5f); //the chance to leave when in wander when hope is 50%

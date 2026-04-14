@@ -19,7 +19,7 @@ public partial class MainGame : Node2D
 	[Export] public Vector2 CasinoExit = Vector2.Zero;
 
 	//Casino starting money, can adjust this if needed
-	[Export] public float CasinoMoney = 100;
+	[Export] public float CasinoMoney = 2000;
 	[Export] public int CasinoSouls = 0;
 
 	[Export] private MoneyDisplay _mDisplay;

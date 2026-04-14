@@ -45,7 +45,7 @@ _customerPrefab = ExtResource("2_pu3va")
 _machinePrefab = ExtResource("3_0e3vx")
 CasinoBounds = Rect2(0, 0, 3840, 2160)
 CasinoExit = Vector2(1920, 3100)
-CasinoMoney = 5000.0
+CasinoMoney = 2000.0
 _mDisplay = NodePath("MainUI/MoneyDisplay")
 _adScene = ExtResource("4_r0mdn")
 
@@ -141,8 +141,8 @@ position = Vector2(170, 1850)
 [node name="Machine" parent="." unique_id=1215231208 instance=ExtResource("3_0e3vx")]
 position = Vector2(2396, 675)
 Cost = 5.0
-Profit = 100.0
-WinChance = 0.05
+Profit = 10.0
+WinChance = 0.3
 
 [node name="Machine2" parent="." unique_id=282144351 instance=ExtResource("3_0e3vx")]
 position = Vector2(611, 1389)
@@ -150,8 +150,8 @@ position = Vector2(611, 1389)
 [node name="Machine3" parent="." unique_id=1295245516 instance=ExtResource("3_0e3vx")]
 position = Vector2(2830, 672)
 Cost = 5.0
-Profit = 100.0
-WinChance = 0.05
+Profit = 10.0
+WinChance = 0.3
 
 [node name="Machine4" parent="." unique_id=264896314 instance=ExtResource("3_0e3vx")]
 position = Vector2(1043, 1389)
