@@ -76,9 +76,8 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-min_value = 1.0
-max_value = 30.0
-step = 1.0
+min_value = 5.0
+step = 5.0
 value = 5.0
 
 [node name="PayoutUI" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=267073112]
@@ -97,7 +96,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 min_value = 5.0
-max_value = 100.0
 step = 5.0
 value = 10.0
 

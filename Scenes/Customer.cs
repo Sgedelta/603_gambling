@@ -162,7 +162,7 @@ public partial class Customer : CharacterBody2D
 	//Runs when the character is clicked
 	private void OnClick(Node viewport, InputEvent clickEvent, long shapeIdx)
 	{
-		if(Input.IsMouseButtonPressed(MouseButton.Left))
+		if(clickEvent.IsActionPressed("KillCustomer"))
 		{
 			CheckKill();
         }

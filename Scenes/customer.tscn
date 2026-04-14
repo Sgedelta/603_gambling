@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://1i2qe34y8h1m" path="res://Scenes/Customer.cs" id="1_7c3kf"]
 [ext_resource type="Texture2D" uid="uid://c5oimy6jwksxn" path="res://Resources/Misc/CustomerHopeGradient.tres" id="2_0v30w"]
 [ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_7c3kf"]
-[ext_resource type="Texture2D" uid="uid://d0sxwy1ym2loo" path="res://Resources/Sprites/crosshair.png" id="3_2o0mk"]
 [ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="4_qf3me"]
 [ext_resource type="Script" uid="uid://dc6thgujw6e61" path="res://Scenes/MoneyDisplay.cs" id="4_vkxjs"]
 [ext_resource type="Texture2D" uid="uid://jauyoi2jphmc" path="res://Resources/Sprites/alertimg.png" id="5_vkxjs"]
@@ -26,7 +25,6 @@ motion_mode = 1
 script = ExtResource("1_7c3kf")
 MachineConsiderations = 4
 _hopeGradient = ExtResource("2_0v30w")
-killCursor = ExtResource("3_2o0mk")
 
 [node name="Display" type="Sprite2D" parent="." unique_id=1269357853]
 scale = Vector2(1.5, 1.5)
