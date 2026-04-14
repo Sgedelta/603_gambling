@@ -45,6 +45,7 @@ public partial class Machine : StaticBody2D
 		float custAmountPaid = Mathf.Clamp(c.CurrentMoney, 0, Cost); //we cannot take money the player does not have, but we also cannot take negative money
 		c.CurrentMoney -= Cost;
 		EmitSignal(SignalName.OnCasinoMoneyChange, custAmountPaid);
+		// ADD PROFIT TO DISPLAY
 
 		//wait for game to play (could be DIRECTLY tied to animation or something, if we wanted? but this is easier for now)
 		await ToSignal(GetTree().CreateTimer(PlayTime), SceneTreeTimer.SignalName.Timeout);
@@ -56,6 +57,7 @@ public partial class Machine : StaticBody2D
 		if (win)
 		{
 			c.CurrentMoney += Profit;
+			// SUBTRACT PROFIT TO DISPLAY
 
 			//casino loses money
 			EmitSignal(SignalName.OnCasinoMoneyChange, -Profit);
