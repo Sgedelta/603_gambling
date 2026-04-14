@@ -20,6 +20,10 @@
 atlas = ExtResource("5_r0mdn")
 region = Rect2(307.00574, 433.0633, 114.06326, 112.01422)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_sftma"]
+atlas = ExtResource("5_r0mdn")
+region = Rect2(309.17578, 568.39294, 108.229126, 104.279175)
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_4rmt8"]
 vertices = PackedVector2Array(3063, 970, 3759.0703, 1808, 3509, 1808, 1276, 1687, 2629, 973, 2082.25, 3149.2969, 1707.4609, 3166.461, 1712.9922, 2219.2188, 1742.9063, 2219.2188, 2066.0938, 2219.2188, 2098.6875, 2219.2188, 3063, 407.72656, 3506, 406.10938, 3506, 614, 1356, 413.95313, 2163, 411.0078, 2163, 973, 1356, 814, 3509, 2030.7813, 2066.0938, 2030.7813, 1742.9063, 2030.7813, 378, 1687, 298, 2030.7813, 298, 1808, 2629, 970, 3741.2266, 614, 1276, 1070, 61.648438, 814, 378, 1070, 88.359375, 1808)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 10, 5), PackedInt32Array(9, 5, 8), PackedInt32Array(11, 12, 13, 0), PackedInt32Array(14, 15, 16, 17), PackedInt32Array(2, 18, 19, 3), PackedInt32Array(19, 9, 8, 20), PackedInt32Array(3, 19, 20), PackedInt32Array(21, 3, 20, 22, 23), PackedInt32Array(4, 24, 0), PackedInt32Array(13, 25, 1, 0), PackedInt32Array(16, 4, 3), PackedInt32Array(17, 16, 3, 26), PackedInt32Array(27, 17, 26, 28), PackedInt32Array(29, 27, 28, 21, 23)])
@@ -38,16 +42,17 @@ region = Rect2(14, 155, 610, 250)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bb2iq"]
 size = Vector2(611, 234)
 
-[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("ActiveMachines", "_mDisplay")]
+[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("ActiveMachines", "_mDisplay", "_sDisplay", "_entrance")]
 script = ExtResource("1_l756w")
 ActiveMachines = [NodePath("Machine"), NodePath("Machine2"), NodePath("Machine3"), NodePath("Machine4")]
 _customerPrefab = ExtResource("2_pu3va")
 _machinePrefab = ExtResource("3_0e3vx")
 CasinoBounds = Rect2(0, 0, 3840, 2160)
 CasinoExit = Vector2(1920, 3100)
-CasinoMoney = 5000.0
 _mDisplay = NodePath("MainUI/MoneyDisplay")
+_sDisplay = NodePath("MainUI/SoulDisplay")
 _adScene = ExtResource("4_r0mdn")
+_entrance = NodePath("CasinoEntrance")
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]
 layer = 15
@@ -76,6 +81,27 @@ text = "Five Dabloons"
 position = Vector2(150, 150)
 scale = Vector2(2, 2)
 texture = SubResource("AtlasTexture_vkxjs")
+
+[node name="SoulDisplay" type="MarginContainer" parent="MainUI" unique_id=747188054]
+offset_top = 350.0
+offset_right = 1200.0
+offset_bottom = 650.0
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+script = ExtResource("4_73nn6")
+
+[node name="MoneyAmount" type="Label" parent="MainUI/SoulDisplay" unique_id=1244545162]
+layout_mode = 2
+theme_override_constants/outline_size = 30
+theme_override_font_sizes/font_size = 100
+text = "Five Guy (burbur & fry)"
+
+[node name="MoneySprite" type="Sprite2D" parent="MainUI/SoulDisplay" unique_id=1773779357]
+position = Vector2(150, 150)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_sftma")
 
 [node name="NavRegion" type="NavigationRegion2D" parent="." unique_id=1726240980 groups=["collisionObjects"]]
 position = Vector2(0, 4)
@@ -140,18 +166,12 @@ position = Vector2(170, 1850)
 
 [node name="Machine" parent="." unique_id=1215231208 instance=ExtResource("3_0e3vx")]
 position = Vector2(2396, 675)
-Cost = 5.0
-Profit = 100.0
-WinChance = 0.05
 
 [node name="Machine2" parent="." unique_id=282144351 instance=ExtResource("3_0e3vx")]
 position = Vector2(611, 1389)
 
 [node name="Machine3" parent="." unique_id=1295245516 instance=ExtResource("3_0e3vx")]
 position = Vector2(2830, 672)
-Cost = 5.0
-Profit = 100.0
-WinChance = 0.05
 
 [node name="Machine4" parent="." unique_id=264896314 instance=ExtResource("3_0e3vx")]
 position = Vector2(1043, 1389)

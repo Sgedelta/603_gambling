@@ -19,10 +19,11 @@ public partial class MainGame : Node2D
 	[Export] public Vector2 CasinoExit = Vector2.Zero;
 
 	//Casino starting money, can adjust this if needed
-	[Export] public float CasinoMoney = 100;
+	[Export] public float CasinoMoney = 2000;
 	[Export] public int CasinoSouls = 0;
 
 	[Export] private MoneyDisplay _mDisplay;
+	[Export] private MoneyDisplay _sDisplay;
 
 
 	//EVERY customer will play this amount of games before they consider leaving (NOT Fleeing)
@@ -47,6 +48,7 @@ public partial class MainGame : Node2D
 	{
 		_rng = new RandomNumberGenerator();
 		_mDisplay.Display(CasinoMoney);
+		_sDisplay.Display(CasinoSouls);
 		
 		foreach(Machine m in ActiveMachines)
 		{
@@ -202,15 +204,16 @@ public partial class MainGame : Node2D
 		return bestMachines[_rng.RandiRange(0, bestMachines.Count-1)];
 	}
 
-	private void AddSoul(int souls)
+	private void UpdateCasinoSouls(int souls)
 	{
 		CasinoSouls += souls;
+		_sDisplay.Display(CasinoSouls);
 	}
 
 	private void RegisterNewCustomer(Customer customer)
 	{
 		LivingCustomers.Add(customer);
-		customer.OnCustomerKill += AddSoul;
+		customer.OnCustomerKill += UpdateCasinoSouls;
 	}
 
 	private void UnregisterCustomer(Customer customer)

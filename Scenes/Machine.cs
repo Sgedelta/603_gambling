@@ -6,9 +6,9 @@ public partial class Machine : StaticBody2D
 	//hii juliaaaa this is now some basic shit needed from customer side lmk if there's anything else ya need me for kthxbye -Sam
 	public bool IsAvailable = true;
 	public Vector2 PlayPosition { get { return _playArea.GlobalPosition; } }
-	[Export] public float Cost = 1;
+	[Export] public float Cost = 5;
 	[Export] public float Profit = 10;
-	[Export] public float WinChance = 0.1f; //Should be between 0 and 1, can adjust as needed
+	[Export] public float WinChance = 0.3f; //Should be between 0 and 1, can adjust as needed
 
 	[Export] public float PlayTime;
 
