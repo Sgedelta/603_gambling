@@ -20,15 +20,19 @@ public partial class Machine : StaticBody2D
 	private Area2D _playArea;
 
 	private MachineControlUI _control;
-	
+    private Label _label;
+	private PermDisplay _display;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 		_rng = new RandomNumberGenerator();
 		_playArea = GetNode<Area2D>("PlayArea");
 		_control = GetNode<MachineControlUI>("ControlUI");
 		_control.SetAllSlidersToValues(Cost, Profit, WinChance); //set initial states downstream
+		_label = GetNode<Label>("Label");
+		_display = GetNode<PermDisplay>("Label");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,7 +49,7 @@ public partial class Machine : StaticBody2D
 		float custAmountPaid = Mathf.Clamp(c.CurrentMoney, 0, Cost); //we cannot take money the player does not have, but we also cannot take negative money
 		c.CurrentMoney -= Cost;
 		EmitSignal(SignalName.OnCasinoMoneyChange, custAmountPaid);
-		// ADD PROFIT TO DISPLAY
+		_display.UpdateMachinePermDisplay(Cost);
 
 		//wait for game to play (could be DIRECTLY tied to animation or something, if we wanted? but this is easier for now)
 		await ToSignal(GetTree().CreateTimer(PlayTime), SceneTreeTimer.SignalName.Timeout);
@@ -57,15 +61,14 @@ public partial class Machine : StaticBody2D
 		if (win)
 		{
 			c.CurrentMoney += Profit;
-			// SUBTRACT PROFIT TO DISPLAY
 
-			//casino loses money
-			EmitSignal(SignalName.OnCasinoMoneyChange, -Profit);
-		}
+            //casino loses money
+            EmitSignal(SignalName.OnCasinoMoneyChange, -Profit);
+            _display.UpdateMachinePermDisplay(-Profit);
+        }
 
 		//Casino no longer sucks ass, returns result to player
-		EmitSignal(SignalName.OnGamePlayed, win); 
-
+		EmitSignal(SignalName.OnGamePlayed, win);
 	}
 
 	public bool IsCustomerInPlayArea(Customer c)
@@ -104,6 +107,7 @@ public partial class Machine : StaticBody2D
 	public void SetUIControlVis(bool visible)
 	{
 		_control.Visible = visible;
+		_label.Visible = !visible;
 	}
 
 

@@ -597,7 +597,7 @@ public partial class Customer : CharacterBody2D
 		ActiveMachine.Play(this);
 		await ToSignal(ActiveMachine, Machine.SignalName.OnGamePlayed);
 		//count that we played!
-		_playCount += 1; 
+		_playCount += 1;
 
 
 		//unsubscribe our listener(s)

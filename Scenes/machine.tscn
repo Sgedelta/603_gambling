@@ -3,10 +3,12 @@
 [ext_resource type="Script" uid="uid://d0mtdbaevqf4r" path="res://Scenes/Machine.cs" id="1_xuuum"]
 [ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_h612m"]
 [ext_resource type="Script" uid="uid://dbey1ghwcyljk" path="res://Scenes/MachineControlUI.cs" id="3_mg6tx"]
+[ext_resource type="Script" uid="uid://duofhrdpwbwh8" path="res://Scenes/PermDisplay.cs" id="3_v6d2l"]
 [ext_resource type="Texture2D" uid="uid://d4bttrwh1tdu" path="res://Resources/Sprites/slider select.png" id="4_de2iw"]
 [ext_resource type="Texture2D" uid="uid://dee4d32ccwu4b" path="res://Resources/Sprites/slider.png" id="5_e0cea"]
 [ext_resource type="Texture2D" uid="uid://bkufdtwds8nls" path="res://Resources/Sprites/slider deselected.png" id="6_v6d2l"]
-[ext_resource type="StyleBox" uid="uid://ddp3p0vo62f3n" path="res://Resources/Misc/slider.tres" id="7_yxjck"]
+[ext_resource type="StyleBox" uid="uid://ddp3p0vo62f3n" path="res://Resources/Themes/slider.tres" id="7_yxjck"]
+[ext_resource type="StyleBox" uid="uid://clg4fg7cy6emm" path="res://Resources/Themes/sliderFill.tres" id="9_yxjck"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mg6tx"]
 atlas = ExtResource("2_h612m")
@@ -56,25 +58,26 @@ shape = SubResource("RectangleShape2D_mg6tx")
 
 [node name="Label" type="Label" parent="." unique_id=1386840524]
 z_index = 1
-offset_left = -99.0
-offset_top = -204.0
-offset_right = 105.0
-offset_bottom = -80.0
-theme_override_font_sizes/font_size = 30
-text = "HELPPPPP"
+offset_left = -101.0
+offset_top = -199.0
+offset_right = 103.0
+offset_bottom = -75.0
+theme_override_font_sizes/font_size = 40
+text = "Net Profit
+0"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("3_v6d2l")
 
 [node name="ControlUI" type="Panel" parent="." unique_id=1833735756]
 visible = false
 z_index = 1
-offset_left = -218.0
-offset_top = -356.0
-offset_right = 201.0
-offset_bottom = 168.0
+offset_left = -206.0
+offset_top = -379.0
+offset_right = 213.0
+offset_bottom = 145.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_de2iw")
 script = ExtResource("3_mg6tx")
-theme_override_styles/panel = SubResource("StyleBoxFlat_de2iw")
 
 [node name="ControlMargins" type="MarginContainer" parent="ControlUI" unique_id=1916754401]
 layout_mode = 1
@@ -82,9 +85,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 14.0
-offset_top = -25.0
+offset_top = -7.0
 offset_right = 191.0
-offset_bottom = -25.0
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 15
@@ -115,11 +118,14 @@ theme_override_icons/grabber = ExtResource("5_e0cea")
 theme_override_icons/grabber_highlight = ExtResource("4_de2iw")
 theme_override_icons/grabber_disabled = ExtResource("6_v6d2l")
 theme_override_styles/slider = ExtResource("7_yxjck")
+theme_override_styles/grabber_area = ExtResource("9_yxjck")
+theme_override_styles/grabber_area_highlight = ExtResource("9_yxjck")
 min_value = 5.0
 step = 5.0
 value = 5.0
 
 [node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/CostUI/HSlider" unique_id=1804211930]
+visible = false
 layout_mode = 0
 offset_left = 79.0
 offset_top = 14.0
@@ -149,6 +155,8 @@ theme_override_icons/grabber = ExtResource("5_e0cea")
 theme_override_icons/grabber_highlight = ExtResource("4_de2iw")
 theme_override_icons/grabber_disabled = ExtResource("6_v6d2l")
 theme_override_styles/slider = ExtResource("7_yxjck")
+theme_override_styles/grabber_area = ExtResource("9_yxjck")
+theme_override_styles/grabber_area_highlight = ExtResource("9_yxjck")
 min_value = 5.0
 step = 5.0
 value = 10.0
@@ -172,6 +180,8 @@ theme_override_icons/grabber = ExtResource("5_e0cea")
 theme_override_icons/grabber_highlight = ExtResource("4_de2iw")
 theme_override_icons/grabber_disabled = ExtResource("6_v6d2l")
 theme_override_styles/slider = ExtResource("7_yxjck")
+theme_override_styles/grabber_area = ExtResource("9_yxjck")
+theme_override_styles/grabber_area_highlight = ExtResource("9_yxjck")
 max_value = 1.0
 step = 0.01
 value = 0.3
@@ -195,5 +205,9 @@ text = "X"
 radius = 200.0
 
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/CostUI/HSlider" to="." method="SetCost"]
+[connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/CostUI/HSlider" to="Label" method="ResetAmount"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/PayoutUI/HSlider" to="." method="SetPayout"]
+[connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/PayoutUI/HSlider" to="Label" method="ResetAmount"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="." method="SetWinrate"]
+[connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="Label" method="ResetAmount"]
+[connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]
