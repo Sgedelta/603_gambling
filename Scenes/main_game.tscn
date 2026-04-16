@@ -10,10 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://ostfnt14d7hk" path="res://Resources/Sprites/walls.png" id="5_mgc0q"]
 [ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="5_r0mdn"]
 [ext_resource type="PackedScene" uid="uid://b2hoywkyuduhe" path="res://Scenes/plant.tscn" id="6_18r40"]
-[ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="6_bb2iq"]
 [ext_resource type="PackedScene" uid="uid://u628dtjb67e0" path="res://Scenes/exit_zone.tscn" id="9_0xqxu"]
 [ext_resource type="PackedScene" uid="uid://bjocyxmliin75" path="res://Scenes/casino_entrance.tscn" id="12_tpqse"]
 [ext_resource type="PackedScene" uid="uid://bj12erd2xdrpw" path="res://Scenes/mrbeast.tscn" id="13_c78sm"]
+[ext_resource type="PackedScene" path="res://Scenes/drinks.tscn" id="13_sftma"]
 [ext_resource type="PackedScene" uid="uid://b0x8qwfnicykg" path="res://Scenes/shop.tscn" id="14_sftma"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkxjs"]
@@ -34,13 +34,6 @@ agent_radius = 75.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xqxu"]
 size = Vector2(982.7962, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_18r40"]
-atlas = ExtResource("6_bb2iq")
-region = Rect2(14, 155, 610, 250)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bb2iq"]
-size = Vector2(611, 234)
 
 [node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("ActiveMachines", "_mDisplay", "_sDisplay", "_entrance")]
 script = ExtResource("1_l756w")
@@ -147,16 +140,8 @@ scale = Vector2(3.08, 1)
 [node name="Plant" parent="." unique_id=1754925861 instance=ExtResource("6_18r40")]
 position = Vector2(3654, 375)
 
-[node name="Drinks" type="StaticBody2D" parent="." unique_id=271308323 groups=["collisionObjects"]]
-position = Vector2(667, 500)
-scale = Vector2(2, 2)
-
-[node name="Drinks" type="Sprite2D" parent="Drinks" unique_id=144548592]
-texture = SubResource("AtlasTexture_18r40")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Drinks" unique_id=1949561388]
-position = Vector2(1.5, 4.5)
-shape = SubResource("RectangleShape2D_bb2iq")
+[node name="Drinks" parent="." unique_id=1782313153 instance=ExtResource("13_sftma")]
+position = Vector2(673, 497)
 
 [node name="Plant2" parent="." unique_id=1245653000 instance=ExtResource("6_18r40")]
 position = Vector2(3657, 1850)
