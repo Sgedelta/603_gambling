@@ -1,0 +1,223 @@
+[gd_scene format=3 uid="uid://b0x8qwfnicykg"]
+
+[ext_resource type="Script" uid="uid://yygdvvain5c4" path="res://Scenes/Shop.cs" id="1_io27d"]
+[ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_fdj0q"]
+[ext_resource type="StyleBox" uid="uid://df0knh70bt6vu" path="res://Resources/Themes/panel.tres" id="3_3ps1r"]
+[ext_resource type="StyleBox" uid="uid://cc63qokjtqit" path="res://Resources/Themes/button.tres" id="3_io27d"]
+[ext_resource type="StyleBox" uid="uid://dj63skhktbdfp" path="res://Resources/Themes/button_hover.tres" id="4_k6jq0"]
+[ext_resource type="StyleBox" uid="uid://ccd1ryv66tcvy" path="res://Resources/Themes/button_press.tres" id="5_3ps1r"]
+[ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="7_ymrm4"]
+[ext_resource type="Script" uid="uid://m5fgjq4hb8d6" path="res://Scenes/ad_free_button.gd" id="8_s8dlv"]
+[ext_resource type="Theme" uid="uid://cttjx5hj1jrun" path="res://Resources/Themes/upgrade_button_theme.tres" id="8_tyrku"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg6tx"]
+atlas = ExtResource("2_fdj0q")
+region = Rect2(390.27203, 449.86795, 273.94403, 203.28006)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymrm4"]
+resource_local_to_scene = true
+resource_name = "Ghost"
+atlas = ExtResource("7_ymrm4")
+region = Rect2(302.6938, 431.89063, 121.023224, 114.70111)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8dlv"]
+resource_local_to_scene = true
+resource_name = "Ghost"
+atlas = ExtResource("7_ymrm4")
+region = Rect2(302.48917, 563.67773, 121.412506, 114.8009)
+
+[node name="Shop" type="StaticBody2D" unique_id=1215231208 groups=["collisionObjects"]]
+y_sort_enabled = true
+input_pickable = true
+script = ExtResource("1_io27d")
+
+[node name="Upgrade Sprite" type="Sprite2D" parent="." unique_id=571050210]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_mg6tx")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1314883083]
+polygon = PackedVector2Array(-263, -195, 269, -197, 271, 127, 114, 203, -118, 201, -264, 123)
+
+[node name="ControlUI" type="Panel" parent="." unique_id=455882115]
+visible = false
+z_index = 6
+offset_left = -400.0
+offset_top = 1.0
+offset_right = 400.0
+offset_bottom = 1201.0
+theme_override_styles/panel = ExtResource("3_3ps1r")
+
+[node name="CloseButton" type="Button" parent="ControlUI" unique_id=1469992155]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 0
+offset_left = 730.0
+offset_top = 10.0
+offset_right = 790.0
+offset_bottom = 75.0
+pivot_offset_ratio = Vector2(1, 0)
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = ExtResource("3_io27d")
+theme_override_styles/pressed = ExtResource("5_3ps1r")
+theme_override_styles/hover = ExtResource("4_k6jq0")
+text = "X"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlUI" unique_id=573117391]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 800.0
+offset_bottom = 1200.0
+theme_override_constants/separation = 50
+
+[node name="Drinks" type="VBoxContainer" parent="ControlUI/VBoxContainer" unique_id=1634909814]
+custom_minimum_size = Vector2(370, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Drinks" unique_id=595229490]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Lose 10 coins"
+horizontal_alignment = 1
+
+[node name="Upgrade1" type="Button" parent="ControlUI/VBoxContainer/Drinks" unique_id=1953175491]
+custom_minimum_size = Vector2(400, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("8_tyrku")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = ExtResource("3_io27d")
+theme_override_styles/pressed = ExtResource("5_3ps1r")
+theme_override_styles/hover = ExtResource("4_k6jq0")
+text = " "
+icon_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/VBoxContainer/Drinks/Upgrade1" unique_id=1211522984]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_tyrku")
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="ControlUI/VBoxContainer/Drinks/Upgrade1/HBoxContainer" unique_id=1255852399]
+layout_mode = 2
+theme = ExtResource("8_tyrku")
+texture = SubResource("AtlasTexture_ymrm4")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Drinks/Upgrade1/HBoxContainer" unique_id=704843754]
+layout_mode = 2
+theme = ExtResource("8_tyrku")
+text = "10"
+
+[node name="Bouncer" type="VBoxContainer" parent="ControlUI/VBoxContainer" unique_id=622217536]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Bouncer" unique_id=853447714]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Lose 20 coins"
+horizontal_alignment = 1
+
+[node name="Upgrade2" type="Button" parent="ControlUI/VBoxContainer/Bouncer" unique_id=92065002]
+custom_minimum_size = Vector2(400, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("8_tyrku")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = ExtResource("3_io27d")
+theme_override_styles/pressed = ExtResource("5_3ps1r")
+theme_override_styles/hover = ExtResource("4_k6jq0")
+text = " "
+icon_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/VBoxContainer/Bouncer/Upgrade2" unique_id=2094697667]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_tyrku")
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer" unique_id=329643190]
+layout_mode = 2
+theme = ExtResource("8_tyrku")
+texture = SubResource("AtlasTexture_ymrm4")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer" unique_id=2006002047]
+layout_mode = 2
+theme = ExtResource("8_tyrku")
+text = "20"
+
+[node name="NewMachine" type="VBoxContainer" parent="ControlUI/VBoxContainer" unique_id=1718169971]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/NewMachine" unique_id=1248577331]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Lose 5 souls"
+horizontal_alignment = 1
+
+[node name="Upgrade3" type="Button" parent="ControlUI/VBoxContainer/NewMachine" unique_id=387077076]
+custom_minimum_size = Vector2(400, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("8_tyrku")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = ExtResource("3_io27d")
+theme_override_styles/pressed = ExtResource("5_3ps1r")
+theme_override_styles/hover = ExtResource("4_k6jq0")
+disabled = true
+text = " "
+icon_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/VBoxContainer/NewMachine/Upgrade3" unique_id=1783508976]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_tyrku")
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="ControlUI/VBoxContainer/NewMachine/Upgrade3/HBoxContainer" unique_id=919536279]
+layout_mode = 2
+theme = ExtResource("8_tyrku")
+texture = SubResource("AtlasTexture_s8dlv")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/NewMachine/Upgrade3/HBoxContainer" unique_id=841158579]
+layout_mode = 2
+theme = ExtResource("8_tyrku")
+text = "5"
+
+[node name="AdFreeButton" type="Button" parent="ControlUI/VBoxContainer" unique_id=699478995]
+custom_minimum_size = Vector2(600, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("8_tyrku")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = ExtResource("3_io27d")
+theme_override_styles/pressed = ExtResource("5_3ps1r")
+theme_override_styles/hover = ExtResource("4_k6jq0")
+text = "Play Ad-free
+"
+expand_icon = true
+script = ExtResource("8_s8dlv")
+
+[connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]
+[connection signal="pressed" from="ControlUI/VBoxContainer/Drinks/Upgrade1" to="." method="Upgrade1"]
+[connection signal="pressed" from="ControlUI/VBoxContainer/Bouncer/Upgrade2" to="." method="Upgrade2"]
+[connection signal="pressed" from="ControlUI/VBoxContainer/AdFreeButton" to="." method="AdFree"]

@@ -19,23 +19,25 @@ public partial class MainGame : Node2D
 	[Export] public Vector2 CasinoExit = Vector2.Zero;
 
 	//Casino starting money, can adjust this if needed
-	[Export] public float CasinoMoney = 100;
+	[Export] public float CasinoMoney = 2000;
+	[Export] public int CasinoSouls = 0;
 
 	[Export] private MoneyDisplay _mDisplay;
+	[Export] private MoneyDisplay _sDisplay;
 
 
 	//EVERY customer will play this amount of games before they consider leaving (NOT Fleeing)
 	[Export] public int NumMinGames = 0;
 
 	[Export] public int MaxCustomerCount = 15;
-
+	
 	[Export] private bool DEBUG = false;
 	
 	[Export] private PackedScene _adScene;
 	[Export] private float _adMinWait = 30f;
 	[Export] private float _adMaxWait = 60f;
 
-	[Export] private bool _allowAds = true;
+	[Export] public bool AllowAds = true;
 	private Timer _adTimer;
 	private bool _adPlaying = false;
 
@@ -46,8 +48,8 @@ public partial class MainGame : Node2D
 	{
 		_rng = new RandomNumberGenerator();
 		_mDisplay.Display(CasinoMoney);
+		_sDisplay.Display(CasinoSouls);
 		
-		//hook up our inserted machines
 		foreach(Machine m in ActiveMachines)
 		{
 			m.OnCasinoMoneyChange += UpdateCasinoMoney;
@@ -85,10 +87,9 @@ public partial class MainGame : Node2D
 	
 	private void ShowAd()
 	{
-		if (!_allowAds) return;
+		if (!AllowAds) return;
 		if (_adPlaying) return;
 		_adPlaying = true;
-		
 		GetTree().Paused = true;
 		
 		var ad = _adScene.Instantiate<CanvasLayer>();
@@ -203,17 +204,33 @@ public partial class MainGame : Node2D
 		return bestMachines[_rng.RandiRange(0, bestMachines.Count-1)];
 	}
 
+	private void UpdateCasinoSouls(int souls)
+	{
+		CasinoSouls += souls;
+		_sDisplay.Display(CasinoSouls);
+	}
+
 	private void RegisterNewCustomer(Customer customer)
 	{
 		LivingCustomers.Add(customer);
+		customer.OnCustomerKill += UpdateCasinoSouls;
 	}
 
 	private void UnregisterCustomer(Customer customer)
 	{
-		if(LivingCustomers.Contains(customer))
+		//cleans array even if customer has been removed
+		Array<Customer> CleanedCustomers = new Array<Customer>();
+		for (int i = 0; i < LivingCustomers.Count; i++)
 		{
-            LivingCustomers.Remove(customer);
-        }
+			if (IsInstanceValid(LivingCustomers[i]) && LivingCustomers[i] != customer)
+			{
+				CleanedCustomers.Add(LivingCustomers[i]);	
+			}
+
+		}
+		LivingCustomers = CleanedCustomers;
+
+		
 	}
 
 	private void RegisterNewMachine(Machine machine)
@@ -221,12 +238,12 @@ public partial class MainGame : Node2D
 		ActiveMachines.Add(machine);
 	}
 
-    public void GiveRandomCustomerMoney(float amount, bool considerPlayer = false)
-    {
-        if (CustomerCount == 0)
-        {
-            return;
-        }
+	public void GiveRandomCustomerMoney(float amount, bool considerPlayer = false)
+	{
+		if (CustomerCount == 0)
+		{
+			return;
+		}
 
 		int index = _rng.RandiRange(0, CustomerCount);
 
@@ -236,13 +253,13 @@ public partial class MainGame : Node2D
 			return;
 		}
 
-        LivingCustomers[index].CurrentMoney += amount;
+		LivingCustomers[index].CurrentMoney += amount;
 
-    }
+	}
 
 
-    //for testing - we'll break this up into customer logic
-    public void MoveAllCustomersToRandomOpenMachine()
+	//for testing - we'll break this up into customer logic
+	public void MoveAllCustomersToRandomOpenMachine()
 	{
 		//clear all machines
 		foreach(var machine in ActiveMachines)

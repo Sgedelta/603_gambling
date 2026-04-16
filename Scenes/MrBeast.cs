@@ -29,6 +29,8 @@ public partial class MrBeast : CharacterBody2D
     [Export] private Vector2 _MrBeastMoneyThrowingPos = new Vector2(1920, 1700);
     [Export] private Vector2 _MrBeastFinalPos = new Vector2(1920, 700);
 
+    [Export] private bool DEBUG = false;
+
     private RandomNumberGenerator _rng;
 
     // Called when the node enters the scene tree for the first time.
@@ -95,7 +97,7 @@ public partial class MrBeast : CharacterBody2D
 
         TargetPos = _MrBeastMoneyThrowingPos;
 
-        GD.Print("Beast Entered");
+        if (DEBUG) GD.Print("Beast Entered");
 
         await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
         await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
@@ -103,7 +105,7 @@ public partial class MrBeast : CharacterBody2D
         _particles.Emitting = true;
         EmitSignal(SignalName.MrBeastActionStarted);
 
-        GD.Print("Beast Throwing");
+        if (DEBUG) GD.Print("Beast Throwing");
         GiveMoneyAway(5);
 
         await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
@@ -120,7 +122,7 @@ public partial class MrBeast : CharacterBody2D
         _particles.Emitting = false;
         EmitSignal(SignalName.MrBeastActionEnded);
 
-        GD.Print("Beast Stopped Throwing");
+        if (DEBUG) GD.Print("Beast Stopped Throwing");
 
         await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
 
@@ -130,7 +132,7 @@ public partial class MrBeast : CharacterBody2D
         await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout); //to allow particles to disappear
         EmitSignal(SignalName.MrBeastLeft);
 
-        GD.Print("Beast Left");
+        if (DEBUG) GD.Print("Beast Left");
         _MrBeastIsHere = false;
 
         //send to shadow realm to not fuck with other nav agents

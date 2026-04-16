@@ -9,8 +9,14 @@ public partial class GameManager : Node
 
 
 	public MainGame ActiveMainGame;
-
-
+	public bool AllowAds = true;
+	[Signal] public delegate void AdFreePurchasedEventHandler();
+	
+	public void PurchaseAdFree()
+	{
+		AllowAds = false;
+		EmitSignal(SignalName.AdFreePurchased);
+	}
 
 	public override void _EnterTree()
 	{

@@ -23,9 +23,9 @@ public partial class CasinoEntrance : Node2D
 
 
 	[ExportGroup("Debug New Customer Controls")] //only exported for debug purposes - generally, keep these values as they are "starting" values
-	[Export] public Vector2 StartingMoney = new Vector2(50, 300);
+	[Export] public Vector2 StartingMoney = new Vector2(200, 400);
 	[Export] public Vector2 StartingHope = new Vector2(.7f, 1); //represents what customers have "heard" of the casino
-	[Export] public Vector2 StartingAddiction = new Vector2(.01f, .075f);
+	[Export] public Vector2 StartingAddiction = new Vector2(.01f, .15f);
 	[Export] public Vector2 WinRateStr = new Vector2(.05f, .15f); //How much hope effects the percieved win rate 
 	[Export] public Vector2 BorrowWillingness = new Vector2(.66f, .9f); //the MAX chance a customer willingly goes into debt (or risks it)
 	[Export] public Vector2 LeaveRateCenter = new Vector2(.25f, .5f); //the chance to leave when in wander when hope is 50%
@@ -68,17 +68,17 @@ public partial class CasinoEntrance : Node2D
 		//don't spawn customers over the max
 		if(GameManager.instance.ActiveMainGame.CustomerCount < GameManager.instance.ActiveMainGame.MaxCustomerCount)
 		{
-            //maybe we spawn?
-            if (_rng.Randf() <= _spawnChancePerTick + (_failedSpawnAttempts * _spawnIncreasePerFail))
-            {
-                SpawnCustomer();
-                _failedSpawnAttempts = 0;
-            }
-            else
-            {
-                _failedSpawnAttempts++;
-            }
-        }
+			//maybe we spawn?
+			if (_rng.Randf() <= _spawnChancePerTick + (_failedSpawnAttempts * _spawnIncreasePerFail))
+			{
+				SpawnCustomer();
+				_failedSpawnAttempts = 0;
+			}
+			else
+			{
+				_failedSpawnAttempts++;
+			}
+		}
 
 		_spawnTimer.Start(_spawnTickSpeed);
 
@@ -86,16 +86,16 @@ public partial class CasinoEntrance : Node2D
 
 	public void SpawnCustomer()
 	{
-        Customer newCust = (Customer)_customerScene.Instantiate();
+		Customer newCust = (Customer)_customerScene.Instantiate();
 
-        newCust.GlobalPosition = GlobalPosition;
+		newCust.GlobalPosition = GlobalPosition;
 
-        newCust.SetupCustomerValues(GetCustVals());
+		newCust.SetupCustomerValues(GetCustVals());
 
-        GameManager.instance.ActiveMainGame.AddChild(newCust);
+		GameManager.instance.ActiveMainGame.AddChild(newCust);
 
-        EmitSignal(SignalName.CustomerCreated, newCust);
-    }
+		EmitSignal(SignalName.CustomerCreated, newCust);
+	}
 
 	//builds an array and sends it to customer. ORDER IS IMPORTANT.
 	//IF YOU CHANGE THE ORDER, CHANGE SETUPCUSTOMERVALUES
@@ -105,7 +105,7 @@ public partial class CasinoEntrance : Node2D
 	{
 		Array<float> vals = new Array<float>();
 
-        vals.Add(GetRandom(StartingMoney));
+		vals.Add(GetRandom(StartingMoney));
 		vals.Add(GetRandom(StartingHope));
 		vals.Add(GetRandom(StartingAddiction));
 		vals.Add(GetRandom(WinRateStr ));

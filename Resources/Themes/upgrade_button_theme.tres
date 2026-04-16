@@ -1,0 +1,13 @@
+[gd_resource type="Theme" format=3 uid="uid://cttjx5hj1jrun"]
+
+[ext_resource type="StyleBox" uid="uid://dj63skhktbdfp" path="res://Resources/Themes/button_hover.tres" id="1_mq6sw"]
+[ext_resource type="StyleBox" uid="uid://cc63qokjtqit" path="res://Resources/Themes/button.tres" id="2_b6nvl"]
+[ext_resource type="StyleBox" uid="uid://ccd1ryv66tcvy" path="res://Resources/Themes/button_press.tres" id="3_b6f3x"]
+
+[resource]
+Button/font_sizes/font_size = 50
+Button/styles/hover = ExtResource("1_mq6sw")
+Button/styles/normal = ExtResource("2_b6nvl")
+Button/styles/pressed = ExtResource("3_b6f3x")
+HBoxContainer/constants/separation = 25
+Label/font_sizes/font_size = 70
