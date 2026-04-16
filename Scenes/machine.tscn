@@ -7,8 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://d4bttrwh1tdu" path="res://Resources/Sprites/slider select.png" id="4_de2iw"]
 [ext_resource type="Texture2D" uid="uid://dee4d32ccwu4b" path="res://Resources/Sprites/slider.png" id="5_e0cea"]
 [ext_resource type="Texture2D" uid="uid://bkufdtwds8nls" path="res://Resources/Sprites/slider deselected.png" id="6_v6d2l"]
-[ext_resource type="StyleBox" uid="uid://ddp3p0vo62f3n" path="res://Resources/Themes/slider.tres" id="7_yxjck"]
-[ext_resource type="StyleBox" uid="uid://clg4fg7cy6emm" path="res://Resources/Themes/sliderFill.tres" id="9_yxjck"]
+[ext_resource type="StyleBox" path="res://Resources/Themes/slider.tres" id="7_yxjck"]
+[ext_resource type="StyleBox" path="res://Resources/Themes/sliderFill.tres" id="9_yxjck"]
+[ext_resource type="StyleBox" uid="uid://ccd1ryv66tcvy" path="res://Resources/Themes/button_press.tres" id="10_axvhy"]
+[ext_resource type="StyleBox" uid="uid://dj63skhktbdfp" path="res://Resources/Themes/button_hover.tres" id="11_uiud8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mg6tx"]
 atlas = ExtResource("2_h612m")
@@ -199,6 +201,8 @@ grow_horizontal = 0
 pivot_offset_ratio = Vector2(1, 0)
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_e0cea")
+theme_override_styles/pressed = ExtResource("10_axvhy")
+theme_override_styles/hover = ExtResource("11_uiud8")
 text = "X"
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=366683848]
