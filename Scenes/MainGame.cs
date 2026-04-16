@@ -76,7 +76,7 @@ public partial class MainGame : Node2D
 		ScheduleNextAd();
 
 		EmitSignal(SignalName.GameStarted);
-    }
+	}
 	
 	private void ScheduleNextAd()
 	{
@@ -219,18 +219,18 @@ public partial class MainGame : Node2D
 	private void UnregisterCustomer(Customer customer)
 	{
 		//cleans array even if customer has been removed
-        Array<Customer> CleanedCustomers = new Array<Customer>();
-        for (int i = 0; i < LivingCustomers.Count; i++)
-        {
-            if (IsInstanceValid(LivingCustomers[i]) && LivingCustomers[i] != customer)
+		Array<Customer> CleanedCustomers = new Array<Customer>();
+		for (int i = 0; i < LivingCustomers.Count; i++)
+		{
+			if (IsInstanceValid(LivingCustomers[i]) && LivingCustomers[i] != customer)
 			{
 				CleanedCustomers.Add(LivingCustomers[i]);	
 			}
 
-        }
+		}
 		LivingCustomers = CleanedCustomers;
 
-        
+		
 	}
 
 	private void RegisterNewMachine(Machine machine)
