@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://duofhrdpwbwh8" path="res://Scenes/PermDisplay.cs" id="3_v6d2l"]
 [ext_resource type="Texture2D" uid="uid://d4bttrwh1tdu" path="res://Resources/Sprites/slider select.png" id="4_de2iw"]
 [ext_resource type="Texture2D" uid="uid://dee4d32ccwu4b" path="res://Resources/Sprites/slider.png" id="5_e0cea"]
+[ext_resource type="Script" uid="uid://nxkij1okaop0" path="res://Scenes/label_updater.gd" id="5_uiud8"]
 [ext_resource type="Texture2D" uid="uid://bkufdtwds8nls" path="res://Resources/Sprites/slider deselected.png" id="6_v6d2l"]
 [ext_resource type="StyleBox" path="res://Resources/Themes/slider.tres" id="7_yxjck"]
 [ext_resource type="StyleBox" path="res://Resources/Themes/sliderFill.tres" id="9_yxjck"]
@@ -88,7 +89,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 14.0
 offset_top = -7.0
-offset_right = 191.0
+offset_right = -8.0
 offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -97,19 +98,30 @@ theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 30
 
-[node name="VertFlow" type="VFlowContainer" parent="ControlUI/ControlMargins" unique_id=487832412]
+[node name="VertFlow" type="VBoxContainer" parent="ControlUI/ControlMargins" unique_id=713648261]
 layout_mode = 2
-theme_override_constants/v_separation = 40
 
 [node name="CostUI" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=561254894]
-custom_minimum_size = Vector2(370, 0)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/CostUI" unique_id=122060906]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/ControlMargins/VertFlow/CostUI" unique_id=519971106]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/CostUI/HBoxContainer" unique_id=122060906]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "MACHINE COST"
+
+[node name="Val Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/CostUI/HBoxContainer" unique_id=1809728815]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "XXXX"
+horizontal_alignment = 2
+script = ExtResource("5_uiud8")
+prefix = "$"
+type = 1
 
 [node name="HSlider" type="HSlider" parent="ControlUI/ControlMargins/VertFlow/CostUI" unique_id=1756085607]
 custom_minimum_size = Vector2(0, 30)
@@ -143,10 +155,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/PayoutUI" unique_id=546004623]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/ControlMargins/VertFlow/PayoutUI" unique_id=2116081669]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/PayoutUI/HBoxContainer" unique_id=546004623]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "MACHINE PAYOUT"
+
+[node name="Val Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/PayoutUI/HBoxContainer" unique_id=2048342457]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "XXXX"
+horizontal_alignment = 2
+script = ExtResource("5_uiud8")
+prefix = "$"
+type = 1
 
 [node name="HSlider" type="HSlider" parent="ControlUI/ControlMargins/VertFlow/PayoutUI" unique_id=1674680438]
 custom_minimum_size = Vector2(0, 30)
@@ -168,10 +193,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/WinrateUI" unique_id=1044295538]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/ControlMargins/VertFlow/WinrateUI" unique_id=1344268382]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/WinrateUI/HBoxContainer" unique_id=1044295538]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "MACHINE WINRATE"
+
+[node name="Val Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/WinrateUI/HBoxContainer" unique_id=1390528275]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "XXXX"
+horizontal_alignment = 2
+script = ExtResource("5_uiud8")
+type = 2
+float_precision = 0
 
 [node name="HSlider" type="HSlider" parent="ControlUI/ControlMargins/VertFlow/WinrateUI" unique_id=661855893]
 custom_minimum_size = Vector2(0, 30)
@@ -210,8 +248,11 @@ radius = 200.0
 
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/CostUI/HSlider" to="." method="SetCost"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/CostUI/HSlider" to="Label" method="ResetAmount"]
+[connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/CostUI/HSlider" to="ControlUI/ControlMargins/VertFlow/CostUI/HBoxContainer/Val Label" method="set_formatted_text"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/PayoutUI/HSlider" to="." method="SetPayout"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/PayoutUI/HSlider" to="Label" method="ResetAmount"]
+[connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/PayoutUI/HSlider" to="ControlUI/ControlMargins/VertFlow/PayoutUI/HBoxContainer/Val Label" method="set_formatted_text"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="." method="SetWinrate"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="Label" method="ResetAmount"]
+[connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="ControlUI/ControlMargins/VertFlow/WinrateUI/HBoxContainer/Val Label" method="set_formatted_text"]
 [connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]
