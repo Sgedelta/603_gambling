@@ -43,12 +43,16 @@ public partial class MainGame : Node2D
 
 	[Export] private CasinoEntrance _entrance;
 
+	public Drinks Bar;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_rng = new RandomNumberGenerator();
 		_mDisplay.Display(CasinoMoney);
 		_sDisplay.Display(CasinoSouls);
+
+		Bar = GetNode<Drinks>("Drinks");
 		
 		foreach(Machine m in ActiveMachines)
 		{

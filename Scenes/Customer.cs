@@ -47,9 +47,9 @@ public partial class Customer : CharacterBody2D
 	[Export] private float _distUnit = 200;
 	[Export] private float _distStr = 1;
 
-
 	[ExportSubgroup("")]
-
+	[Export] public float Alcoholism = .2f; //chance of a gambler to decide to get a drink instead of gambling at AlcoholismMinHope & below
+	[Export] public float AlcoholismMinHope = .3f; 
 	[Export] public float Indecisiveness = .2f; //chance of a gambler to wander again when leaving wander state
 
 
@@ -416,6 +416,12 @@ public partial class Customer : CharacterBody2D
 
 				break;
 
+			case CustomerGoal.RELAX:
+				//if we're Relaxing, we need to just go to wander
+
+				break;
+
+
 			case CustomerGoal.WANDER:
 				//if we're wandering, we either just entered or we left a machine for some reason. We need to analyze what we want to do.
 
@@ -439,6 +445,18 @@ public partial class Customer : CharacterBody2D
 						GD.Print($"[C] {Name}: Gambling again because we're addicted to it anyway");
 					}
 					CurrentGoal = CustomerGoal.GAMBLE;
+					return;
+				}
+
+				//maybe we just need to chill out and relax...
+				float relaxChance = Mathf.Lerp(Alcoholism, 0, Mathf.InverseLerp(AlcoholismMinHope, 1, _hopeAmount));
+				if (_rng.Randf() <= relaxChance)
+				{
+					if(DEBUG)
+					{
+                        GD.Print($"[C] {Name}: Going to get a drink because this shit SUCKS dude I had a {relaxChance}% chance of doing this");
+                    }
+					GetDrink();
 					return;
 				}
 
@@ -556,7 +574,27 @@ public partial class Customer : CharacterBody2D
 		GetTree().CreateTimer(_wanderTime).Timeout += ReevaluateGoal;
 	}
 
-	private bool RandomAddictionCheck(float otherConsideration = 0)
+	public async void GetDrink()
+	{
+		LeaveMachine();
+		CurrentGoal = CustomerGoal.RELAX;
+
+		if(!GameManager.instance.ActiveMainGame.Bar.IsOpen)
+		{
+			ReevaluateGoal();
+			return;
+		}
+
+		TargetPos = GameManager.instance.ActiveMainGame.Bar.GetRandomLocForCust();
+
+		//go to bar
+        await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
+
+		GameManager.instance.ActiveMainGame.Bar.BuyDrink(this); //this reevaluates goal for us after a time
+
+    }
+
+    private bool RandomAddictionCheck(float otherConsideration = 0)
 	{
 		return _rng.Randf() <= Mathf.Max(_addictionStrength, otherConsideration);
 	}
@@ -678,7 +716,7 @@ public partial class Customer : CharacterBody2D
 	{
 		if (!_machineWinRates.ContainsKey(m) || _machineWinRates[m].Count < MIN_PLAYS_TO_GUESS_RATE)
 		{
-			return 1; //assume the machine is good
+			return Mathf.Lerp(.5f, 1, _hopeAmount); //assume the machine is some level of good, based on hope
 		}
 
 		float percievedWins = 0;

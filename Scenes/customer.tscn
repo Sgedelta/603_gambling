@@ -24,6 +24,7 @@ y_sort_enabled = true
 input_pickable = true
 motion_mode = 1
 script = ExtResource("1_7c3kf")
+Alcoholism = 0.25
 MachineConsiderations = 4
 _hopeGradient = ExtResource("2_0v30w")
 killCursor = ExtResource("3_2o0mk")
