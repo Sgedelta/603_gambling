@@ -3,9 +3,13 @@
 [ext_resource type="Script" uid="uid://1i2qe34y8h1m" path="res://Scenes/Customer.cs" id="1_7c3kf"]
 [ext_resource type="Texture2D" uid="uid://c5oimy6jwksxn" path="res://Resources/Misc/CustomerHopeGradient.tres" id="2_0v30w"]
 [ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_7c3kf"]
+[ext_resource type="Curve" uid="uid://cb20qk0yo1pq4" path="res://Resources/Curves/CustomerLeaveLowHope.tres" id="2_t5tqw"]
+[ext_resource type="Curve" uid="uid://ccdbaj70faqhf" path="res://Resources/Curves/CustomerLeaveHighHope.tres" id="3_2nln4"]
 [ext_resource type="Texture2D" uid="uid://d0sxwy1ym2loo" path="res://Resources/Sprites/crosshair.png" id="3_2o0mk"]
+[ext_resource type="Curve" uid="uid://bhli4uymu12f0" path="res://Resources/Curves/CustomerFleeLowHope.tres" id="4_o7qao"]
 [ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="4_qf3me"]
 [ext_resource type="Script" uid="uid://dc6thgujw6e61" path="res://Scenes/MoneyDisplay.cs" id="4_vkxjs"]
+[ext_resource type="Curve" uid="uid://wgs0dv5afqge" path="res://Resources/Curves/CustomerFleeHighHope.tres" id="5_glosv"]
 [ext_resource type="Texture2D" uid="uid://jauyoi2jphmc" path="res://Resources/Sprites/alertimg.png" id="5_vkxjs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0v30w"]
@@ -24,6 +28,10 @@ y_sort_enabled = true
 input_pickable = true
 motion_mode = 1
 script = ExtResource("1_7c3kf")
+_lowHopeLeaveCurve = ExtResource("2_t5tqw")
+_highHopeLeaveCurve = ExtResource("3_2nln4")
+_lowHopeFleeCurve = ExtResource("4_o7qao")
+_highHopeFleeCurve = ExtResource("5_glosv")
 Alcoholism = 0.25
 MachineConsiderations = 4
 _hopeGradient = ExtResource("2_0v30w")

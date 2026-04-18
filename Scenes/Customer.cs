@@ -47,6 +47,13 @@ public partial class Customer : CharacterBody2D
 	[Export] private float _distUnit = 200;
 	[Export] private float _distStr = 1;
 
+	[ExportSubgroup("Leave and Flee Curves")]
+	[Export] private Curve _lowHopeLeaveCurve;
+	[Export] private Curve _highHopeLeaveCurve;
+	[Export] private Curve _lowHopeFleeCurve;
+	[Export] private Curve _highHopeFleeCurve;
+
+
 	[ExportSubgroup("")]
 	[Export] public float Alcoholism = .2f; //chance of a gambler to decide to get a drink instead of gambling at AlcoholismMinHope & below
 	[Export] public float AlcoholismMinHope = .3f; 
@@ -471,52 +478,34 @@ public partial class Customer : CharacterBody2D
 					return;
 				}
 
-				//case 1: we've made profit
-				//consider leaving? if our hope is low, we should leave, otherwise we should stay
+				//Get Leave and Flee chances
+				Vector2 leaveAndFlee = GetCurrentLeaveAndFleeChances();
+				float leaveFleeRoll = _rng.Randf();
 
-				//case 2: we're at our break even
-				//again consider leaving, but if our hope is low we should REALLY consider leaving. With high hope we should REALLY consider staying
-
-				//case 3: we're at a loss
-				//again consider leaving, but if our hope is low we should ABSOLUTELY consider leaving. with high hope we should ABSOLUTELY stay!! we can make it back!!
-
-				//case 4: we're in debt
-				//oh shit. oh fuck. either we can make it back or we need to FLEE.
-				//THIS CASE IS HANDLED IN GAMBLE. We should ALWAYS decide if we flee from where we make/lose money.
-
-				//cases 1-3 are similar enough to have one calculation, which is then scaled based on how we're doing.
-				//people who make profit are at their break even are the most "indecisve" - hope does not affect them greatly either way
-				//people in deep loss or great profit are more "impulsive" - with low hope, they are more likely to leave. with high hope, they are more likely to stay
-
-				//this falls on a sigmoid curve, which is then clamped
-				//how strong the decision is. A value closer to 0 is "flatter", higher values result in a "steeper" version
-				float EarnAbs = Mathf.Abs(CurrentEarningPercent);
-				float decisionStrength = Mathf.Pow(Mathf.Abs(Mathf.Log(EarnAbs + 1)), EarnAbs + 1); //don't ask, it just works...
-				//the chance of leaving
-				float leaveChance = Mathf.Clamp((-1.0f * (Mathf.Log(_hopeAmount / (1 - _hopeAmount)) * decisionStrength)) + HopeLeaveRateStrength, 0, 1);
-
-				//if we're going to leave, do it
-				if(_rng.Randf() <= leaveChance)
+				//first, check flee
+				if( leaveFleeRoll <= leaveAndFlee.Y)
 				{
-					if (DEBUG)
-					{
-						GD.Print($"[C] {Name}: Leaving because we rolled below our leave chance of {leaveChance}");
-					}
-					
+                    if (DEBUG)
+                    {
+                        GD.Print($"[C] {Name}: Fleeing because we rolled below our flee chance of {leaveAndFlee.Y} | {leaveAndFlee}");
+                    }
+					FleeCasino();
+					return;
+                }
+				//then check leave
+				else if(leaveFleeRoll <= leaveAndFlee.X) 
+				{
+                    if (DEBUG)
+                    {
+                        GD.Print($"[C] {Name}: Leaving because we rolled below our leave chance of {leaveAndFlee.X} | {leaveAndFlee}");
+                    }
 					LeaveCasino();
 					return;
-				}
-				else
-				{
-					if (DEBUG)
-					{
-						GD.Print($"[C] {Name}: Gambling because there's nothing else to do! leave chance was {leaveChance} | {decisionStrength}");
-					}
-					CurrentGoal = CustomerGoal.GAMBLE;
-					return;
-				}
+                }
 
-				break; //yes, i know, unreachable. just preventing in case there's ever further states.
+				//otherwise, gamble!
+				CurrentGoal = CustomerGoal.GAMBLE;
+				return;
 		}
 
 
@@ -796,6 +785,30 @@ public partial class Customer : CharacterBody2D
 
 		return rating;
 	}
+
+	/// <summary>
+	/// Calculates the current leave and flee chances based on earning % and hope. Returns a vec2, where X is leave and Y is flee.
+	/// </summary>
+	/// <returns>A vec 2, where X is leave chance and Y is flee chance</returns>
+	public Vector2 GetCurrentLeaveAndFleeChances()
+	{
+		//sample all 4 curves based on CurrentEarningPercent
+		float lowFlee = _lowHopeFleeCurve.Sample(
+			Mathf.Clamp(CurrentEarningPercent, _lowHopeFleeCurve.MinDomain, _lowHopeFleeCurve.MaxDomain));
+        float highFlee = _highHopeFleeCurve.Sample(
+            Mathf.Clamp(CurrentEarningPercent, _highHopeFleeCurve.MinDomain, _highHopeFleeCurve.MaxDomain));
+        float lowLeave = _lowHopeLeaveCurve.Sample(
+			Mathf.Clamp(CurrentEarningPercent, _lowHopeLeaveCurve.MinDomain, _lowHopeLeaveCurve.MaxDomain));
+        float highLeave = _highHopeLeaveCurve.Sample(
+			Mathf.Clamp(CurrentEarningPercent, _highHopeLeaveCurve.MinDomain, _highHopeLeaveCurve.MaxDomain));
+
+		//lerp based on hope
+		float flee  = Mathf.Lerp(lowFlee,  highFlee,  _hopeAmount);
+		float leave = Mathf.Lerp(lowLeave, highLeave, _hopeAmount);
+
+		return new Vector2(leave, flee);
+
+    }
 
 }
 
