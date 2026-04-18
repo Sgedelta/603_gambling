@@ -45,6 +45,7 @@ CasinoExit = Vector2(1920, 3100)
 _mDisplay = NodePath("MainUI/MoneyDisplay")
 _sDisplay = NodePath("MainUI/SoulDisplay")
 _adScene = ExtResource("4_r0mdn")
+AllowAds = false
 _entrance = NodePath("CasinoEntrance")
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]

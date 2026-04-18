@@ -218,6 +218,7 @@ public partial class MainGame : Node2D
 	{
 		LivingCustomers.Add(customer);
 		customer.OnCustomerKill += UpdateCasinoSouls;
+		customer.OnCustomerKill += (souls) => { UnregisterCustomer(customer); }; //make sure we stop tracking that cust
 	}
 
 	private void UnregisterCustomer(Customer customer)
@@ -244,16 +245,18 @@ public partial class MainGame : Node2D
 
 	public void GiveRandomCustomerMoney(float amount, bool considerPlayer = false)
 	{
-		if (CustomerCount == 0)
+		int ConsiderationCount = CustomerCount + (considerPlayer ? 1 : 0);
+
+		if (ConsiderationCount == 0)
 		{
 			return;
 		}
 
-		int index = _rng.RandiRange(0, CustomerCount);
+		int index = _rng.RandiRange(0, ConsiderationCount - 1);
 
-		if(index == CustomerCount)
+        if (index == CustomerCount)
 		{
-			CasinoMoney += amount;
+			UpdateCasinoMoney(amount);
 			return;
 		}
 
