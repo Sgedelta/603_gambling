@@ -25,8 +25,8 @@ atlas = ExtResource("5_r0mdn")
 region = Rect2(309.17578, 568.39294, 108.229126, 104.279175)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_4rmt8"]
-vertices = PackedVector2Array(3063, 970, 3759.0703, 1808, 3509, 1808, 1276, 1687, 2629, 973, 2082.25, 3149.2969, 1707.4609, 3166.461, 1712.9922, 2219.2188, 1742.9063, 2219.2188, 2099.2969, 358.2578, 2124.8594, 357.70313, 2123.3906, 411.15625, 2101.289, 680.8828, 1416.4688, 413.71875, 1414.2031, 373.28125, 1416.7969, 373.21875, 1415.8594, 674.8906, 2066.0938, 2219.2188, 2098.6875, 2219.2188, 1356, 413.9375, 1356, 814, 1617.9219, 782.84375, 1276, 1070, 2163, 411.0078, 2163, 973, 1885.8906, 785.14844, 3063, 407.72656, 3506, 406.10938, 3506, 614, 2629, 970, 3509, 2030.7813, 2066.0938, 2030.7813, 1742.9063, 2030.7813, 378, 1687, 298, 2030.7813, 298, 1808, 3741.2266, 614, 61.648438, 814, 378, 1070, 88.359375, 1808)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 10, 11, 12), PackedInt32Array(13, 14, 15), PackedInt32Array(13, 15, 16), PackedInt32Array(17, 18, 5), PackedInt32Array(17, 5, 8), PackedInt32Array(19, 13, 16, 20), PackedInt32Array(20, 16, 21, 22), PackedInt32Array(11, 23, 24, 12), PackedInt32Array(25, 12, 24), PackedInt32Array(26, 27, 28, 0), PackedInt32Array(4, 29, 0), PackedInt32Array(2, 30, 31, 3), PackedInt32Array(31, 17, 8, 32), PackedInt32Array(3, 31, 32), PackedInt32Array(33, 3, 32, 34, 35), PackedInt32Array(28, 36, 1, 0), PackedInt32Array(24, 4, 3, 22), PackedInt32Array(25, 24, 22, 21), PackedInt32Array(37, 20, 22, 38), PackedInt32Array(39, 37, 38, 33, 35)])
+vertices = PackedVector2Array(3506, 614, 3741.2266, 614, 3759.0703, 1808, 3509, 1808, 3387.3984, 1645.6016, 3387.3984, 1122, 3425.3984, 830.60156, 2082.25, 3149.2969, 1707.4609, 3166.461, 1712.9922, 2219.2188, 1742.9063, 2219.2188, 2084.6016, 1122, 2084.6016, 1645.6016, 2066.0938, 2030.7813, 1742.9063, 2030.7813, 1548.3984, 1621.6016, 1548.3984, 1098, 1617.9219, 782.84375, 1885.8906, 785.14844, 1416.4688, 413.71875, 1414.2031, 373.28125, 1416.7969, 373.21875, 1415.8594, 674.8906, 2099.2969, 358.2578, 2106.6016, 358.10156, 2106.6016, 820.60156, 2101.289, 680.8828, 2066.0938, 2219.2188, 2098.6875, 2219.2188, 1356, 413.9375, 1356, 814, 1260.3984, 1097, 1260.3984, 1098, 3425.3984, 406.40625, 3506, 406.10938, 2708.6016, 830.60156, 2984.6016, 1122, 2399.6016, 820.60156, 2399.6016, 826.60156, 2708.6016, 826.60156, 2487.3984, 1122, 2984.6016, 1126, 2487.3984, 1126, 684.39844, 1097, 684.39844, 1093, 281.60156, 1616.6016, 574.60156, 1616.6016, 574.60156, 1620.6016, 298, 1808, 88.359375, 1808, 1145.6016, 1620.6016, 1145.6016, 1621.6016, 298, 2030.7813, 2382.6016, 1645.6016, 2382.6016, 1649.6016, 3082.3984, 1649.6016, 3082.3984, 1645.6016, 3509, 2030.7813, 61.648438, 814, 281.60156, 1093)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5, 6), PackedInt32Array(7, 8, 9, 10), PackedInt32Array(11, 12, 13, 14, 15, 16, 17, 18), PackedInt32Array(19, 20, 21), PackedInt32Array(19, 21, 22), PackedInt32Array(23, 24, 25, 26), PackedInt32Array(18, 26, 25, 11), PackedInt32Array(27, 28, 7), PackedInt32Array(27, 7, 10), PackedInt32Array(29, 19, 22, 30), PackedInt32Array(31, 30, 22, 17, 16, 32), PackedInt32Array(33, 34, 0, 6), PackedInt32Array(35, 6, 5, 36), PackedInt32Array(25, 37, 38, 11), PackedInt32Array(38, 39, 35, 40, 11), PackedInt32Array(35, 36, 41, 42, 40), PackedInt32Array(31, 43, 44, 30), PackedInt32Array(45, 46, 47, 48, 49), PackedInt32Array(47, 50, 51, 52, 48), PackedInt32Array(12, 53, 54, 13), PackedInt32Array(55, 56, 4), PackedInt32Array(4, 3, 57, 13, 55), PackedInt32Array(54, 55, 13), PackedInt32Array(13, 27, 10, 14), PackedInt32Array(15, 14, 52, 51), PackedInt32Array(45, 49, 58, 59), PackedInt32Array(59, 58, 30, 44)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-26, 344, 24, 2205, 1638, 2217, 1632, 3245, 2156, 3221, 2174, 2202, 3840, 2205, 3812, 330), PackedVector2Array(1354, 639, 1637, 727, 1866, 724, 2060, 645, 2192, 645, 2202, 281, 1335, 300)])
 source_geometry_mode = 2
 source_geometry_group_name = &"collisionObjects"
@@ -42,9 +42,10 @@ region = Rect2(14, 155, 610, 250)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bb2iq"]
 size = Vector2(611, 234)
 
-[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("ActiveMachines", "_mDisplay", "_sDisplay", "_entrance")]
+[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("ActiveMachines", "InactiveMachines", "_mDisplay", "_sDisplay", "_entrance", "navArea")]
 script = ExtResource("1_l756w")
-ActiveMachines = [NodePath("Machine"), NodePath("Machine2"), NodePath("Machine3"), NodePath("Machine4")]
+ActiveMachines = [NodePath("Machine"), NodePath("Machine2")]
+InactiveMachines = [NodePath("Machine3"), NodePath("Machine4"), NodePath("Machine5"), NodePath("Machine6"), NodePath("Machine7"), NodePath("Machine8"), NodePath("Machine9"), NodePath("Machine10"), NodePath("Machine11"), NodePath("Machine12")]
 _customerPrefab = ExtResource("2_pu3va")
 _machinePrefab = ExtResource("3_0e3vx")
 CasinoBounds = Rect2(0, 0, 3840, 2160)
@@ -53,6 +54,7 @@ _mDisplay = NodePath("MainUI/MoneyDisplay")
 _sDisplay = NodePath("MainUI/SoulDisplay")
 _adScene = ExtResource("4_r0mdn")
 _entrance = NodePath("CasinoEntrance")
+navArea = NodePath("NavRegion")
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]
 layer = 15
@@ -165,16 +167,50 @@ position = Vector2(3657, 1850)
 position = Vector2(170, 1850)
 
 [node name="Machine" parent="." unique_id=1215231208 instance=ExtResource("3_0e3vx")]
-position = Vector2(2396, 675)
+position = Vector2(1389, 1314)
 
 [node name="Machine2" parent="." unique_id=282144351 instance=ExtResource("3_0e3vx")]
-position = Vector2(611, 1389)
+position = Vector2(2259, 1340)
 
 [node name="Machine3" parent="." unique_id=1295245516 instance=ExtResource("3_0e3vx")]
-position = Vector2(2830, 672)
+visible = false
+position = Vector2(2298, 537)
 
 [node name="Machine4" parent="." unique_id=264896314 instance=ExtResource("3_0e3vx")]
-position = Vector2(1043, 1389)
+visible = false
+position = Vector2(1096, 1314)
+
+[node name="Machine5" parent="." unique_id=334292708 instance=ExtResource("3_0e3vx")]
+visible = false
+position = Vector2(2584, 1340)
+
+[node name="Machine6" parent="." unique_id=1194259017 instance=ExtResource("3_0e3vx")]
+visible = false
+position = Vector2(2610, 537)
+
+[node name="Machine7" parent="." unique_id=1438332027 instance=ExtResource("3_0e3vx")]
+visible = false
+position = Vector2(804, 1314)
+
+[node name="Machine8" parent="." unique_id=762473111 instance=ExtResource("3_0e3vx")]
+visible = false
+position = Vector2(2891, 1340)
+
+[node name="Machine9" parent="." unique_id=589482984 instance=ExtResource("3_0e3vx")]
+visible = false
+position = Vector2(2933, 537)
+
+[node name="Machine10" parent="." unique_id=1728187150 instance=ExtResource("3_0e3vx")]
+visible = false
+position = Vector2(479, 1314)
+
+[node name="Machine11" parent="." unique_id=1902925526 instance=ExtResource("3_0e3vx")]
+visible = false
+position = Vector2(3218, 1340)
+
+[node name="Machine12" parent="." unique_id=1236321597 instance=ExtResource("3_0e3vx")]
+visible = false
+position = Vector2(3247, 537)
 
 [node name="Shop" parent="." unique_id=1065227419 instance=ExtResource("14_sftma")]
 position = Vector2(1755, 511)

@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public partial class MainGame : Node2D
 {
@@ -10,7 +12,8 @@ public partial class MainGame : Node2D
 
 	[Export] private Array<Customer> LivingCustomers = new Array<Customer>();
 	[Export] private Array<Machine> ActiveMachines = new Array<Machine>();
-	public int CustomerCount { get { return LivingCustomers.Count; } }
+    [Export] private Array<Machine> InactiveMachines = new Array<Machine>();
+    public int CustomerCount { get { return LivingCustomers.Count; } }
 
 	[Export] private PackedScene _customerPrefab;
 	[Export] private PackedScene _machinePrefab;
@@ -42,6 +45,10 @@ public partial class MainGame : Node2D
 	private bool _adPlaying = false;
 
 	[Export] private CasinoEntrance _entrance;
+	[Export] private NavigationRegion2D navArea;
+
+	//Used to track machine cost
+	private Queue<int> machineCost = new Queue<int>(new[] {1, 2, 3, 5, 7, 9, 12, 15, 18, 24});
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -119,6 +126,42 @@ public partial class MainGame : Node2D
 		}
 		
 	}
+
+	//Unlocks the next machine
+	public int PurchaseMachine()
+	{
+        //Are there any machines
+        if (InactiveMachines.Count <= 0) { return -1; }
+
+        //Get the current cost, check if we have enough souls
+        int cost = machineCost.Peek();
+
+		if (cost <= CasinoSouls)
+		{
+            //Can purchase machine, get the next one in the array
+            var machine = InactiveMachines[0];
+            InactiveMachines.RemoveAt(0);
+
+            //Add the listener to it
+            machine.OnCasinoMoneyChange += UpdateCasinoMoney;
+            machine.Visible = true;
+
+            //Add it to the active machines
+            ActiveMachines.Add(machine);
+
+			//Remove the current soul cost
+			cost = machineCost.Dequeue();
+
+			//Change the current soul amount
+			UpdateCasinoSouls(-cost);
+        }
+
+		//Checking if there's a valid next cost
+		if (machineCost.Count <= 0) { return -1; }
+
+		//Return next cost 
+		return machineCost.Peek();
+    }
 
 	//for testing, creates and places randomly a number of customers and machines
 	public void PopulateRandomCustomersAndMachines(int customers, int machines)

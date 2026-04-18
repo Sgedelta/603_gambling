@@ -166,7 +166,7 @@ theme_override_constants/separation = 10
 [node name="Label" type="Label" parent="ControlUI/VBoxContainer/NewMachine" unique_id=1248577331]
 layout_mode = 2
 theme_override_font_sizes/font_size = 75
-text = "Lose 5 souls"
+text = "New Machine"
 horizontal_alignment = 1
 
 [node name="Upgrade3" type="Button" parent="ControlUI/VBoxContainer/NewMachine" unique_id=387077076]
@@ -178,7 +178,6 @@ theme_override_font_sizes/font_size = 70
 theme_override_styles/normal = ExtResource("3_io27d")
 theme_override_styles/pressed = ExtResource("5_3ps1r")
 theme_override_styles/hover = ExtResource("4_k6jq0")
-disabled = true
 text = " "
 icon_alignment = 1
 
@@ -201,7 +200,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="ControlUI/VBoxContainer/NewMachine/Upgrade3/HBoxContainer" unique_id=841158579]
 layout_mode = 2
 theme = ExtResource("8_tyrku")
-text = "5"
+text = "1"
 
 [node name="AdFreeButton" type="Button" parent="ControlUI/VBoxContainer" unique_id=699478995]
 custom_minimum_size = Vector2(600, 70)
@@ -220,4 +219,5 @@ script = ExtResource("8_s8dlv")
 [connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Drinks/Upgrade1" to="." method="Upgrade1"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Bouncer/Upgrade2" to="." method="Upgrade2"]
+[connection signal="pressed" from="ControlUI/VBoxContainer/NewMachine/Upgrade3" to="." method="BuyMachine"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/AdFreeButton" to="." method="AdFree"]
