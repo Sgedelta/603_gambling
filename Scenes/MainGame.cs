@@ -43,12 +43,16 @@ public partial class MainGame : Node2D
 
 	[Export] private CasinoEntrance _entrance;
 
+	public Drinks Bar;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_rng = new RandomNumberGenerator();
 		_mDisplay.Display(CasinoMoney);
 		_sDisplay.Display(CasinoSouls);
+
+		Bar = GetNode<Drinks>("Drinks");
 		
 		foreach(Machine m in ActiveMachines)
 		{
@@ -214,6 +218,7 @@ public partial class MainGame : Node2D
 	{
 		LivingCustomers.Add(customer);
 		customer.OnCustomerKill += UpdateCasinoSouls;
+		customer.OnCustomerKill += (souls) => { UnregisterCustomer(customer); }; //make sure we stop tracking that cust
 	}
 
 	private void UnregisterCustomer(Customer customer)
@@ -240,16 +245,18 @@ public partial class MainGame : Node2D
 
 	public void GiveRandomCustomerMoney(float amount, bool considerPlayer = false)
 	{
-		if (CustomerCount == 0)
+		int ConsiderationCount = CustomerCount + (considerPlayer ? 1 : 0);
+
+		if (ConsiderationCount == 0)
 		{
 			return;
 		}
 
-		int index = _rng.RandiRange(0, CustomerCount);
+		int index = _rng.RandiRange(0, ConsiderationCount - 1);
 
-		if(index == CustomerCount)
+        if (index == CustomerCount)
 		{
-			CasinoMoney += amount;
+			UpdateCasinoMoney(amount);
 			return;
 		}
 
