@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dhcvffw4nmoif" path="res://Scenes/Menus/Onboarding.cs" id="1_4114p"]
 [ext_resource type="StyleBox" uid="uid://df0knh70bt6vu" path="res://Resources/Themes/panel.tres" id="1_b5fiv"]
 [ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="2_g6m04"]
+[ext_resource type="PackedScene" uid="uid://bpq60q3sla7m6" path="res://Scenes/main_game.tscn" id="2_r8kvl"]
 [ext_resource type="Texture2D" uid="uid://d0sxwy1ym2loo" path="res://Resources/Sprites/crosshair.png" id="3_y21yj"]
 [ext_resource type="Texture2D" uid="uid://jauyoi2jphmc" path="res://Resources/Sprites/alertimg.png" id="4_lhoq8"]
 [ext_resource type="Texture2D" uid="uid://dnwka5enqxye8" path="res://Resources/Sprites/thumbnail.png" id="5_mywuw"]
@@ -30,6 +31,7 @@ corner_detail = 5
 
 [node name="Onboarding" type="Node2D" unique_id=1945416981]
 script = ExtResource("1_4114p")
+MainGameScene = ExtResource("2_r8kvl")
 
 [node name="Panel" type="Panel" parent="." unique_id=1182719371]
 offset_right = 3840.0
