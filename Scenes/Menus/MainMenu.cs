@@ -4,10 +4,10 @@ using System;
 public partial class MainMenu : MarginContainer
 {
 
-	[Export] public PackedScene MainGameScene;
+    [Export] public PackedScene Onboarding;
 
-	public void PlayGame()
-	{
-		GetTree().ChangeSceneToPacked(MainGameScene);
-	}
+    public void OnboardingTransition()
+    {
+        GetTree().ChangeSceneToPacked(Onboarding);
+    }
 }
