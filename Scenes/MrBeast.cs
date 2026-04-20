@@ -3,165 +3,165 @@ using System;
 
 public partial class MrBeast : CharacterBody2D
 {
-    [Signal] public delegate void MrBeastEnteredEventHandler();
-    [Signal] public delegate void MrBeastActionStartedEventHandler();
-    [Signal] public delegate void MrBeastActionEndedEventHandler();
-    [Signal] public delegate void MrBeastLeftEventHandler();
+	[Signal] public delegate void MrBeastEnteredEventHandler();
+	[Signal] public delegate void MrBeastActionStartedEventHandler();
+	[Signal] public delegate void MrBeastActionEndedEventHandler();
+	[Signal] public delegate void MrBeastLeftEventHandler();
 
-    private NavigationAgent2D _navAgent;
-    [Export] public float Speed = 300.0f;
-    [Export] public float GiveAwayMoney = 1000;
-    private float _movementDelta;
+	private NavigationAgent2D _navAgent;
+	[Export] public float Speed = 300.0f;
+	[Export] public float GiveAwayMoney = 1000;
+	private float _movementDelta;
 
-    private Vector2 _targetPos = Vector2.Zero;
+	private Vector2 _targetPos = Vector2.Zero;
 
-    public Vector2 TargetPos
-    {
-        get { return _navAgent.TargetPosition; }
-        set { _navAgent.TargetPosition = value; }
-    }
+	public Vector2 TargetPos
+	{
+		get { return _navAgent.TargetPosition; }
+		set { _navAgent.TargetPosition = value; }
+	}
 
-    private GpuParticles2D _particles;
-    private bool _MrBeastIsHere = false;
-    private Tween _MrBeastTween;
+	private GpuParticles2D _particles;
+	private bool _MrBeastIsHere = false;
+	private Tween _MrBeastTween;
 
-    [Export] private Vector2 _MrBeastEntrancePos = new Vector2(1920, 2300);
-    [Export] private Vector2 _MrBeastMoneyThrowingPos = new Vector2(1920, 1700);
-    [Export] private Vector2 _MrBeastFinalPos = new Vector2(1920, 700);
+	[Export] private Vector2 _MrBeastEntrancePos = new Vector2(1920, 2300);
+	[Export] private Vector2 _MrBeastMoneyThrowingPos = new Vector2(1920, 1700);
+	[Export] private Vector2 _MrBeastFinalPos = new Vector2(1920, 700);
 
-    [Export] private bool DEBUG = false;
+	[Export] private bool DEBUG = false;
 
-    private RandomNumberGenerator _rng;
+	private RandomNumberGenerator _rng;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        _particles = GetNode<GpuParticles2D>("MoneyParticles");
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		_particles = GetNode<GpuParticles2D>("MoneyParticles");
 
-        _navAgent = GetNode<NavigationAgent2D>("NavAgent");
+		_navAgent = GetNode<NavigationAgent2D>("NavAgent");
 
-        //change based on speed & layout
-        _navAgent.PathDesiredDistance = 5f;
-        _navAgent.TargetDesiredDistance = 5f;
+		//change based on speed & layout
+		_navAgent.PathDesiredDistance = 5f;
+		_navAgent.TargetDesiredDistance = 5f;
 
-        _navAgent.VelocityComputed += OnVelocityComputed;
+		_navAgent.VelocityComputed += OnVelocityComputed;
 
-        _rng = new RandomNumberGenerator();
-    }
+		_rng = new RandomNumberGenerator();
+	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
+	public override void _PhysicsProcess(double delta)
+	{
+		base._PhysicsProcess(delta);
 
 
-        if (_navAgent.IsNavigationFinished())
-        {
+		if (_navAgent.IsNavigationFinished())
+		{
 
-            return;
-        }
+			return;
+		}
 
-        Vector2 currentPos = GlobalTransform.Origin;
-        Vector2 nextPathPos = _navAgent.GetNextPathPosition();
-        _movementDelta = Speed * (float)delta;
+		Vector2 currentPos = GlobalTransform.Origin;
+		Vector2 nextPathPos = _navAgent.GetNextPathPosition();
+		_movementDelta = Speed * (float)delta;
 
-        //set Vel, an internal Character2D thing for MoveAndSlide
-        Velocity = currentPos.DirectionTo(nextPathPos) * Speed;
-        if (_navAgent.AvoidanceEnabled)
-        {
-            _navAgent.Velocity = Velocity;
-        }
-        else
-        {
-            //OnVelocityComputed(Velocity);
-            MoveAndSlide();
-        }
+		//set Vel, an internal Character2D thing for MoveAndSlide
+		Velocity = currentPos.DirectionTo(nextPathPos) * Speed;
+		if (_navAgent.AvoidanceEnabled)
+		{
+			_navAgent.Velocity = Velocity;
+		}
+		else
+		{
+			//OnVelocityComputed(Velocity);
+			MoveAndSlide();
+		}
 
-    }
+	}
 
-    public void OnVelocityComputed(Vector2 safeVelocity)
-    {
-        GlobalPosition = GlobalPosition.MoveToward(GlobalPosition + safeVelocity, _movementDelta);
-    }
+	public void OnVelocityComputed(Vector2 safeVelocity)
+	{
+		GlobalPosition = GlobalPosition.MoveToward(GlobalPosition + safeVelocity, _movementDelta);
+	}
 
-    public async void TriggerMrBeast()
-    {
-        if (_MrBeastIsHere)
-        {
-            return;
-        }
-        _MrBeastIsHere = true;
+	public async void TriggerMrBeast()
+	{
+		if (_MrBeastIsHere)
+		{
+			return;
+		}
+		_MrBeastIsHere = true;
 
-        EmitSignal(SignalName.MrBeastEntered);
+		EmitSignal(SignalName.MrBeastEntered);
 
-        GlobalPosition = _MrBeastEntrancePos;
+		GlobalPosition = _MrBeastEntrancePos;
 
-        TargetPos = _MrBeastMoneyThrowingPos;
+		TargetPos = _MrBeastMoneyThrowingPos;
 
-        if (DEBUG) GD.Print("Beast Entered");
+		if (DEBUG) GD.Print("Beast Entered");
 
-        await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
-        await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
+		await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
 
-        _particles.Emitting = true;
-        EmitSignal(SignalName.MrBeastActionStarted);
+		_particles.Emitting = true;
+		EmitSignal(SignalName.MrBeastActionStarted);
 
-        if (DEBUG) GD.Print("Beast Throwing");
-        GiveMoneyAway(5);
+		if (DEBUG) GD.Print("Beast Throwing");
+		GiveMoneyAway(5);
 
-        await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
 
-        TargetPos = _MrBeastFinalPos;
+		TargetPos = _MrBeastFinalPos;
 
-        await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
+		await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
 
-        TargetPos = _MrBeastMoneyThrowingPos;
+		TargetPos = _MrBeastMoneyThrowingPos;
 
-        await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
-        await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
+		await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
 
-        _particles.Emitting = false;
-        EmitSignal(SignalName.MrBeastActionEnded);
+		_particles.Emitting = false;
+		EmitSignal(SignalName.MrBeastActionEnded);
 
-        if (DEBUG) GD.Print("Beast Stopped Throwing");
+		if (DEBUG) GD.Print("Beast Stopped Throwing");
 
-        await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(GetTree().CreateTimer(.3f), SceneTreeTimer.SignalName.Timeout);
 
-        TargetPos = _MrBeastEntrancePos;
+		TargetPos = _MrBeastEntrancePos;
 
-        await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
-        await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout); //to allow particles to disappear
-        EmitSignal(SignalName.MrBeastLeft);
+		await ToSignal(_navAgent, NavigationAgent2D.SignalName.NavigationFinished);
+		await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout); //to allow particles to disappear
+		EmitSignal(SignalName.MrBeastLeft);
 
-        if (DEBUG) GD.Print("Beast Left");
-        _MrBeastIsHere = false;
+		if (DEBUG) GD.Print("Beast Left");
+		_MrBeastIsHere = false;
 
-        //send to shadow realm to not fuck with other nav agents
-        GlobalPosition += new Vector2(5000, 5000);
-    }
+		//send to shadow realm to not fuck with other nav agents
+		GlobalPosition += new Vector2(5000, 5000);
+	}
 
-    public void GiveMoneyAway(float time)
-    {
-        float mLeft = GiveAwayMoney;
+	public void GiveMoneyAway(float time)
+	{
+		float mLeft = GiveAwayMoney;
 
-        Tween mTween = CreateTween().SetLoops(100);
+		Tween mTween = CreateTween().SetLoops(100);
 
-        mTween.TweenCallback(Callable.From(() =>
-        {
-            float randAmt = _rng.RandfRange(5, Mathf.Max(25, mLeft / 3));
-            randAmt = Mathf.Min(randAmt, mLeft);
+		mTween.TweenCallback(Callable.From(() =>
+		{
+			float randAmt = _rng.RandfRange(5, Mathf.Max(25, mLeft / 3));
+			randAmt = Mathf.Min(randAmt, mLeft);
 
-            GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(randAmt, true);
+			GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(randAmt, true);
 
-            mLeft -= randAmt;
+			mLeft -= randAmt;
 
-            if(mLeft < 1)
-            {
-                mTween.Kill();
-            }
+			if(mLeft < 1)
+			{
+				mTween.Kill();
+			}
 
-        })).SetDelay(time / 100);
+		})).SetDelay(time / 100);
 
-        mTween.Finished += () => { GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(mLeft, true); };
-    }
+		mTween.Finished += () => { GameManager.instance.ActiveMainGame.GiveRandomCustomerMoney(mLeft, true); };
+	}
 
 }

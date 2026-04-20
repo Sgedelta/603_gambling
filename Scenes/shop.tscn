@@ -40,7 +40,6 @@ texture = SubResource("AtlasTexture_mg6tx")
 polygon = PackedVector2Array(-263, -195, 269, -197, 271, 127, 114, 203, -118, 201, -264, 123)
 
 [node name="ControlUI" type="Panel" parent="." unique_id=455882115]
-visible = false
 z_index = 6
 offset_left = -400.0
 offset_top = 1.0
@@ -122,7 +121,7 @@ theme_override_constants/separation = 10
 [node name="Label" type="Label" parent="ControlUI/VBoxContainer/Bouncer" unique_id=853447714]
 layout_mode = 2
 theme_override_font_sizes/font_size = 75
-text = "Lose 20 coins"
+text = "Hire a bouncer"
 horizontal_alignment = 1
 
 [node name="Upgrade2" type="Button" parent="ControlUI/VBoxContainer/Bouncer" unique_id=92065002]

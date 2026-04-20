@@ -204,7 +204,7 @@ public partial class MainGame : Node2D
 		return bestMachines[_rng.RandiRange(0, bestMachines.Count-1)];
 	}
 
-	private void UpdateCasinoSouls(int souls)
+	public void UpdateCasinoSouls(int souls)
 	{
 		CasinoSouls += souls;
 		_sDisplay.Display(CasinoSouls);

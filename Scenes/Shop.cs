@@ -3,7 +3,6 @@ using System;
 
 public partial class Shop : StaticBody2D
 {
-
 	private Panel _control;
 	private Button adFreeButton;
 	
@@ -43,10 +42,22 @@ public partial class Shop : StaticBody2D
 	
 	public void Upgrade2()
 	{
-		GD.Print("called");
-		var mainGame = GetNode<MainGame>("/root/MainGame");
-		mainGame.UpdateCasinoMoney(-20);
-		GD.Print("worked");
+		var bouncer = GetNode<Bouncer>("/root/MainGame/Bouncer");
+		int nextCost = bouncer.Purchase();
+			
+		if(nextCost > 0)
+		{
+			Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Label");
+			description.Text = "Increase to " + bouncer.StopTime + 0.2f;
+			
+			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
+			costLabel.Text = nextCost.ToString();
+		}
+		else
+		{
+			Button button = GetNode<Button>("ControlUI/VBoxContainer/Bouncer/Upgrade2");
+			button.Disabled = true;
+		}
 	}
 	
 	public void AdFree()

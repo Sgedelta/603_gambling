@@ -20,12 +20,15 @@ public partial class Machine : StaticBody2D
 	private Area2D _playArea;
 
 	private MachineControlUI _control;
-    private Label _label;
+	private Label _label;
 	private PermDisplay _display;
 
+	[Export] public int CostSliderCost = 1;
+	[Export] public int PayoutSliderCost = 1;
+	[Export] public int WinrateSliderCost = 1;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
 	{
 		_rng = new RandomNumberGenerator();
 		_playArea = GetNode<Area2D>("PlayArea");
@@ -62,10 +65,10 @@ public partial class Machine : StaticBody2D
 		{
 			c.CurrentMoney += Profit;
 
-            //casino loses money
-            EmitSignal(SignalName.OnCasinoMoneyChange, -Profit);
-            _display.UpdateMachinePermDisplay(-Profit);
-        }
+			//casino loses money
+			EmitSignal(SignalName.OnCasinoMoneyChange, -Profit);
+			_display.UpdateMachinePermDisplay(-Profit);
+		}
 
 		//Casino no longer sucks ass, returns result to player
 		EmitSignal(SignalName.OnGamePlayed, win);
@@ -110,5 +113,60 @@ public partial class Machine : StaticBody2D
 		_label.Visible = !visible;
 	}
 
+	public void UnlockCost()
+	{
+		var mainGame = GetNode<MainGame>("/root/MainGame");
 
+		if (mainGame.CasinoSouls >= CostSliderCost)
+		{
+			mainGame.UpdateCasinoSouls(-CostSliderCost);
+
+			//Get the slider, unlock it
+			BoxContainer costUI = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/CostUI");
+			costUI.Visible = true;
+
+			//Disable the button
+			BoxContainer costButton = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/BuyCost");
+			costButton.Visible = false;
+		}
+
+	}
+
+	public void UnlockPayout()
+	{
+		var mainGame = GetNode<MainGame>("/root/MainGame");
+
+
+		if (mainGame.CasinoSouls >= PayoutSliderCost)
+		{
+			mainGame.UpdateCasinoSouls(-PayoutSliderCost);
+
+			//Get the slider, unlock it
+			BoxContainer payoutUI = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/PayoutUI");
+			payoutUI.Visible = true;
+
+			//Disable the button
+			BoxContainer payoutButton = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/BuyPayout");
+			payoutButton.Visible = false;
+		}
+	}
+
+	public void UnlockWinrate()
+	{
+		var mainGame = GetNode<MainGame>("/root/MainGame");
+
+
+		if (mainGame.CasinoSouls >= WinrateSliderCost)
+		{
+			mainGame.UpdateCasinoSouls(-WinrateSliderCost);
+
+			//Get the slider, unlock it
+			BoxContainer winrateUI = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/WinrateUI");
+			winrateUI.Visible = true;
+
+			//Disable the button
+			BoxContainer winrateButton = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/BuyWinrate");
+			winrateButton.Visible = false;
+		}
+	}
 }
