@@ -53,7 +53,7 @@ corner_detail = 5
 [node name="CanvasLayer" type="CanvasLayer" unique_id=767011123]
 layer = 16
 script = ExtResource("1_wa1gf")
-ad_videos = Array[VideoStream]([ExtResource("1_0b1dc"), ExtResource("3_m04b5"), ExtResource("4_uddys"), ExtResource("5_faajs"), ExtResource("6_rfnkn"), ExtResource("7_gqkgj"), ExtResource("8_senms"), ExtResource("9_3g780")])
+ad_videos = Array[VideoStream]([ExtResource("4_uddys"), ExtResource("1_0b1dc"), ExtResource("3_m04b5"), ExtResource("5_faajs"), ExtResource("6_rfnkn"), ExtResource("7_gqkgj"), ExtResource("8_senms"), ExtResource("9_3g780")])
 
 [node name="Control" type="Control" parent="." unique_id=511564675]
 layout_mode = 3

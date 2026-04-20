@@ -7,11 +7,13 @@ signal ad_closed
 @onready var timer = $Control/Timer
 @onready var background = $Control
 @onready var video_player = $Control/VideoStreamPlayer
+var vidnum
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	if ad_videos.size() > 0:
-		video_player.stream = ad_videos[randi() % ad_videos.size()]
+		vidnum = randi() % ad_videos.size()
+		video_player.stream = ad_videos[vidnum]
 		video_player.play()
 	
 func _on_button_pressed() -> void:
