@@ -47,6 +47,27 @@ public partial class Shop : StaticBody2D
 		var mainGame = GetNode<MainGame>("/root/MainGame");
 		mainGame.UpdateCasinoMoney(-20);
 		GD.Print("worked");
+    }
+
+	public void BuyMachine()
+	{
+		var mainGame = GetNode<MainGame>("/root/MainGame");
+
+		//Call maingame method to unlock
+		int nextCost = mainGame.PurchaseMachine();
+
+		//Update display of machine cost
+		//If cost is -1, no more machines to buy, disable button
+		if (nextCost > 0)
+		{
+			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/NewMachine/Upgrade3/HBoxContainer/Label");
+			costLabel.Text = nextCost.ToString();
+		}
+		else
+		{
+			Button button = GetNode<Button>("ControlUI/VBoxContainer/NewMachine/Upgrade3");
+			button.Disabled = true;
+        }
 	}
 	
 	public void AdFree()
