@@ -30,6 +30,7 @@ region = Rect2(302.48917, 563.67773, 121.412506, 114.8009)
 y_sort_enabled = true
 input_pickable = true
 script = ExtResource("1_io27d")
+BarUpgradeVals = Array[Array]([[2000.0, 5.0, 0.05, 0.025], [500.0, 8.0, 0.08, 0.04], [750.0, 12.0, 0.12, 0.066], [1000.0, 15.0, 0.15, 0.08], [1500.0, 20.0, 0.2, 0.1]])
 
 [node name="Upgrade Sprite" type="Sprite2D" parent="." unique_id=571050210]
 texture_filter = 1
@@ -40,7 +41,6 @@ texture = SubResource("AtlasTexture_mg6tx")
 polygon = PackedVector2Array(-263, -195, 269, -197, 271, 127, 114, 203, -118, 201, -264, 123)
 
 [node name="ControlUI" type="Panel" parent="." unique_id=455882115]
-visible = false
 z_index = 6
 offset_left = -400.0
 offset_top = 1.0
@@ -78,10 +78,10 @@ theme_override_constants/separation = 10
 [node name="Label" type="Label" parent="ControlUI/VBoxContainer/Drinks" unique_id=595229490]
 layout_mode = 2
 theme_override_font_sizes/font_size = 75
-text = "Lose 10 coins"
+text = "Upgrade Bar"
 horizontal_alignment = 1
 
-[node name="Upgrade1" type="Button" parent="ControlUI/VBoxContainer/Drinks" unique_id=1953175491]
+[node name="UpgradeButton" type="Button" parent="ControlUI/VBoxContainer/Drinks" unique_id=1953175491]
 custom_minimum_size = Vector2(400, 70)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -93,7 +93,7 @@ theme_override_styles/hover = ExtResource("4_k6jq0")
 text = " "
 icon_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/VBoxContainer/Drinks/Upgrade1" unique_id=1211522984]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/VBoxContainer/Drinks/UpgradeButton" unique_id=1211522984]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -103,13 +103,13 @@ grow_vertical = 2
 theme = ExtResource("8_tyrku")
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="ControlUI/VBoxContainer/Drinks/Upgrade1/HBoxContainer" unique_id=1255852399]
+[node name="TextureRect" type="TextureRect" parent="ControlUI/VBoxContainer/Drinks/UpgradeButton/HBoxContainer" unique_id=1255852399]
 layout_mode = 2
 theme = ExtResource("8_tyrku")
 texture = SubResource("AtlasTexture_ymrm4")
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Drinks/Upgrade1/HBoxContainer" unique_id=704843754]
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Drinks/UpgradeButton/HBoxContainer" unique_id=704843754]
 layout_mode = 2
 theme = ExtResource("8_tyrku")
 text = "10"
@@ -217,7 +217,7 @@ expand_icon = true
 script = ExtResource("8_s8dlv")
 
 [connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]
-[connection signal="pressed" from="ControlUI/VBoxContainer/Drinks/Upgrade1" to="." method="Upgrade1"]
+[connection signal="pressed" from="ControlUI/VBoxContainer/Drinks/UpgradeButton" to="." method="UpgradeBar"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Bouncer/Upgrade2" to="." method="Upgrade2"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/NewMachine/Upgrade3" to="." method="BuyMachine"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/AdFreeButton" to="." method="AdFree"]
