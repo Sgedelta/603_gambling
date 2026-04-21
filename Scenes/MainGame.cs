@@ -12,8 +12,8 @@ public partial class MainGame : Node2D
 
 	[Export] private Array<Customer> LivingCustomers = new Array<Customer>();
 	[Export] private Array<Machine> ActiveMachines = new Array<Machine>();
-    [Export] private Array<Machine> InactiveMachines = new Array<Machine>();
-    public int CustomerCount { get { return LivingCustomers.Count; } }
+	[Export] private Array<Machine> InactiveMachines = new Array<Machine>();
+	public int CustomerCount { get { return LivingCustomers.Count; } }
 
 	[Export] private PackedScene _customerPrefab;
 	[Export] private PackedScene _machinePrefab;
@@ -43,6 +43,7 @@ public partial class MainGame : Node2D
 	[Export] public bool AllowAds = true;
 	private Timer _adTimer;
 	private bool _adPlaying = false;
+	public bool MicrotransactionOpen = false;
 
 	[Export] private CasinoEntrance _entrance;
 	[Export] private NavigationRegion2D navArea;
@@ -51,6 +52,7 @@ public partial class MainGame : Node2D
 	private Queue<int> machineCost = new Queue<int>(new[] {1, 2, 3, 5, 7, 9, 12, 15, 18, 24});
 
 	public Drinks Bar;
+	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -98,8 +100,7 @@ public partial class MainGame : Node2D
 	
 	private void ShowAd()
 	{
-		if (!AllowAds) return;
-		if (_adPlaying) return;
+		if (!AllowAds || MicrotransactionOpen || _adPlaying) return;
 		_adPlaying = true;
 		GetTree().Paused = true;
 		
@@ -134,24 +135,24 @@ public partial class MainGame : Node2D
 	//Unlocks the next machine
 	public int PurchaseMachine()
 	{
-        //Are there any machines
-        if (InactiveMachines.Count <= 0) { return -1; }
+		//Are there any machines
+		if (InactiveMachines.Count <= 0) { return -1; }
 
-        //Get the current cost, check if we have enough souls
-        int cost = machineCost.Peek();
+		//Get the current cost, check if we have enough souls
+		int cost = machineCost.Peek();
 
 		if (cost <= CasinoSouls)
 		{
-            //Can purchase machine, get the next one in the array
-            var machine = InactiveMachines[0];
-            InactiveMachines.RemoveAt(0);
+			//Can purchase machine, get the next one in the array
+			var machine = InactiveMachines[0];
+			InactiveMachines.RemoveAt(0);
 
-            //Add the listener to it
-            machine.OnCasinoMoneyChange += UpdateCasinoMoney;
-            machine.Visible = true;
+			//Add the listener to it
+			machine.OnCasinoMoneyChange += UpdateCasinoMoney;
+			machine.Visible = true;
 
-            //Add it to the active machines
-            ActiveMachines.Add(machine);
+			//Add it to the active machines
+			ActiveMachines.Add(machine);
 
 			//move the machine into the casino and rebake nav mesh
 			machine.GlobalPosition -= new Vector2(0, 5000);
@@ -162,14 +163,14 @@ public partial class MainGame : Node2D
 
 			//Change the current soul amount
 			UpdateCasinoSouls(-cost);
-        }
+		}
 
 		//Checking if there's a valid next cost
 		if (machineCost.Count <= 0) { return -1; }
 
 		//Return next cost 
 		return machineCost.Peek();
-    }
+	}
 
 	//for testing, creates and places randomly a number of customers and machines
 	public void PopulateRandomCustomersAndMachines(int customers, int machines)
@@ -301,7 +302,7 @@ public partial class MainGame : Node2D
 
 		int index = _rng.RandiRange(0, ConsiderationCount - 1);
 
-        if (index == CustomerCount)
+		if (index == CustomerCount)
 		{
 			UpdateCasinoMoney(amount);
 			return;

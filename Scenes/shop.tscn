@@ -30,7 +30,6 @@ region = Rect2(302.48917, 563.67773, 121.412506, 114.8009)
 y_sort_enabled = true
 input_pickable = true
 script = ExtResource("1_io27d")
-BarUpgradeVals = Array[Array]([[2000.0, 5.0, 0.05, 0.025], [500.0, 8.0, 0.08, 0.04], [750.0, 12.0, 0.12, 0.066], [1000.0, 15.0, 0.15, 0.08], [1500.0, 20.0, 0.2, 0.1]])
 
 [node name="Upgrade Sprite" type="Sprite2D" parent="." unique_id=571050210]
 texture_filter = 1
@@ -66,10 +65,11 @@ text = "X"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ControlUI" unique_id=573117391]
 layout_mode = 0
-offset_top = 80.0
-offset_right = 800.0
-offset_bottom = 1200.0
-theme_override_constants/separation = 50
+offset_left = 3.0
+offset_top = 48.0
+offset_right = 803.0
+offset_bottom = 1230.0
+theme_override_constants/separation = 35
 
 [node name="Drinks" type="VBoxContainer" parent="ControlUI/VBoxContainer" unique_id=1634909814]
 custom_minimum_size = Vector2(370, 0)
@@ -159,6 +159,50 @@ layout_mode = 2
 theme = ExtResource("8_tyrku")
 text = "20"
 
+[node name="Advertisement" type="VBoxContainer" parent="ControlUI/VBoxContainer" unique_id=46593845]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Advertisement" unique_id=584654848]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Advertise"
+horizontal_alignment = 1
+
+[node name="AdButton" type="Button" parent="ControlUI/VBoxContainer/Advertisement" unique_id=561540518]
+custom_minimum_size = Vector2(400, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("8_tyrku")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = ExtResource("3_io27d")
+theme_override_styles/pressed = ExtResource("5_3ps1r")
+theme_override_styles/hover = ExtResource("4_k6jq0")
+text = " "
+icon_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/VBoxContainer/Advertisement/AdButton" unique_id=1500654346]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_tyrku")
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer" unique_id=2085221138]
+layout_mode = 2
+theme = ExtResource("8_tyrku")
+texture = SubResource("AtlasTexture_ymrm4")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer" unique_id=1039385775]
+layout_mode = 2
+theme = ExtResource("8_tyrku")
+text = "20"
+
 [node name="NewMachine" type="VBoxContainer" parent="ControlUI/VBoxContainer" unique_id=1718169971]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -219,6 +263,7 @@ script = ExtResource("8_s8dlv")
 
 [connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Drinks/UpgradeButton" to="." method="UpgradeBar"]
-[connection signal="pressed" from="ControlUI/VBoxContainer/Bouncer/Upgrade2" to="." method="Upgrade2"]
+[connection signal="pressed" from="ControlUI/VBoxContainer/Bouncer/Upgrade2" to="." method="UpgradeBouncer"]
+[connection signal="pressed" from="ControlUI/VBoxContainer/Advertisement/AdButton" to="." method="UpgradeAds"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/NewMachine/Upgrade3" to="." method="BuyMachine"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/AdFreeButton" to="." method="AdFree"]
