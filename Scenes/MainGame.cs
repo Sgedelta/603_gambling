@@ -153,6 +153,10 @@ public partial class MainGame : Node2D
             //Add it to the active machines
             ActiveMachines.Add(machine);
 
+			//move the machine into the casino and rebake nav mesh
+			machine.GlobalPosition -= new Vector2(0, 5000);
+			navArea.BakeNavigationPolygon();
+
 			//Remove the current soul cost
 			cost = machineCost.Dequeue();
 
