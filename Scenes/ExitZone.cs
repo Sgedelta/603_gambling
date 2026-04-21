@@ -33,12 +33,12 @@ public partial class ExitZone : Area2D
 			return;
 		}
 
-		c.QueueFree();
+        EmitSignal(SignalName.CustomerMarkedKill, c);
 
-		if(c.CurrentGoal == CustomerGoal.FLEE)
-		{
-			EmitSignal(SignalName.CustomerMarkedKill, c);
-		}
+
+        c.QueueFree();
+
+
 
 	}
 	

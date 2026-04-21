@@ -64,6 +64,8 @@ public partial class Machine : StaticBody2D
 		if (win)
 		{
 			c.CurrentMoney += Profit;
+            //don't take money from the casino if they don't actually take money
+            float netLoss = Mathf.Clamp(c.CurrentMoney, 0, Profit); 
 
 			//casino loses money
 			EmitSignal(SignalName.OnCasinoMoneyChange, -Profit);

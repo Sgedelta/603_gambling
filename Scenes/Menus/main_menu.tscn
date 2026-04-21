@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dvcohurd1jc2x"]
 
-[ext_resource type="Script" uid="uid://dhcvffw4nmoif" path="res://Scenes/Menus/MainMenu.cs" id="1_pha2q"]
-[ext_resource type="PackedScene" uid="uid://bpq60q3sla7m6" path="res://Scenes/main_game.tscn" id="2_penys"]
+[ext_resource type="Script" uid="uid://dmgo8gt16sj08" path="res://Scenes/Menus/MainMenu.cs" id="1_38aua"]
+[ext_resource type="PackedScene" uid="uid://bv2l3q4fhi5q8" path="res://Scenes/Menus/Onboarding.tscn" id="2_pha2q"]
 
 [node name="MainMenu" type="MarginContainer" unique_id=775266463]
 anchors_preset = 15
@@ -13,8 +13,8 @@ theme_override_constants/margin_left = 250
 theme_override_constants/margin_top = 250
 theme_override_constants/margin_right = 250
 theme_override_constants/margin_bottom = 300
-script = ExtResource("1_pha2q")
-MainGameScene = ExtResource("2_penys")
+script = ExtResource("1_38aua")
+Onboarding = ExtResource("2_pha2q")
 
 [node name="MenuLayout" type="VBoxContainer" parent="." unique_id=704814600]
 layout_mode = 2
@@ -31,4 +31,4 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "AW DANGIT!"
 
-[connection signal="pressed" from="MenuLayout/Button" to="." method="PlayGame"]
+[connection signal="pressed" from="MenuLayout/Button" to="." method="OnboardingTransition"]

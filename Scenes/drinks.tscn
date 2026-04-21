@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://chi77elwqroqg"]
+
+[ext_resource type="Texture2D" uid="uid://dxad7eccvorjs" path="res://Resources/Sprites/building blocks.png" id="1_ap017"]
+[ext_resource type="Script" uid="uid://c0rmdeclqje3v" path="res://Scenes/Drinks.cs" id="1_e2dn3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e2dn3"]
+size = Vector2(500, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18r40"]
+atlas = ExtResource("1_ap017")
+region = Rect2(14, 155, 610, 250)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bb2iq"]
+size = Vector2(611, 234)
+
+[node name="Drinks" type="StaticBody2D" unique_id=1782313153 node_paths=PackedStringArray("DrinkArea") groups=["collisionObjects"]]
+scale = Vector2(2, 2)
+script = ExtResource("1_e2dn3")
+DrinkArea = NodePath("CustomerArea")
+DrinkShape = SubResource("RectangleShape2D_e2dn3")
+
+[node name="Drinks" type="Sprite2D" parent="." unique_id=1150242252]
+texture = SubResource("AtlasTexture_18r40")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1067824417]
+position = Vector2(1.5, 4.5)
+shape = SubResource("RectangleShape2D_bb2iq")
+
+[node name="CustomerArea" type="Area2D" parent="." unique_id=283445640]
+position = Vector2(0, 163.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CustomerArea" unique_id=1045784542]
+shape = SubResource("RectangleShape2D_e2dn3")
