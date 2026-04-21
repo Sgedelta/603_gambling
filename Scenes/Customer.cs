@@ -461,8 +461,8 @@ public partial class Customer : CharacterBody2D
 				{
 					if(DEBUG)
 					{
-                        GD.Print($"[C] {Name}: Going to get a drink because this shit SUCKS dude I had a {relaxChance}% chance of doing this");
-                    }
+						GD.Print($"[C] {Name}: Going to get a drink because this shit SUCKS dude I had a {relaxChance}% chance of doing this");
+					}
 					GetDrink();
 					return;
 				}
@@ -487,7 +487,7 @@ public partial class Customer : CharacterBody2D
 				{
                     if (DEBUG)
                     {
-                        GD.Print($"[C] {Name}: Fleeing because we rolled below our flee chance of {leaveAndFlee.Y} | {leaveAndFlee}");
+						GD.Print($"[C] {Name}: Fleeing because we rolled below our flee chance of {leaveAndFlee.Y} | {leaveAndFlee}");
                     }
 					FleeCasino();
 					return;
@@ -497,7 +497,7 @@ public partial class Customer : CharacterBody2D
 				{
                     if (DEBUG)
                     {
-                        GD.Print($"[C] {Name}: Leaving because we rolled below our leave chance of {leaveAndFlee.X} | {leaveAndFlee}");
+						GD.Print($"[C] {Name}: Leaving because we rolled below our leave chance of {leaveAndFlee.X} | {leaveAndFlee}");
                     }
 					LeaveCasino();
 					return;
@@ -795,11 +795,11 @@ public partial class Customer : CharacterBody2D
 		//sample all 4 curves based on CurrentEarningPercent
 		float lowFlee = _lowHopeFleeCurve.Sample(
 			Mathf.Clamp(CurrentEarningPercent, _lowHopeFleeCurve.MinDomain, _lowHopeFleeCurve.MaxDomain));
-        float highFlee = _highHopeFleeCurve.Sample(
-            Mathf.Clamp(CurrentEarningPercent, _highHopeFleeCurve.MinDomain, _highHopeFleeCurve.MaxDomain));
-        float lowLeave = _lowHopeLeaveCurve.Sample(
+		float highFlee = _highHopeFleeCurve.Sample(
+			Mathf.Clamp(CurrentEarningPercent, _highHopeFleeCurve.MinDomain, _highHopeFleeCurve.MaxDomain));
+		float lowLeave = _lowHopeLeaveCurve.Sample(
 			Mathf.Clamp(CurrentEarningPercent, _lowHopeLeaveCurve.MinDomain, _lowHopeLeaveCurve.MaxDomain));
-        float highLeave = _highHopeLeaveCurve.Sample(
+		float highLeave = _highHopeLeaveCurve.Sample(
 			Mathf.Clamp(CurrentEarningPercent, _highHopeLeaveCurve.MinDomain, _highHopeLeaveCurve.MaxDomain));
 
 		//lerp based on hope
@@ -808,7 +808,7 @@ public partial class Customer : CharacterBody2D
 
 		return new Vector2(leave, flee);
 
-    }
+	}
 
 }
 

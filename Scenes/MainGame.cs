@@ -12,8 +12,8 @@ public partial class MainGame : Node2D
 
 	[Export] private Array<Customer> LivingCustomers = new Array<Customer>();
 	[Export] private Array<Machine> ActiveMachines = new Array<Machine>();
-    [Export] private Array<Machine> InactiveMachines = new Array<Machine>();
-    public int CustomerCount { get { return LivingCustomers.Count; } }
+	[Export] private Array<Machine> InactiveMachines = new Array<Machine>();
+	public int CustomerCount { get { return LivingCustomers.Count; } }
 
 	[Export] private PackedScene _customerPrefab;
 	[Export] private PackedScene _machinePrefab;
@@ -134,24 +134,24 @@ public partial class MainGame : Node2D
 	//Unlocks the next machine
 	public int PurchaseMachine()
 	{
-        //Are there any machines
-        if (InactiveMachines.Count <= 0) { return -1; }
+		//Are there any machines
+		if (InactiveMachines.Count <= 0) { return -1; }
 
-        //Get the current cost, check if we have enough souls
-        int cost = machineCost.Peek();
+		//Get the current cost, check if we have enough souls
+		int cost = machineCost.Peek();
 
 		if (cost <= CasinoSouls)
 		{
-            //Can purchase machine, get the next one in the array
-            var machine = InactiveMachines[0];
-            InactiveMachines.RemoveAt(0);
+			//Can purchase machine, get the next one in the array
+			var machine = InactiveMachines[0];
+			InactiveMachines.RemoveAt(0);
 
-            //Add the listener to it
-            machine.OnCasinoMoneyChange += UpdateCasinoMoney;
-            machine.Visible = true;
+			//Add the listener to it
+			machine.OnCasinoMoneyChange += UpdateCasinoMoney;
+			machine.Visible = true;
 
-            //Add it to the active machines
-            ActiveMachines.Add(machine);
+			//Add it to the active machines
+			ActiveMachines.Add(machine);
 
 			//move the machine into the casino and rebake nav mesh
 			machine.GlobalPosition -= new Vector2(0, 5000);
@@ -162,7 +162,7 @@ public partial class MainGame : Node2D
 
 			//Change the current soul amount
 			UpdateCasinoSouls(-cost);
-        }
+		}
 
 		//Checking if there's a valid next cost
 		if (machineCost.Count <= 0) { return -1; }

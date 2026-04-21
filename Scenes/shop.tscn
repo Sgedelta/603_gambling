@@ -40,6 +40,7 @@ texture = SubResource("AtlasTexture_mg6tx")
 polygon = PackedVector2Array(-263, -195, 269, -197, 271, 127, 114, 203, -118, 201, -264, 123)
 
 [node name="ControlUI" type="Panel" parent="." unique_id=455882115]
+visible = false
 z_index = 6
 offset_left = -400.0
 offset_top = 1.0
