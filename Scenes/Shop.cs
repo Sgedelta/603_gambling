@@ -170,6 +170,9 @@ public partial class Shop : StaticBody2D
 	{
 		var payment = GD.Load<PackedScene>("res://Scenes/AD_Microtransaction.tscn").Instantiate();
 		payment.ProcessMode = Node.ProcessModeEnum.Always;
+		
+		GameManager.instance.ActiveMainGame.MicrotransactionOpen = true;
+		GetTree().Paused = true;
 		GetTree().Root.AddChild(payment);
 	}
 	

@@ -43,6 +43,7 @@ public partial class MainGame : Node2D
 	[Export] public bool AllowAds = true;
 	private Timer _adTimer;
 	private bool _adPlaying = false;
+	public bool MicrotransactionOpen = false;
 
 	[Export] private CasinoEntrance _entrance;
 	[Export] private NavigationRegion2D navArea;
@@ -51,6 +52,7 @@ public partial class MainGame : Node2D
 	private Queue<int> machineCost = new Queue<int>(new[] {1, 2, 3, 5, 7, 9, 12, 15, 18, 24});
 
 	public Drinks Bar;
+	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -98,8 +100,7 @@ public partial class MainGame : Node2D
 	
 	private void ShowAd()
 	{
-		if (!AllowAds) return;
-		if (_adPlaying) return;
+		if (!AllowAds || MicrotransactionOpen || _adPlaying) return;
 		_adPlaying = true;
 		GetTree().Paused = true;
 		
@@ -169,7 +170,7 @@ public partial class MainGame : Node2D
 
 		//Return next cost 
 		return machineCost.Peek();
-    }
+	}
 
 	//for testing, creates and places randomly a number of customers and machines
 	public void PopulateRandomCustomersAndMachines(int customers, int machines)
@@ -301,7 +302,7 @@ public partial class MainGame : Node2D
 
 		int index = _rng.RandiRange(0, ConsiderationCount - 1);
 
-        if (index == CustomerCount)
+		if (index == CustomerCount)
 		{
 			UpdateCasinoMoney(amount);
 			return;

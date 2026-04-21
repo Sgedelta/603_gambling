@@ -1,5 +1,6 @@
 extends Button
 
 func _on_pressed() -> void:
+	GameManager.GDInstance.ActiveMainGame.MicrotransactionOpen = false
 	get_tree().paused = false
-	get_node("../../../../..").queue_free()
+	owner.queue_free()
