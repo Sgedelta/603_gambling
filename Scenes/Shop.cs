@@ -44,17 +44,18 @@ public partial class Shop : StaticBody2D
 	{
 		var bouncer = GetNode<Bouncer>("/root/MainGame/Bouncer");
 		int nextCost = bouncer.Purchase();
+		Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Label");
 			
 		if(nextCost > 0)
 		{
-			Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Label");
-			description.Text = "Increase to " + bouncer.StopTime + 0.2f;
+			description.Text = "Increase to " + (bouncer.StopTime + 0.2f).ToString("F1");
 			
 			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
 			costLabel.Text = nextCost.ToString();
 		}
 		else
 		{
+			description.Text = "Maxed Out";
 			Button button = GetNode<Button>("ControlUI/VBoxContainer/Bouncer/Upgrade2");
 			button.Disabled = true;
 		}
