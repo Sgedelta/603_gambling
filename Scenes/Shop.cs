@@ -20,13 +20,13 @@ public partial class Shop : StaticBody2D
 		adFreeButton = GetNode<Button>("ControlUI/VBoxContainer/AdFreeButton");
 		GameManager.instance.AdFreePurchased += OnAdFreePurchased;
 
-        //set initial upgrade vals
-        Label upgradeLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/UpgradeButton/HBoxContainer/Label");
-        if (IsInstanceValid(upgradeLabel))
-        {
-            upgradeLabel.Text = BarUpgradeVals[0][0].ToString();
-        }
-    }
+		//set initial upgrade vals
+		Label upgradeLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/UpgradeButton/HBoxContainer/Label");
+		if (IsInstanceValid(upgradeLabel))
+		{
+			upgradeLabel.Text = BarUpgradeVals[0][0].ToString();
+		}
+	}
 
 	public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
 	{
@@ -46,15 +46,65 @@ public partial class Shop : StaticBody2D
 		_control.Visible = visible;
 	}
 	
-	public void Upgrade1()
+	public void UpgradeBar()
 	{
-		GD.Print("called");
-		var mainGame = GetNode<MainGame>("/root/MainGame");
-		mainGame.UpdateCasinoMoney(-10);
-		GD.Print("worked");
+		MainGame mg = GameManager.instance.ActiveMainGame;
+		Array<float> upgradeInfo = BarUpgradeVals[_barUpgrade];
+
+		//check money
+		if (mg.CasinoMoney < upgradeInfo[0])
+		{
+			//failed
+			return;
+		}
+
+		//take money
+		mg.UpdateCasinoMoney(-upgradeInfo[0]);
+
+		//actually upgrade
+		_barUpgrade += 1;
+
+		//update button
+		if (_barUpgrade != BarUpgradeVals.Count)
+		{
+			Label buttonLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/UpgradeButton/HBoxContainer/Label");
+			if (IsInstanceValid(buttonLabel))
+			{
+				buttonLabel.Text = BarUpgradeVals[_barUpgrade][0].ToString();
+			}
+		}
+		else
+		{
+			//last upgrade, disable the button
+			Button upgradeButton = GetNodeOrNull<Button>("ControlUI/VBoxContainer/Drinks/UpgradeButton");
+			if (IsInstanceValid(upgradeButton))
+			{
+				upgradeButton.Disabled = true;
+			}
+			Label upgradeLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/Label");
+			if (IsInstanceValid(upgradeLabel))
+			{
+				upgradeLabel.Text = "Maxed Out";
+			}
+		}
+
+
+		//open bar if first upgrade
+		if (_barUpgrade == 0)
+		{
+			mg.Bar.IsOpen = true;
+			_barUpgrade += 1;
+			return;
+		}
+
+		//upgrade bar if any other upgrade
+		mg.Bar.DrinkCost = upgradeInfo[1];
+		mg.Bar.DrinkHopeStr = upgradeInfo[2];
+		mg.Bar.DrinkAddictionStr = upgradeInfo[3];
+
 	}
 	
-	public void Upgrade2()
+	public void UpgradeBouncer()
 	{
 		var bouncer = GetNode<Bouncer>("/root/MainGame/Bouncer");
 		int nextCost = bouncer.Purchase();
@@ -62,7 +112,7 @@ public partial class Shop : StaticBody2D
 			
 		if(nextCost > 0)
 		{
-			description.Text = "Increase to " + (bouncer.StopTime + 0.2f).ToString("F1");
+			description.Text = "Detains for " + (bouncer.StopTime + 0.2f).ToString("F1");
 			
 			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
 			costLabel.Text = nextCost.ToString();
@@ -74,66 +124,28 @@ public partial class Shop : StaticBody2D
 			button.Disabled = true;
 		}
 	}
+	
+	public void UpgradeAds()
+	{
+		var entrance = GetNode<CasinoEntrance>("/root/MainGame/CasinoEntrance");
+		int nextCost = entrance.Purchase();
 
-    public void UpgradeBar()
-    {
-        MainGame mg = GameManager.instance.ActiveMainGame;
-        Array<float> upgradeInfo = BarUpgradeVals[_barUpgrade];
+		if (nextCost > 0)
+		{
+			Label description = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/Label");
+			description.Text = "Advertise (" + (entrance.SpawnChancePerTick * 100f).ToString("F0") + "%)";
 
-        //check money
-        if (mg.CasinoMoney < upgradeInfo[0])
-        {
-            //failed
-            return;
-        }
+			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer/Label");
+			costLabel.Text = nextCost.ToString();
+		}
+		else
+		{
+			Button button = GetNode<Button>("ControlUI/VBoxContainer/Advertisement/AdButton");
+			button.Disabled = true;
+		}
+	}
 
-        //take money
-        mg.UpdateCasinoMoney(-upgradeInfo[0]);
-
-        //actually upgrade
-        _barUpgrade += 1;
-
-        //update button
-        if (_barUpgrade != BarUpgradeVals.Count)
-        {
-            Label buttonLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/UpgradeButton/HBoxContainer/Label");
-            if (IsInstanceValid(buttonLabel))
-            {
-                buttonLabel.Text = BarUpgradeVals[_barUpgrade][0].ToString();
-            }
-        }
-        else
-        {
-            //last upgrade, disable the button
-            Button upgradeButton = GetNodeOrNull<Button>("ControlUI/VBoxContainer/Drinks/UpgradeButton");
-            if (IsInstanceValid(upgradeButton))
-            {
-                upgradeButton.Disabled = true;
-            }
-            Label upgradeLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/Label");
-            if (IsInstanceValid(upgradeLabel))
-            {
-                upgradeLabel.Text = "Maxed Out";
-            }
-        }
-
-
-        //open bar if first upgrade
-        if (_barUpgrade == 0)
-        {
-            mg.Bar.IsOpen = true;
-            _barUpgrade += 1;
-            return;
-        }
-
-        //upgrade bar if any other upgrade
-        mg.Bar.DrinkCost = upgradeInfo[1];
-        mg.Bar.DrinkHopeStr = upgradeInfo[2];
-        mg.Bar.DrinkAddictionStr = upgradeInfo[3];
-
-    }
-
-    public void BuyMachine()
+	public void BuyMachine()
 	{
 		var mainGame = GetNode<MainGame>("/root/MainGame");
 
@@ -151,7 +163,7 @@ public partial class Shop : StaticBody2D
 		{
 			Button button = GetNode<Button>("ControlUI/VBoxContainer/NewMachine/Upgrade3");
 			button.Disabled = true;
-        }
+		}
 	}
 	
 	public void AdFree()

@@ -1,5 +1,7 @@
 using Godot;
 using Godot.Collections;
+using System.Collections;
+using System.Collections.Generic;
 
 public partial class CasinoEntrance : Node2D
 {
@@ -20,6 +22,8 @@ public partial class CasinoEntrance : Node2D
 
 	[Export] private int _gameStartedCustomerCount = 3;
 	[Export] private float _gameStartedCustomerInRate = 1;
+	
+	private Queue<int> _spawnCost = new Queue<int>(new[] { 30, 50, 70, 100, 150 });
 
 
 	[ExportGroup("Debug New Customer Controls")] //only exported for debug purposes - generally, keep these values as they are "starting" values
@@ -122,5 +126,19 @@ public partial class CasinoEntrance : Node2D
 	public float GetRandom(Vector2 bounds)
 	{
 		return _rng.RandfRange(bounds.X, bounds.Y);
+	}
+	
+	public int Purchase()
+	{
+		var mainGame = GetNode<MainGame>("/root/MainGame");
+		int cost = _spawnCost.Peek();
+		if (cost <= mainGame.CasinoMoney)
+		{
+			cost = _spawnCost.Dequeue();
+			mainGame.UpdateCasinoMoney(-cost);
+			_spawnChancePerTick = Mathf.Min(_spawnChancePerTick + 0.05f, 0.8f);
+		}
+		if (_spawnCost.Count <= 0) { return -1; }
+		return _spawnCost.Peek();
 	}
 }
