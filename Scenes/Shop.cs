@@ -110,10 +110,10 @@ public partial class Shop : StaticBody2D
             {
                 upgradeButton.Disabled = true;
             }
-            Label buttonLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/UpgradeButton/HBoxContainer/Label");
-            if (IsInstanceValid(buttonLabel))
+            Label upgradeLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/Label");
+            if (IsInstanceValid(upgradeLabel))
             {
-                buttonLabel.Text = "Max Upgrades Reached!";
+                upgradeLabel.Text = "Maxed Out";
             }
         }
 

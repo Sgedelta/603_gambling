@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public partial class Bouncer : Node2D
 {
-	private Queue<int> bouncerCost = new Queue<int>(new[] {20, 20, 30, 50, 70, 90});
+	private Queue<int> bouncerCost = new Queue<int>(new[] {500, 100, 200, 350, 500, 750});
 	public float StopTime = 1.0f;
 	public bool IsHired = false;
 	
