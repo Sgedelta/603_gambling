@@ -39,7 +39,7 @@ public partial class Customer : CharacterBody2D
 	[Export] private float _baseLossHopeLoss = .01f;
 	[Export] private float _machineSucksHopeLoss = .05f;
 
-    private int _winLossStreak = 0;
+	private int _winLossStreak = 0;
 
 	[ExportSubgroup("Machine Pick Controls")]
 	[Export] private float _rateStr = 1;
@@ -105,13 +105,13 @@ public partial class Customer : CharacterBody2D
 	private RandomNumberGenerator _rng;
 	private Tween _rewanderTween;
 	private MoneyDisplay _moneyDisplay;
-    [Export] private Texture2D killCursor;
+	[Export] private Texture2D killCursor;
 	[Export] private int soulValue = 1; //do we want some customers to have varying soul values? idk
 
-    [Signal] public delegate void OnCustomerKillEventHandler(int value);
+	[Signal] public delegate void OnCustomerKillEventHandler(int value);
 	private Sprite2D alertSprite;
 
-    public override void _Ready()
+	public override void _Ready()
 	{
 		base._Ready();
 
@@ -136,7 +136,7 @@ public partial class Customer : CharacterBody2D
 
 		Callable.From(DelayedSetup).CallDeferred();
 
-    }
+	}
 
 	public void DelayedSetup()
 	{
@@ -172,7 +172,7 @@ public partial class Customer : CharacterBody2D
 		if(clickEvent.IsActionPressed("KillCustomer"))
 		{
 			CheckKill();
-        }
+		}
 	}
 
 	//Checks customer state and if they should uh. explode when clicked
@@ -200,10 +200,10 @@ public partial class Customer : CharacterBody2D
 		//Can we kill this guy
 		if (CurrentGoal == CustomerGoal.FLEE)
 		{
-            //Change and center crosshair
-            Input.SetCustomMouseCursor(killCursor, Input.CursorShape.Arrow, new Vector2(25, 25));
-        }
-    }
+			//Change and center crosshair
+			Input.SetCustomMouseCursor(killCursor, Input.CursorShape.Arrow, new Vector2(25, 25));
+		}
+	}
 
 	private void OnMouseExit()
 	{
@@ -224,7 +224,7 @@ public partial class Customer : CharacterBody2D
 		_baseWinHopeGain = vals[6];
 		_baseLossHopeLoss = vals[7];
 		_machineSucksHopeLoss = vals[8];
-    }
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -233,11 +233,11 @@ public partial class Customer : CharacterBody2D
 		//Manually changing color in fleecasino, don't want it to be overwritten here
 		if (CurrentGoal != CustomerGoal.FLEE)
 		{
-            _sprite.Modulate = _hopeGradient.Gradient.Sample(_hopeAmount);
-        }
+			_sprite.Modulate = _hopeGradient.Gradient.Sample(_hopeAmount);
+		}
 
-        //handle our gambling!
-        if (CurrentGoal == CustomerGoal.GAMBLE)
+		//handle our gambling!
+		if (CurrentGoal == CustomerGoal.GAMBLE)
 		{
 			//see if we have an active machine
 			//if we don't have an active machine, try to find the "best" open machine, based on our own considerations
@@ -247,26 +247,26 @@ public partial class Customer : CharacterBody2D
 
 				if (ActiveMachine != null) //sometimes, no machines are open.
 				{
-                    float noDistanceGoodness = GetMachinePercievedGoodness(ActiveMachine, true);
+					float noDistanceGoodness = GetMachinePercievedGoodness(ActiveMachine, true);
 
 					//double check we actually make profit...
 					if (noDistanceGoodness > 0 || (noDistanceGoodness < 0 && RandomAddictionCheck())) 
 					{
-                        ActiveMachine.IsAvailable = false; //mark this machine as taken
-                        TargetPos = ActiveMachine.PlayPosition;
-                        if (DEBUG)
-                        {
-                            GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
-                        }
-                    }
+						ActiveMachine.IsAvailable = false; //mark this machine as taken
+						TargetPos = ActiveMachine.PlayPosition;
+						if (DEBUG)
+						{
+							GD.Print($"[C] {Name}: Going to Gamble at my new machine, {ActiveMachine.Name}");
+						}
+					}
 					else
 					{
-                        if (DEBUG)
-                        {
-                            GD.Print($"[C] {Name}: Going to Wander because my new machine, {ActiveMachine.Name}, sucks ({noDistanceGoodness})");
-                        }
+						if (DEBUG)
+						{
+							GD.Print($"[C] {Name}: Going to Wander because my new machine, {ActiveMachine.Name}, sucks ({noDistanceGoodness})");
+						}
 						_hopeAmount -= _machineSucksHopeLoss;
-                        BeginWander();
+						BeginWander();
 						return;
 					}
 
@@ -630,10 +630,10 @@ public partial class Customer : CharacterBody2D
 		//unsubscribe our listener(s)
 		//we could do this when we pick and leave a machine... but this is a bit cleaner, imo. we might leave after ANY game and we only care about it WHEN we play. so. safer! one place!
 		ActiveMachine.OnGamePlayed -= RegisterGame;
-        
+		
 
-        //rethink life choices
-        ReevaluateGoal();
+		//rethink life choices
+		ReevaluateGoal();
 
 		_isWaitingForGame = false;
 	}
@@ -750,13 +750,13 @@ public partial class Customer : CharacterBody2D
 		float profit = (m.Profit * Mathf.Clamp(rate + _hopeAmount * HopeWinRateStrength, 0, 1)) - m.Cost;
 
 
-        if (DEBUG) 
+		if (DEBUG) 
 		{
 			GD.Print($"[C] {Name}: Percieved Profit from {m.Name} is {profit}: win {m.Profit} x {Mathf.Clamp(rate + _hopeAmount * HopeWinRateStrength, 0, 1)}, lose {m.Cost}"); 
 		}
 
 
-        return profit;
+		return profit;
 
 	}
 
