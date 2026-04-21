@@ -35,14 +35,7 @@ agent_radius = 75.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xqxu"]
 size = Vector2(982.7962, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_18r40"]
-atlas = ExtResource("6_bb2iq")
-region = Rect2(14, 155, 610, 250)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bb2iq"]
-size = Vector2(611, 234)
-
-[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("ActiveMachines", "InactiveMachines", "_mDisplay", "_sDisplay", "_entrance", "navArea")]
+[node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("ActiveMachines", "InactiveMachines", "_mDisplay", "_sDisplay", "_entrance")]
 script = ExtResource("1_l756w")
 ActiveMachines = [NodePath("Machine"), NodePath("Machine2")]
 InactiveMachines = [NodePath("Machine3"), NodePath("Machine4"), NodePath("Machine5"), NodePath("Machine6"), NodePath("Machine7"), NodePath("Machine8"), NodePath("Machine9"), NodePath("Machine10"), NodePath("Machine11"), NodePath("Machine12")]
@@ -55,7 +48,6 @@ _sDisplay = NodePath("MainUI/SoulDisplay")
 _adScene = ExtResource("4_r0mdn")
 AllowAds = false
 _entrance = NodePath("CasinoEntrance")
-navArea = NodePath("NavRegion")
 
 [node name="MainUI" type="CanvasLayer" parent="." unique_id=1622229264]
 layer = 15
