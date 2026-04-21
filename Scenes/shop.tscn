@@ -30,6 +30,7 @@ region = Rect2(302.48917, 563.67773, 121.412506, 114.8009)
 y_sort_enabled = true
 input_pickable = true
 script = ExtResource("1_io27d")
+BarUpgradeVals = Array[Array]([[2000.0, 5.0, 0.05, 0.025], [500.0, 8.0, 0.08, 0.04], [750.0, 12.0, 0.12, 0.066], [1000.0, 15.0, 0.15, 0.08], [1500.0, 20.0, 0.2, 0.1]])
 
 [node name="Upgrade Sprite" type="Sprite2D" parent="." unique_id=571050210]
 texture_filter = 1
