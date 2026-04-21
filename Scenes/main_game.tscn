@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bj12erd2xdrpw" path="res://Scenes/mrbeast.tscn" id="13_c78sm"]
 [ext_resource type="PackedScene" uid="uid://chi77elwqroqg" path="res://Scenes/drinks.tscn" id="13_sftma"]
 [ext_resource type="PackedScene" uid="uid://b0x8qwfnicykg" path="res://Scenes/shop.tscn" id="14_sftma"]
-[ext_resource type="PackedScene" uid="uid://c4mtqmm54noke" path="res://Scenes/bouncer.tscn" id="16_erobn"]
+[ext_resource type="PackedScene" path="res://Scenes/bouncer.tscn" id="16_erobn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkxjs"]
 atlas = ExtResource("5_r0mdn")
@@ -36,17 +36,9 @@ agent_radius = 75.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xqxu"]
 size = Vector2(982.7962, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_18r40"]
-atlas = ExtResource("6_bb2iq")
-region = Rect2(14, 155, 610, 250)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bb2iq"]
-size = Vector2(611, 234)
-
 [node name="MainGame" type="Node2D" unique_id=227326744 node_paths=PackedStringArray("ActiveMachines", "_mDisplay", "_entrance")]
 script = ExtResource("1_l756w")
 ActiveMachines = [NodePath("Machine"), NodePath("Machine2")]
-InactiveMachines = [NodePath("Machine3"), NodePath("Machine4"), NodePath("Machine5"), NodePath("Machine6"), NodePath("Machine7"), NodePath("Machine8"), NodePath("Machine9"), NodePath("Machine10"), NodePath("Machine11"), NodePath("Machine12")]
 _customerPrefab = ExtResource("2_pu3va")
 _machinePrefab = ExtResource("3_0e3vx")
 CasinoBounds = Rect2(0, 0, 3840, 2160)
