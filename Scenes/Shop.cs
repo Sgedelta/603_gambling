@@ -108,11 +108,11 @@ public partial class Shop : StaticBody2D
 	{
 		var bouncer = GetNode<Bouncer>("/root/MainGame/Bouncer");
 		int nextCost = bouncer.Purchase();
-		Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Label");
+		Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/HBoxContainer/Label");
 			
 		if(nextCost > 0)
 		{
-			description.Text = "Detains for " + (bouncer.StopTime + 0.2f).ToString("F1");
+			description.Text = "Detain Time";
 			
 			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
 			costLabel.Text = nextCost.ToString();
@@ -132,7 +132,7 @@ public partial class Shop : StaticBody2D
 
 		if (nextCost > 0)
 		{
-			Label description = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/Label");
+			Label description = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/HBoxContainer/Label");
 			description.Text = "Advertise (" + (entrance.SpawnChancePerTick * 100f).ToString("F0") + "%)";
 
 			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer/Label");
