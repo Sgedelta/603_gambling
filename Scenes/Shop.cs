@@ -62,7 +62,7 @@ public partial class Shop : StaticBody2D
 		mg.UpdateCasinoMoney(-upgradeInfo[0]);
 
 		//actually upgrade
-		//_barUpgrade += 1;
+		_barUpgrade += 1;
 
 		//update button
 		if (_barUpgrade != BarUpgradeVals.Count)
@@ -90,17 +90,15 @@ public partial class Shop : StaticBody2D
 
 		TextureProgressBar drinkBar = GetNodeOrNull<TextureProgressBar>("ControlUI/VBoxContainer/Drinks/HBoxContainer/drinkBar");
 		//open bar if first upgrade
-		if (_barUpgrade == 0)
+		if (_barUpgrade == 1) //1 not 0 because it gets incremented earlier. easier to check conditions up there with it added
 		{
 			GD.Print("yo");
 			drinkBar.Visible = true;
 			mg.Bar.IsOpen = true;
-			_barUpgrade += 1;
 			return;
 		}
 
 		//upgrade bar if any other upgrade
-		_barUpgrade += 1;
 		mg.Bar.DrinkCost = upgradeInfo[1];
 		mg.Bar.DrinkHopeStr = upgradeInfo[2];
 		mg.Bar.DrinkAddictionStr = upgradeInfo[3];
