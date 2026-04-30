@@ -63,11 +63,11 @@ public partial class Shop : StaticBody2D
 
 		//actually upgrade
 		_barUpgrade += 1;
+		Label buttonLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/UpgradeButton/HBoxContainer/Label");
 
 		//update button
 		if (_barUpgrade != BarUpgradeVals.Count)
 		{
-			Label buttonLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/UpgradeButton/HBoxContainer/Label");
 			if (IsInstanceValid(buttonLabel))
 			{
 				buttonLabel.Text = BarUpgradeVals[_barUpgrade][0].ToString();
@@ -81,10 +81,9 @@ public partial class Shop : StaticBody2D
 			{
 				upgradeButton.Disabled = true;
 			}
-			Label upgradeLabel = GetNodeOrNull<Label>("ControlUI/VBoxContainer/Drinks/Label");
-			if (IsInstanceValid(upgradeLabel))
+			if (IsInstanceValid(buttonLabel))
 			{
-				upgradeLabel.Text = "Maxed Out";
+				buttonLabel.Text = "Maxed Out";
 			}
 		}
 
@@ -109,18 +108,17 @@ public partial class Shop : StaticBody2D
 	{
 		var bouncer = GetNode<Bouncer>("/root/MainGame/Bouncer");
 		int nextCost = bouncer.Purchase();
-		Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
-			
+		Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Label");
+		Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
+		
 		if(nextCost > 0)
 		{
-			description.Text = "Detains for " + (bouncer.StopTime + 0.2f).ToString("F1");
-	
-			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
+			description.Text = "Detains for " + (bouncer.StopTime + 0.2f).ToString("F1") + "s";
 			costLabel.Text = nextCost.ToString();
 		}
 		else
 		{
-			description.Text = "Maxed Out";
+			costLabel.Text = "Maxed Out";
 			Button button = GetNode<Button>("ControlUI/VBoxContainer/Bouncer/Upgrade2");
 			button.Disabled = true;
 		}
@@ -130,10 +128,11 @@ public partial class Shop : StaticBody2D
 	{
 		var entrance = GetNode<CasinoEntrance>("/root/MainGame/CasinoEntrance");
 		int nextCost = entrance.Purchase();
+		Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer/Label");
 
 		if (nextCost > 0)
 		{
-			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer/Label");
+			
 			costLabel.Text = nextCost.ToString();
 			TextureProgressBar adBar = GetNodeOrNull<TextureProgressBar>("ControlUI/VBoxContainer/Advertisement/HBoxContainer/adBar");
 			adBar.Visible = true;
@@ -143,6 +142,7 @@ public partial class Shop : StaticBody2D
 		{
 			Button button = GetNode<Button>("ControlUI/VBoxContainer/Advertisement/AdButton");
 			button.Disabled = true;
+			costLabel.Text = "Maxed Out";
 		}
 	}
 
