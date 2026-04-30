@@ -62,7 +62,7 @@ public partial class Shop : StaticBody2D
 		mg.UpdateCasinoMoney(-upgradeInfo[0]);
 
 		//actually upgrade
-		_barUpgrade += 1;
+		//_barUpgrade += 1;
 
 		//update button
 		if (_barUpgrade != BarUpgradeVals.Count)
@@ -88,32 +88,35 @@ public partial class Shop : StaticBody2D
 			}
 		}
 
-
+		TextureProgressBar drinkBar = GetNodeOrNull<TextureProgressBar>("ControlUI/VBoxContainer/Drinks/HBoxContainer/drinkBar");
 		//open bar if first upgrade
 		if (_barUpgrade == 0)
 		{
+			GD.Print("yo");
+			drinkBar.Visible = true;
 			mg.Bar.IsOpen = true;
 			_barUpgrade += 1;
 			return;
 		}
 
 		//upgrade bar if any other upgrade
+		_barUpgrade += 1;
 		mg.Bar.DrinkCost = upgradeInfo[1];
 		mg.Bar.DrinkHopeStr = upgradeInfo[2];
 		mg.Bar.DrinkAddictionStr = upgradeInfo[3];
-
+		drinkBar.Value += 20;
 	}
 	
 	public void UpgradeBouncer()
 	{
 		var bouncer = GetNode<Bouncer>("/root/MainGame/Bouncer");
 		int nextCost = bouncer.Purchase();
-		Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/HBoxContainer/Label");
+		Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
 			
 		if(nextCost > 0)
 		{
-			description.Text = "Detain Time";
-			
+			description.Text = "Detains for " + (bouncer.StopTime + 0.2f).ToString("F1");
+	
 			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
 			costLabel.Text = nextCost.ToString();
 		}
@@ -132,11 +135,11 @@ public partial class Shop : StaticBody2D
 
 		if (nextCost > 0)
 		{
-			Label description = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/HBoxContainer/Label");
-			description.Text = "Advertise (" + (entrance.SpawnChancePerTick * 100f).ToString("F0") + "%)";
-
 			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer/Label");
 			costLabel.Text = nextCost.ToString();
+			TextureProgressBar adBar = GetNodeOrNull<TextureProgressBar>("ControlUI/VBoxContainer/Advertisement/HBoxContainer/adBar");
+			adBar.Visible = true;
+			adBar.Value += 20;
 		}
 		else
 		{

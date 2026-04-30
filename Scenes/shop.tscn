@@ -6,11 +6,11 @@
 [ext_resource type="StyleBox" uid="uid://cc63qokjtqit" path="res://Resources/Themes/button.tres" id="3_io27d"]
 [ext_resource type="StyleBox" uid="uid://dj63skhktbdfp" path="res://Resources/Themes/button_hover.tres" id="4_k6jq0"]
 [ext_resource type="StyleBox" uid="uid://ccd1ryv66tcvy" path="res://Resources/Themes/button_press.tres" id="5_3ps1r"]
+[ext_resource type="Texture2D" uid="uid://deuu06qf5mbk6" path="res://Resources/Sprites/drinks_empty.png" id="7_1sjcd"]
 [ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="7_ymrm4"]
+[ext_resource type="Texture2D" uid="uid://bdw6x5m5gilnc" path="res://Resources/Sprites/drinks_full.png" id="8_1cyt5"]
 [ext_resource type="Script" uid="uid://m5fgjq4hb8d6" path="res://Scenes/ad_free_button.gd" id="8_s8dlv"]
 [ext_resource type="Theme" uid="uid://cttjx5hj1jrun" path="res://Resources/Themes/upgrade_button_theme.tres" id="8_tyrku"]
-[ext_resource type="Texture2D" uid="uid://buf7tbw6c2fcu" path="res://Resources/Sprites/bouncer_empty.png" id="9_1sjcd"]
-[ext_resource type="Texture2D" uid="uid://mm0ijxehl46t" path="res://Resources/Sprites/bouncer_full.png" id="10_1cyt5"]
 [ext_resource type="Texture2D" uid="uid://byc7ohx0esmm5" path="res://Resources/Sprites/ad_empty.png" id="11_0vsm1"]
 [ext_resource type="Texture2D" uid="uid://brmqid74awffh" path="res://Resources/Sprites/ad_full.png" id="12_3568l"]
 
@@ -49,7 +49,7 @@ z_index = 6
 offset_left = -477.0
 offset_top = 1.0
 offset_right = 400.0
-offset_bottom = 1201.0
+offset_bottom = 1276.0
 theme_override_styles/panel = ExtResource("3_3ps1r")
 
 [node name="CloseButton" type="Button" parent="ControlUI" unique_id=1469992155]
@@ -69,10 +69,10 @@ text = "X"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ControlUI" unique_id=573117391]
 layout_mode = 0
-offset_left = 37.0
-offset_top = 48.0
-offset_right = 845.0
-offset_bottom = 1230.0
+offset_left = 30.0
+offset_top = 102.0
+offset_right = 855.0
+offset_bottom = 1284.0
 theme_override_constants/separation = 35
 
 [node name="Drinks" type="VBoxContainer" parent="ControlUI/VBoxContainer" unique_id=1634909814]
@@ -80,11 +80,26 @@ custom_minimum_size = Vector2(370, 0)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Drinks" unique_id=595229490]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/VBoxContainer/Drinks" unique_id=1141861486]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Drinks/HBoxContainer" unique_id=1414416185]
 layout_mode = 2
 theme_override_font_sizes/font_size = 75
 text = "Upgrade Bar"
 horizontal_alignment = 1
+
+[node name="drinkBar" type="TextureProgressBar" parent="ControlUI/VBoxContainer/Drinks/HBoxContainer" unique_id=791954645]
+visible = false
+custom_minimum_size = Vector2(350, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+step = 20.0
+nine_patch_stretch = true
+texture_under = ExtResource("7_1sjcd")
+texture_progress = ExtResource("8_1cyt5")
 
 [node name="UpgradeButton" type="Button" parent="ControlUI/VBoxContainer/Drinks" unique_id=1953175491]
 custom_minimum_size = Vector2(400, 70)
@@ -124,26 +139,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/VBoxContainer/Bouncer" unique_id=116444587]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 20
-
-[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Bouncer/HBoxContainer" unique_id=1028311245]
+[node name="Label" type="Label" parent="ControlUI/VBoxContainer/Bouncer" unique_id=1028311245]
 layout_mode = 2
 theme_override_font_sizes/font_size = 75
-text = "Detain Time"
+text = "Hire a bouncer"
 horizontal_alignment = 1
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="ControlUI/VBoxContainer/Bouncer/HBoxContainer" unique_id=461315410]
-custom_minimum_size = Vector2(350, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-step = 20.0
-value = 60.0
-nine_patch_stretch = true
-texture_under = ExtResource("9_1sjcd")
-texture_progress = ExtResource("10_1cyt5")
 
 [node name="Upgrade2" type="Button" parent="ControlUI/VBoxContainer/Bouncer" unique_id=92065002]
 custom_minimum_size = Vector2(400, 70)
@@ -194,12 +194,12 @@ theme_override_font_sizes/font_size = 75
 text = "Advertise"
 horizontal_alignment = 1
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="ControlUI/VBoxContainer/Advertisement/HBoxContainer" unique_id=1646205144]
+[node name="adBar" type="TextureProgressBar" parent="ControlUI/VBoxContainer/Advertisement/HBoxContainer" unique_id=1646205144]
+visible = false
 custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 step = 20.0
-value = 60.0
 nine_patch_stretch = true
 texture_under = ExtResource("11_0vsm1")
 texture_progress = ExtResource("12_3568l")
