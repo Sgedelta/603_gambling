@@ -10,10 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://bkufdtwds8nls" path="res://Resources/Sprites/slider deselected.png" id="6_v6d2l"]
 [ext_resource type="StyleBox" uid="uid://ddp3p0vo62f3n" path="res://Resources/Themes/slider.tres" id="7_yxjck"]
 [ext_resource type="StyleBox" uid="uid://clg4fg7cy6emm" path="res://Resources/Themes/sliderFill.tres" id="9_yxjck"]
-[ext_resource type="StyleBox" uid="uid://ccd1ryv66tcvy" path="res://Resources/Themes/button_press.tres" id="10_axvhy"]
 [ext_resource type="Theme" uid="uid://cttjx5hj1jrun" path="res://Resources/Themes/upgrade_button_theme.tres" id="11_fg16t"]
-[ext_resource type="StyleBox" uid="uid://dj63skhktbdfp" path="res://Resources/Themes/button_hover.tres" id="11_uiud8"]
-[ext_resource type="StyleBox" uid="uid://cc63qokjtqit" path="res://Resources/Themes/button.tres" id="12_3ieju"]
+[ext_resource type="StyleBox" uid="uid://c4uonq8hk82na" path="res://Resources/Themes/machine_normal.tres" id="12_3ieju"]
+[ext_resource type="StyleBox" uid="uid://cxx1kp17ecjrj" path="res://Resources/Themes/machine_pressed.tres" id="13_ikunn"]
+[ext_resource type="StyleBox" uid="uid://dx4l5fii5dk2w" path="res://Resources/Themes/machine_hover.tres" id="14_cj81u"]
+[ext_resource type="Script" uid="uid://dovc7b32b7673" path="res://Scenes/MachineButtons.cs" id="15_3ieju"]
 [ext_resource type="Texture2D" uid="uid://maapd8sld4fx" path="res://Resources/Sprites/UI elements.png" id="15_ikunn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mg6tx"]
@@ -33,11 +34,9 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cj81u"]
-resource_local_to_scene = true
-resource_name = "Ghost"
+[sub_resource type="AtlasTexture" id="AtlasTexture_fg16t"]
 atlas = ExtResource("15_ikunn")
-region = Rect2(302.48917, 563.67773, 121.412506, 114.8009)
+region = Rect2(301.5, 560.77, 124, 120)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e0cea"]
 bg_color = Color(0.22352941, 0.08235294, 0.05490196, 1)
@@ -84,7 +83,6 @@ vertical_alignment = 1
 script = ExtResource("3_v6d2l")
 
 [node name="ControlUI" type="Panel" parent="." unique_id=1833735756]
-visible = false
 z_index = 2
 offset_left = -206.0
 offset_top = -379.0
@@ -111,9 +109,12 @@ theme_override_constants/margin_bottom = 30
 
 [node name="VertFlow" type="VBoxContainer" parent="ControlUI/ControlMargins" unique_id=713648261]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 40
 
 [node name="CostUI" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=561254894]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 10
 
@@ -163,7 +164,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PayoutUI" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=267073112]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
@@ -202,7 +202,6 @@ step = 5.0
 value = 10.0
 
 [node name="WinrateUI" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=1530887748]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
@@ -240,30 +239,35 @@ max_value = 1.0
 step = 0.01
 value = 0.3
 
-[node name="BuyCost" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=782186426]
+[node name="VertFlow2" type="VBoxContainer" parent="ControlUI/ControlMargins" unique_id=1272929766]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = -5
+
+[node name="BuyCost" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow2" unique_id=453216833]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/BuyCost" unique_id=1967757911]
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow2/BuyCost" unique_id=1710261593]
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Cost Modifier"
+theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 
-[node name="CostButton" type="Button" parent="ControlUI/ControlMargins/VertFlow/BuyCost" unique_id=620343968]
+[node name="CostButton" type="Button" parent="ControlUI/ControlMargins/VertFlow2/BuyCost" unique_id=889009612]
 custom_minimum_size = Vector2(400, 70)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_vertical = 4
 theme = ExtResource("11_fg16t")
 theme_override_font_sizes/font_size = 70
 theme_override_styles/normal = ExtResource("12_3ieju")
-theme_override_styles/pressed = ExtResource("10_axvhy")
-theme_override_styles/hover = ExtResource("11_uiud8")
+theme_override_styles/pressed = ExtResource("13_ikunn")
+theme_override_styles/hover = ExtResource("14_cj81u")
 text = " "
-icon_alignment = 1
+script = ExtResource("15_3ieju")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/ControlMargins/VertFlow/BuyCost/CostButton" unique_id=198459349]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/ControlMargins/VertFlow2/BuyCost/CostButton" unique_id=614757083]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -273,41 +277,42 @@ grow_vertical = 2
 theme = ExtResource("11_fg16t")
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="ControlUI/ControlMargins/VertFlow/BuyCost/CostButton/HBoxContainer" unique_id=1781748176]
+[node name="TextureRect" type="TextureRect" parent="ControlUI/ControlMargins/VertFlow2/BuyCost/CostButton/HBoxContainer" unique_id=418979937]
 layout_mode = 2
 theme = ExtResource("11_fg16t")
-texture = SubResource("AtlasTexture_cj81u")
-stretch_mode = 5
+texture = SubResource("AtlasTexture_fg16t")
+expand_mode = 2
 
-[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/BuyCost/CostButton/HBoxContainer" unique_id=485410498]
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow2/BuyCost/CostButton/HBoxContainer" unique_id=219348111]
 layout_mode = 2
 theme = ExtResource("11_fg16t")
 text = "1"
 
-[node name="BuyPayout" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=810122945]
+[node name="BuyPayout" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow2" unique_id=2021720706]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/BuyPayout" unique_id=2035656521]
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow2/BuyPayout" unique_id=792307983]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-text = "Payout Modifier"
 horizontal_alignment = 1
 
-[node name="PayoutButton" type="Button" parent="ControlUI/ControlMargins/VertFlow/BuyPayout" unique_id=288632171]
+[node name="PayoutButton" type="Button" parent="ControlUI/ControlMargins/VertFlow2/BuyPayout" unique_id=895336679]
 custom_minimum_size = Vector2(400, 70)
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("11_fg16t")
 theme_override_font_sizes/font_size = 70
 theme_override_styles/normal = ExtResource("12_3ieju")
-theme_override_styles/pressed = ExtResource("10_axvhy")
-theme_override_styles/hover = ExtResource("11_uiud8")
+theme_override_styles/pressed = ExtResource("13_ikunn")
+theme_override_styles/hover = ExtResource("14_cj81u")
 text = " "
 icon_alignment = 1
+script = ExtResource("15_3ieju")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/ControlMargins/VertFlow/BuyPayout/PayoutButton" unique_id=1820630690]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/ControlMargins/VertFlow2/BuyPayout/PayoutButton" unique_id=523111749]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -317,41 +322,43 @@ grow_vertical = 2
 theme = ExtResource("11_fg16t")
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="ControlUI/ControlMargins/VertFlow/BuyPayout/PayoutButton/HBoxContainer" unique_id=974806067]
+[node name="TextureRect" type="TextureRect" parent="ControlUI/ControlMargins/VertFlow2/BuyPayout/PayoutButton/HBoxContainer" unique_id=908952621]
 layout_mode = 2
 theme = ExtResource("11_fg16t")
-texture = SubResource("AtlasTexture_cj81u")
+texture = SubResource("AtlasTexture_fg16t")
+expand_mode = 2
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/BuyPayout/PayoutButton/HBoxContainer" unique_id=1070329790]
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow2/BuyPayout/PayoutButton/HBoxContainer" unique_id=511117482]
 layout_mode = 2
 theme = ExtResource("11_fg16t")
 text = "1"
 
-[node name="BuyWinrate" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow" unique_id=515516209]
+[node name="BuyWinrate" type="VBoxContainer" parent="ControlUI/ControlMargins/VertFlow2" unique_id=176571794]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/BuyWinrate" unique_id=1040787245]
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow2/BuyWinrate" unique_id=46999198]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-text = "Winrate Modifier"
 horizontal_alignment = 1
 
-[node name="WinrateButton" type="Button" parent="ControlUI/ControlMargins/VertFlow/BuyWinrate" unique_id=461607185]
+[node name="WinrateButton" type="Button" parent="ControlUI/ControlMargins/VertFlow2/BuyWinrate" unique_id=292466595]
 custom_minimum_size = Vector2(400, 70)
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("11_fg16t")
 theme_override_font_sizes/font_size = 70
 theme_override_styles/normal = ExtResource("12_3ieju")
-theme_override_styles/pressed = ExtResource("10_axvhy")
-theme_override_styles/hover = ExtResource("11_uiud8")
+theme_override_styles/pressed = ExtResource("13_ikunn")
+theme_override_styles/hover = ExtResource("14_cj81u")
 text = " "
 icon_alignment = 1
+script = ExtResource("15_3ieju")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/ControlMargins/VertFlow/BuyWinrate/WinrateButton" unique_id=340684727]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlUI/ControlMargins/VertFlow2/BuyWinrate/WinrateButton" unique_id=244191660]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -361,13 +368,14 @@ grow_vertical = 2
 theme = ExtResource("11_fg16t")
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="ControlUI/ControlMargins/VertFlow/BuyWinrate/WinrateButton/HBoxContainer" unique_id=1564102398]
+[node name="TextureRect" type="TextureRect" parent="ControlUI/ControlMargins/VertFlow2/BuyWinrate/WinrateButton/HBoxContainer" unique_id=1909204270]
 layout_mode = 2
 theme = ExtResource("11_fg16t")
-texture = SubResource("AtlasTexture_cj81u")
+texture = SubResource("AtlasTexture_fg16t")
+expand_mode = 2
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow/BuyWinrate/WinrateButton/HBoxContainer" unique_id=1268125454]
+[node name="Label" type="Label" parent="ControlUI/ControlMargins/VertFlow2/BuyWinrate/WinrateButton/HBoxContainer" unique_id=1842876212]
 layout_mode = 2
 theme = ExtResource("11_fg16t")
 text = "1"
@@ -385,8 +393,8 @@ grow_horizontal = 0
 pivot_offset_ratio = Vector2(1, 0)
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_e0cea")
-theme_override_styles/pressed = ExtResource("10_axvhy")
-theme_override_styles/hover = ExtResource("11_uiud8")
+theme_override_styles/pressed = ExtResource("13_ikunn")
+theme_override_styles/hover = ExtResource("14_cj81u")
 text = "X"
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=366683848]
@@ -401,7 +409,10 @@ radius = 200.0
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="." method="SetWinrate"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="Label" method="ResetAmount"]
 [connection signal="value_changed" from="ControlUI/ControlMargins/VertFlow/WinrateUI/HSlider" to="ControlUI/ControlMargins/VertFlow/WinrateUI/HBoxContainer/Val Label" method="set_formatted_text"]
-[connection signal="pressed" from="ControlUI/ControlMargins/VertFlow/BuyCost/CostButton" to="." method="UnlockCost"]
-[connection signal="pressed" from="ControlUI/ControlMargins/VertFlow/BuyPayout/PayoutButton" to="." method="UnlockPayout"]
-[connection signal="pressed" from="ControlUI/ControlMargins/VertFlow/BuyWinrate/WinrateButton" to="." method="UnlockWinrate"]
+[connection signal="mouse_entered" from="ControlUI/ControlMargins/VertFlow2/BuyCost/CostButton" to="ControlUI/ControlMargins/VertFlow2/BuyCost/CostButton" method="OnHover"]
+[connection signal="mouse_exited" from="ControlUI/ControlMargins/VertFlow2/BuyCost/CostButton" to="ControlUI/ControlMargins/VertFlow2/BuyCost/CostButton" method="OnHoverExit"]
+[connection signal="mouse_entered" from="ControlUI/ControlMargins/VertFlow2/BuyPayout/PayoutButton" to="ControlUI/ControlMargins/VertFlow2/BuyPayout/PayoutButton" method="OnHover"]
+[connection signal="mouse_exited" from="ControlUI/ControlMargins/VertFlow2/BuyPayout/PayoutButton" to="ControlUI/ControlMargins/VertFlow2/BuyPayout/PayoutButton" method="OnHoverExit"]
+[connection signal="mouse_entered" from="ControlUI/ControlMargins/VertFlow2/BuyWinrate/WinrateButton" to="ControlUI/ControlMargins/VertFlow2/BuyWinrate/WinrateButton" method="OnHover"]
+[connection signal="mouse_exited" from="ControlUI/ControlMargins/VertFlow2/BuyWinrate/WinrateButton" to="ControlUI/ControlMargins/VertFlow2/BuyWinrate/WinrateButton" method="OnHoverExit"]
 [connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]

@@ -45,6 +45,11 @@ public partial class Shop : StaticBody2D
 	{
 		_control.Visible = visible;
 	}
+
+	public void CloseShop()
+	{
+		SetUIControlVis(false);
+	}
 	
 	public void UpgradeBar()
 	{
