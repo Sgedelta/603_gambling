@@ -206,10 +206,15 @@ public partial class MainGame : Node2D
 		//If it's under 0, even out to 0 (unless we're allowed to go into debt...that's a design question)
 		if (CasinoMoney < 0)
 		{
-			CasinoMoney = 0;
+			EndGame();
 		}
 
 		_mDisplay.Display(CasinoMoney);
+	}
+
+	public void EndGame()
+	{
+
 	}
 
 	//Returns the "best" machine for a given customer. Decided by the game because the customer doesn't know about all the machines
