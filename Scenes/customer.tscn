@@ -32,7 +32,6 @@ _lowHopeLeaveCurve = ExtResource("2_t5tqw")
 _highHopeLeaveCurve = ExtResource("3_2nln4")
 _lowHopeFleeCurve = ExtResource("4_o7qao")
 _highHopeFleeCurve = ExtResource("5_glosv")
-Alcoholism = 0.25
 MachineConsiderations = 4
 _hopeGradient = ExtResource("2_0v30w")
 killCursor = ExtResource("3_2o0mk")

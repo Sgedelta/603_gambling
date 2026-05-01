@@ -55,8 +55,7 @@ public partial class Customer : CharacterBody2D
 
 
 	[ExportSubgroup("")]
-	[Export] public float Alcoholism = .2f; //chance of a gambler to decide to get a drink instead of gambling at AlcoholismMinHope & below
-	[Export] public float AlcoholismMinHope = .3f; 
+	[Export] public Curve HopeToAlcoholismCurve; 
 	[Export] public float Indecisiveness = .2f; //chance of a gambler to wander again when leaving wander state
 
 
@@ -456,7 +455,7 @@ public partial class Customer : CharacterBody2D
 				}
 
 				//maybe we just need to chill out and relax...
-				float relaxChance = Mathf.Lerp(Alcoholism, 0, Mathf.InverseLerp(AlcoholismMinHope, 1, _hopeAmount));
+				float relaxChance = HopeToAlcoholismCurve.Sample(Mathf.Clamp(_hopeAmount, 0, 1));
 				if (_rng.Randf() <= relaxChance)
 				{
 					if(DEBUG)
