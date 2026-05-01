@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dc6thgujw6e61" path="res://Scenes/MoneyDisplay.cs" id="4_vkxjs"]
 [ext_resource type="Curve" uid="uid://wgs0dv5afqge" path="res://Resources/Curves/CustomerFleeHighHope.tres" id="5_glosv"]
 [ext_resource type="Texture2D" uid="uid://jauyoi2jphmc" path="res://Resources/Sprites/alertimg.png" id="5_vkxjs"]
+[ext_resource type="Curve" uid="uid://bu14u0vc0enh4" path="res://Resources/Curves/CustomerHopeToAlcoholism.tres" id="6_2nln4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0v30w"]
 atlas = ExtResource("2_7c3kf")
@@ -32,6 +33,7 @@ _lowHopeLeaveCurve = ExtResource("2_t5tqw")
 _highHopeLeaveCurve = ExtResource("3_2nln4")
 _lowHopeFleeCurve = ExtResource("4_o7qao")
 _highHopeFleeCurve = ExtResource("5_glosv")
+HopeToAlcoholismCurve = ExtResource("6_2nln4")
 MachineConsiderations = 4
 _hopeGradient = ExtResource("2_0v30w")
 killCursor = ExtResource("3_2o0mk")

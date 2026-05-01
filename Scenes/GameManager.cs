@@ -21,7 +21,7 @@ public partial class GameManager : Node
 	public override void _EnterTree()
 	{
 		//singleton
-		if( instance == null )
+		if( !IsInstanceValid(instance) )
 		{
 			instance = this;
 		}
