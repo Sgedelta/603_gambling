@@ -33,24 +33,30 @@ public partial class Bouncer : Node2D
 	public int Purchase()
 	{
 		var mainGame = GetNode<MainGame>("/root/MainGame");
+		
+		if (bouncerCost.Count == 0)
+			return -1;
+		
 		int cost = bouncerCost.Peek();
-		if (cost <= mainGame.CasinoMoney)
+		if (cost > mainGame.CasinoMoney)
 		{
-			cost = bouncerCost.Dequeue();
-			mainGame.UpdateCasinoMoney(-cost);
-			
-			if(!IsHired)
-			{
-				IsHired = true;
-				Show();
-			}
-			else
-			{
-				IncreaseStopTime();
-			}
+			return cost;
 		}
-		if (bouncerCost.Count <= 0) { return -1; }
+		cost = bouncerCost.Dequeue();
+		mainGame.UpdateCasinoMoney(-cost);
+			
+		if(!IsHired)
+		{
+			IsHired = true;
+			Show();
+		}
+		else
+		{
+			IncreaseStopTime();
+		}
+				
+		GD.Print(StopTime);
 
-		return bouncerCost.Peek();
+		return bouncerCost.Count == 0 ? -1 : bouncerCost.Peek();
 	}
 }

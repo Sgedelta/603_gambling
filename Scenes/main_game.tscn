@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://u628dtjb67e0" path="res://Scenes/exit_zone.tscn" id="9_0xqxu"]
 [ext_resource type="PackedScene" uid="uid://bjocyxmliin75" path="res://Scenes/casino_entrance.tscn" id="12_tpqse"]
 [ext_resource type="PackedScene" uid="uid://bj12erd2xdrpw" path="res://Scenes/mrbeast.tscn" id="13_c78sm"]
-[ext_resource type="PackedScene" path="res://Scenes/drinks.tscn" id="13_sftma"]
+[ext_resource type="PackedScene" uid="uid://chi77elwqroqg" path="res://Scenes/drinks.tscn" id="13_sftma"]
 [ext_resource type="PackedScene" uid="uid://b0x8qwfnicykg" path="res://Scenes/shop.tscn" id="14_sftma"]
 [ext_resource type="PackedScene" uid="uid://c4mtqmm54noke" path="res://Scenes/bouncer.tscn" id="16_erobn"]
 
@@ -44,7 +44,7 @@ _customerPrefab = ExtResource("2_pu3va")
 _machinePrefab = ExtResource("3_0e3vx")
 CasinoBounds = Rect2(0, 0, 3840, 2160)
 CasinoExit = Vector2(1920, 3100)
-CasinoSouls = 2
+CasinoSouls = 5
 _mDisplay = NodePath("MainUI/MoneyDisplay")
 _sDisplay = NodePath("MainUI/SoulDisplay")
 _adScene = ExtResource("4_r0mdn")

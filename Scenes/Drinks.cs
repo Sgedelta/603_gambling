@@ -36,11 +36,11 @@ public partial class Drinks : StaticBody2D
 
 	public void GiveCustomerDrinkBenefits(Customer c)
 	{
-        //give customer drink
-        c.HopeAmount += DrinkHopeStr;
-        c.AddictionStrength += DrinkAddictionStr;
+		//give customer drink
+		c.HopeAmount += DrinkHopeStr;
+		c.AddictionStrength += DrinkAddictionStr;
 		c.ReevaluateGoal();
-    }
+	}
 
 	public Vector2 GetRandomLocForCust()
 	{
@@ -48,6 +48,6 @@ public partial class Drinks : StaticBody2D
 
 		return DrinkArea.GlobalPosition + new Vector2(_rng.RandfRange(-shapeSize.X, shapeSize.X), _rng.RandfRange(-shapeSize.Y, shapeSize.Y));
 
-    }
+	}
 
 }
