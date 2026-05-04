@@ -108,12 +108,14 @@ public partial class Shop : StaticBody2D
 	{
 		var bouncer = GetNode<Bouncer>("/root/MainGame/Bouncer");
 		int nextCost = bouncer.Purchase();
+		
 		Label description = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Label");
 		Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer/Label");
 		
+		description.Text = "Detains for " + (bouncer.StopTime).ToString("F1") + "s";
+		
 		if(nextCost > 0)
 		{
-			description.Text = "Detains for " + (bouncer.StopTime + 0.2f).ToString("F1") + "s";
 			costLabel.Text = nextCost.ToString();
 		}
 		else
@@ -129,12 +131,12 @@ public partial class Shop : StaticBody2D
 		var entrance = GetNode<CasinoEntrance>("/root/MainGame/CasinoEntrance");
 		int nextCost = entrance.Purchase();
 		Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer/Label");
-
+		TextureProgressBar adBar = GetNodeOrNull<TextureProgressBar>("ControlUI/VBoxContainer/Advertisement/HBoxContainer/adBar");
+	
 		if (nextCost > 0)
 		{
 			
 			costLabel.Text = nextCost.ToString();
-			TextureProgressBar adBar = GetNodeOrNull<TextureProgressBar>("ControlUI/VBoxContainer/Advertisement/HBoxContainer/adBar");
 			adBar.Visible = true;
 			adBar.Value += 20;
 		}
@@ -143,6 +145,7 @@ public partial class Shop : StaticBody2D
 			Button button = GetNode<Button>("ControlUI/VBoxContainer/Advertisement/AdButton");
 			button.Disabled = true;
 			costLabel.Text = "Maxed Out";
+			adBar.Value = 100;
 		}
 	}
 
@@ -152,18 +155,19 @@ public partial class Shop : StaticBody2D
 
 		//Call maingame method to unlock
 		int nextCost = mainGame.PurchaseMachine();
+		Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/NewMachine/Upgrade3/HBoxContainer/Label");
 
 		//Update display of machine cost
 		//If cost is -1, no more machines to buy, disable button
 		if (nextCost > 0)
 		{
-			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/NewMachine/Upgrade3/HBoxContainer/Label");
 			costLabel.Text = nextCost.ToString();
 		}
 		else
 		{
 			Button button = GetNode<Button>("ControlUI/VBoxContainer/NewMachine/Upgrade3");
 			button.Disabled = true;
+			costLabel.Text = "Maxed Out";
 		}
 	}
 	

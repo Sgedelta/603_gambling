@@ -97,6 +97,7 @@ custom_minimum_size = Vector2(350, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 step = 20.0
+value = 20.0
 nine_patch_stretch = true
 texture_under = ExtResource("7_1sjcd")
 texture_progress = ExtResource("8_1cyt5")
@@ -176,7 +177,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="ControlUI/VBoxContainer/Bouncer/Upgrade2/HBoxContainer" unique_id=2006002047]
 layout_mode = 2
 theme = ExtResource("8_tyrku")
-text = "20"
+text = "500"
 
 [node name="Advertisement" type="VBoxContainer" parent="ControlUI/VBoxContainer" unique_id=46593845]
 layout_mode = 2
@@ -295,6 +296,7 @@ text = "Play Ad-free
 expand_icon = true
 script = ExtResource("8_s8dlv")
 
+[connection signal="pressed" from="ControlUI/CloseButton" to="." method="SetUIControlVis" binds= [false]]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Drinks/UpgradeButton" to="." method="UpgradeBar"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Bouncer/Upgrade2" to="." method="UpgradeBouncer"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Advertisement/AdButton" to="." method="UpgradeAds"]
