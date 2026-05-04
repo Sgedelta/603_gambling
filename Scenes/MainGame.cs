@@ -22,8 +22,8 @@ public partial class MainGame : Node2D
 	[Export] public Vector2 CasinoExit = Vector2.Zero;
 
 	//Casino starting money, can adjust this if needed
-	[Export] public float CasinoMoney = 200000;
-	[Export] public int CasinoSouls = 100;
+	[Export] public float CasinoMoney = 2000;
+	[Export] public int CasinoSouls = 5;
 
 	[Export] private MoneyDisplay _mDisplay;
 	[Export] private MoneyDisplay _sDisplay;
