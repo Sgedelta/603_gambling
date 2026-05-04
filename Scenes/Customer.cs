@@ -110,6 +110,7 @@ public partial class Customer : CharacterBody2D
 
 	[Signal] public delegate void OnCustomerKillEventHandler(int value);
 	private Sprite2D alertSprite;
+	private Sprite2D playSprite;
 	[Export] private PackedScene _explosion;
 	
 
@@ -135,6 +136,7 @@ public partial class Customer : CharacterBody2D
 		this.MouseEntered += OnMouseEntered;
 		this.MouseExited += OnMouseExit;
 		alertSprite = GetNode<Sprite2D>("FleeAlert");
+		playSprite = GetNode<Sprite2D>("PlayingGame");
 
 		Callable.From(DelayedSetup).CallDeferred();
 
@@ -632,6 +634,7 @@ public partial class Customer : CharacterBody2D
 		ActiveMachine.OnGamePlayed += RegisterGame;
 
 		//play the game, then wait for it to finish
+		playSprite.Visible = true;
 		ActiveMachine.Play(this);
 		await ToSignal(ActiveMachine, Machine.SignalName.OnGamePlayed);
 		//count that we played!
@@ -641,7 +644,7 @@ public partial class Customer : CharacterBody2D
 		//unsubscribe our listener(s)
 		//we could do this when we pick and leave a machine... but this is a bit cleaner, imo. we might leave after ANY game and we only care about it WHEN we play. so. safer! one place!
 		ActiveMachine.OnGamePlayed -= RegisterGame;
-		
+		playSprite.Visible = false;
 
 		//rethink life choices
 		ReevaluateGoal();
