@@ -110,6 +110,8 @@ public partial class Customer : CharacterBody2D
 
 	[Signal] public delegate void OnCustomerKillEventHandler(int value);
 	private Sprite2D alertSprite;
+	[Export] private PackedScene _explosion;
+	
 
 	public override void _Ready()
 	{
@@ -191,8 +193,17 @@ public partial class Customer : CharacterBody2D
 		//Send signal to maingame for soul change
 		EmitSignal(SignalName.OnCustomerKill, soulValue);
 
-		//Destroy object
-		QueueFree();
+		//Setting up explosion
+		var currentExplosion = (Node2D)_explosion.Instantiate();
+		currentExplosion.Position = GetViewport().GetMousePosition();
+        GameManager.instance.ActiveMainGame.AddChild(currentExplosion);
+
+		//EXPLODE.
+		CpuParticles2D particles = currentExplosion.GetNode<CpuParticles2D>("CPUParticles2D");
+		particles.Emitting = true;
+
+        //Destroy object
+        QueueFree();
 	}
 
 	private void OnMouseEntered()
