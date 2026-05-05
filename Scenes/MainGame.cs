@@ -48,6 +48,8 @@ public partial class MainGame : Node2D
 	[Export] private CasinoEntrance _entrance;
 	[Export] private NavigationRegion2D navArea;
 
+	private bool _gameOver = false;
+
 	//Used to track machine cost
 	private Queue<int> machineCost = new Queue<int>(new[] {1, 2, 3, 5, 7, 9, 12, 15, 18, 24});
 
@@ -100,7 +102,7 @@ public partial class MainGame : Node2D
 	
 	private void ShowAd()
 	{
-		if (!AllowAds || MicrotransactionOpen || _adPlaying) return;
+		if (!AllowAds || MicrotransactionOpen || _adPlaying || _gameOver) return;
 		_adPlaying = true;
 		GetTree().Paused = true;
 		
@@ -206,10 +208,24 @@ public partial class MainGame : Node2D
 		//If it's under 0, even out to 0 (unless we're allowed to go into debt...that's a design question)
 		if (CasinoMoney < 0)
 		{
-			CasinoMoney = 0;
+			EndGame();
 		}
 
 		_mDisplay.Display(CasinoMoney);
+	}
+
+	public void EndGame()
+	{
+		//ensure only one call
+		if(_gameOver)
+		{
+			return;
+		}
+		_gameOver = true;
+
+		CanvasLayer DeathScreen = (CanvasLayer)ResourceLoader.Load<PackedScene>("res://Scenes/DeathScreen.tscn").Instantiate();
+
+		GetTree().Root.AddChild(DeathScreen);
 	}
 
 	//Returns the "best" machine for a given customer. Decided by the game because the customer doesn't know about all the machines

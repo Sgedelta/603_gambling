@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bggnoja544cx5"]
+
+[ext_resource type="Texture2D" uid="uid://b14cpauf64xhb" path="res://Resources/Sprites/GreyPixel.png" id="1_1d6nr"]
+[ext_resource type="Script" uid="uid://cw4sykqj5xgb" path="res://Scenes/DeathScreen.cs" id="1_xjc13"]
+[ext_resource type="Texture2D" uid="uid://dsn0stx54erdg" path="res://Resources/Sprites/You Went Into Debt.png" id="2_n2kst"]
+[ext_resource type="Texture2D" uid="uid://bh0omq2hn8jyo" path="res://Resources/Sprites/the beast of the coffers.png" id="3_phjal"]
+[ext_resource type="Texture2D" uid="uid://dhbbr7n784txr" path="res://Resources/Sprites/MrBeastDeath.png" id="4_phjal"]
+[ext_resource type="AudioStream" uid="uid://cn8m58l0ui54q" path="res://Resources/Audio/Alarm.mp3" id="5_udgme"]
+[ext_resource type="Theme" uid="uid://cttjx5hj1jrun" path="res://Resources/Themes/upgrade_button_theme.tres" id="7_wcigx"]
+
+[node name="DeathScreen" type="CanvasLayer" unique_id=70251130 node_paths=PackedStringArray("Greyscale", "YouDied", "HealthBar", "Thumbnail", "ReturnToMainMenu")]
+process_mode = 3
+layer = 99999
+script = ExtResource("1_xjc13")
+Greyscale = NodePath("Greyscale BG")
+YouDied = NodePath("Debt")
+HealthBar = NodePath("Healthbar")
+Thumbnail = NodePath("BeastDeath")
+ReturnToMainMenu = NodePath("MarginContainer/Button")
+
+[node name="Greyscale BG" type="Sprite2D" parent="." unique_id=1396187026]
+modulate = Color(0.34906504, 0.34906504, 0.34906498, 1)
+position = Vector2(1920, 1080)
+scale = Vector2(3840, 2160)
+texture = ExtResource("1_1d6nr")
+
+[node name="Debt" type="Sprite2D" parent="." unique_id=220319356]
+position = Vector2(1920, 983)
+scale = Vector2(2, 2)
+texture = ExtResource("2_n2kst")
+
+[node name="Healthbar" type="Sprite2D" parent="." unique_id=294223033]
+position = Vector2(1920, 1128)
+scale = Vector2(2, 2)
+texture = ExtResource("3_phjal")
+
+[node name="BeastDeath" type="Sprite2D" parent="." unique_id=174513580]
+position = Vector2(1980, 553)
+scale = Vector2(3, 3)
+texture = ExtResource("4_phjal")
+
+[node name="Alarm" type="AudioStreamPlayer" parent="." unique_id=1280842838]
+stream = ExtResource("5_udgme")
+autoplay = true
+parameters/looping = false
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=709831847]
+custom_minimum_size = Vector2(3840, 156)
+offset_top = 920.0
+offset_right = 3840.0
+offset_bottom = 1076.0
+theme_override_constants/margin_left = 1600
+theme_override_constants/margin_right = 1600
+
+[node name="Button" type="Button" parent="MarginContainer" unique_id=413649283]
+layout_mode = 2
+theme = ExtResource("7_wcigx")
+theme_override_font_sizes/font_size = 50
+text = "Return to Main Menu"
