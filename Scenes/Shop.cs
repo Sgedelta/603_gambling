@@ -50,6 +50,11 @@ public partial class Shop : StaticBody2D
 	{
 		SetUIControlVis(false);
 	}
+
+	public void CloseBar()
+	{
+        GetNode<Panel>("BarOnboard").Visible = false;
+    }
 	
 	public void UpgradeBar()
 	{
@@ -96,7 +101,8 @@ public partial class Shop : StaticBody2D
 		//open bar if first upgrade
 		if (_barUpgrade == 1) //1 not 0 because it gets incremented earlier. easier to check conditions up there with it added
 		{
-			GD.Print("yo");
+            GetNode<Panel>("BarOnboard").Visible = true;
+            GD.Print("yo");
 			drinkBar.Visible = true;
 			mg.Bar.IsOpen = true;
 			return;
@@ -162,7 +168,7 @@ public partial class Shop : StaticBody2D
 		//If cost is -1, no more machines to buy, disable button
 		if (nextCost > 0)
 		{
-			Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/NewMachine/Upgrade3/HBoxContainer/Label");
+			Label costLabel = GetNode<Label>("ControlUI/ControlMargins/VertFlow/Upgrade3/WinrateUI/Label");
 			costLabel.Text = nextCost.ToString();
 		}
 		else

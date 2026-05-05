@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 public partial class Machine : StaticBody2D
 {
@@ -124,11 +125,11 @@ public partial class Machine : StaticBody2D
 			mainGame.UpdateCasinoSouls(-CostSliderCost);
 
 			//Get the slider, unlock it
-			BoxContainer costUI = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/CostUI");
-			costUI.Visible = true;
+			//BoxContainer costUI = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/CostUI");
+			//costUI.Visible = true;
 
 			//Disable the button
-			BoxContainer costButton = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/BuyCost");
+			Button costButton = GetNode<Button>("ControlUI/ControlMargins/VertFlow/Upgrade1/CostInteracts/CostButton");
 			costButton.Visible = false;
 		}
 
@@ -144,11 +145,11 @@ public partial class Machine : StaticBody2D
 			mainGame.UpdateCasinoSouls(-PayoutSliderCost);
 
 			//Get the slider, unlock it
-			BoxContainer payoutUI = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/PayoutUI");
-			payoutUI.Visible = true;
+			//BoxContainer payoutUI = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/PayoutUI");
+			//payoutUI.Visible = true;
 
 			//Disable the button
-			BoxContainer payoutButton = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/BuyPayout");
+			Button payoutButton = GetNode<Button>("ControlUI/ControlMargins/VertFlow/Upgrade2/PayoutInteracts/PayoutButton");
 			payoutButton.Visible = false;
 		}
 	}
@@ -163,11 +164,11 @@ public partial class Machine : StaticBody2D
 			mainGame.UpdateCasinoSouls(-WinrateSliderCost);
 
 			//Get the slider, unlock it
-			BoxContainer winrateUI = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/WinrateUI");
-			winrateUI.Visible = true;
+			//BoxContainer winrateUI = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/WinrateUI");
+			//winrateUI.Visible = true;
 
 			//Disable the button
-			BoxContainer winrateButton = GetNode<BoxContainer>("ControlUI/ControlMargins/VertFlow/BuyWinrate");
+			Button winrateButton = GetNode<Button>("ControlUI/ControlMargins/VertFlow/Upgrade3/WinrateInteracts/WinrateButton");
 			winrateButton.Visible = false;
 		}
 	}

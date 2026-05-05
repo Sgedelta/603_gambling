@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c4mtqmm54noke"]
 
-[ext_resource type="Texture2D" uid="uid://lvnl4l4tp47v" path="res://Resources/Sprites/bouncer.png" id="1_ktstb"]
+[ext_resource type="Texture2D" uid="uid://bm24ye0cespvt" path="res://Resources/Sprites/bouncer.png" id="1_ktstb"]
 [ext_resource type="Script" uid="uid://bfj4qk7nd4pqk" path="res://Scenes/Bouncer.cs" id="1_laxuj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_th3yh"]

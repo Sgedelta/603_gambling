@@ -66,20 +66,21 @@ texture = SubResource("AtlasTexture_mg6tx")
 polygon = PackedVector2Array(-263, -195, 269, -197, 271, 127, 114, 203, -118, 201, -264, 123)
 
 [node name="ControlUI" type="Panel" parent="." unique_id=455882115]
+visible = false
 z_index = 6
-offset_left = -477.0
+offset_left = -436.0
 offset_top = 1.0
-offset_right = 400.0
+offset_right = 441.0
 offset_bottom = 1276.0
 theme_override_styles/panel = ExtResource("3_3ps1r")
 
 [node name="CloseButton" type="Button" parent="ControlUI" unique_id=1469992155]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 0
-offset_left = 801.0
-offset_top = 10.0
-offset_right = 865.0
-offset_bottom = 75.0
+offset_left = 778.0
+offset_top = 14.0
+offset_right = 864.0
+offset_bottom = 98.0
 pivot_offset_ratio = Vector2(1, 0)
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 40
@@ -316,41 +317,41 @@ text = "Play Ad-free
 expand_icon = true
 script = ExtResource("8_s8dlv")
 
-[node name="Panel" type="Panel" parent="." unique_id=1572599787]
+[node name="BarOnboard" type="Panel" parent="." unique_id=1572599787]
 visible = false
 z_index = 10
-offset_left = -1231.0
+offset_left = -1154.0
 offset_top = -37.0
-offset_right = 1243.0
-offset_bottom = 1604.0
+offset_right = 1159.0
+offset_bottom = 1369.0
 theme_override_styles/panel = ExtResource("3_3ps1r")
 
-[node name="Panel2" type="Panel" parent="Panel" unique_id=1985094351]
+[node name="Panel2" type="Panel" parent="BarOnboard" unique_id=1985094351]
 layout_mode = 0
-offset_left = 931.0
-offset_top = 1216.0
-offset_right = 1615.0908
-offset_bottom = 1471.6825
+offset_left = 838.7029
+offset_top = 1117.0
+offset_right = 1522.7937
+offset_bottom = 1372.6825
 scale = Vector2(0.88, 0.87999755)
 theme_override_styles/panel = SubResource("StyleBoxFlat_dvu38")
 
-[node name="Button" type="Button" parent="Panel" unique_id=434572498]
+[node name="Button" type="Button" parent="BarOnboard" unique_id=434572498]
 layout_mode = 0
-offset_left = 949.0
-offset_top = 1233.0
-offset_right = 1593.0908
-offset_bottom = 1449.5454
+offset_left = 856.7029
+offset_top = 1134.0
+offset_right = 1500.7937
+offset_bottom = 1350.5454
 scale = Vector2(0.88, 0.87999755)
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 100
 text = "Continue"
 
-[node name="Label" type="Label" parent="Panel" unique_id=824214593]
+[node name="Label" type="Label" parent="BarOnboard" unique_id=824214593]
 layout_mode = 0
-offset_left = 464.0
-offset_top = 170.0
-offset_right = 1999.0
-offset_bottom = 475.0
+offset_left = 371.70288
+offset_top = 71.0
+offset_right = 1906.7029
+offset_bottom = 376.0
 theme_override_colors/font_outline_color = Color(0.2, 0.09803922, 0.05882353, 1)
 theme_override_constants/outline_size = 30
 theme_override_font_sizes/font_size = 110
@@ -359,22 +360,22 @@ text = "Bar Unlocked!
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Panel" unique_id=1117985171]
+[node name="Label2" type="Label" parent="BarOnboard" unique_id=1117985171]
 layout_mode = 0
-offset_left = 459.0
-offset_top = 493.0
-offset_right = 2033.0
-offset_bottom = 1166.0
+offset_left = 366.70288
+offset_top = 394.0
+offset_right = 1940.7029
+offset_bottom = 1067.0
 theme_override_font_sizes/font_size = 71
-text = "Customers now have a chance to get a free drink from the bar! Drinks inspire customers to continue gambling more recklessly, but they cost the casino a small amount of money. Upgrading the bar will make the drinks stronger but cost more money!"
+text = "Customers now have a chance to get a free drink from the bar! Drinks cost the casino a small amount of money, but they inspire customers to continue gambling more recklessly. Upgrading the bar will make the drinks stronger but cost more money!"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Label3" type="Label" parent="Panel/Label2" unique_id=1569027745]
+[node name="Label3" type="Label" parent="BarOnboard/Label2" unique_id=1569027745]
 layout_mode = 0
-offset_left = 542.0
+offset_left = 560.2971
 offset_top = 98.0
-offset_right = 830.0
+offset_right = 848.2971
 offset_bottom = 273.0
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_constants/outline_size = 16
@@ -382,32 +383,32 @@ theme_override_font_sizes/font_size = 71
 text = "bar"
 autowrap_mode = 2
 
-[node name="BuildingBlocks3" type="Sprite2D" parent="Panel" unique_id=702854696]
-position = Vector2(2221.0002, 770.00006)
+[node name="BuildingBlocks3" type="Sprite2D" parent="BarOnboard" unique_id=702854696]
+position = Vector2(2128.7031, 671.00006)
 scale = Vector2(3.0408788, 2.9638226)
 texture = ExtResource("2_fdj0q")
 region_enabled = true
 region_rect = Rect2(377.32227, 11.93589, 91.299805, 140.49588)
 
-[node name="Eye2" type="Sprite2D" parent="Panel/BuildingBlocks3" unique_id=837666864]
+[node name="Eye2" type="Sprite2D" parent="BarOnboard/BuildingBlocks3" unique_id=837666864]
 position = Vector2(-12.893066, -33.99324)
 scale = Vector2(0.03541307, 0.035047606)
 texture = ExtResource("18_jhx1v")
 flip_h = true
 
-[node name="Eye" type="Sprite2D" parent="Panel/BuildingBlocks3" unique_id=1149467029]
+[node name="Eye" type="Sprite2D" parent="BarOnboard/BuildingBlocks3" unique_id=1149467029]
 position = Vector2(11.769623, -34.98381)
 scale = Vector2(0.034406953, 0.034671053)
 texture = ExtResource("18_jhx1v")
 flip_h = true
 flip_v = true
 
-[node name="Label5" type="Label" parent="Panel" unique_id=1894448412]
+[node name="Label5" type="Label" parent="BarOnboard" unique_id=1894448412]
 layout_mode = 0
-offset_left = 2305.9998
-offset_top = 684.00006
-offset_right = 2489.9998
-offset_bottom = 889.00006
+offset_left = 2213.7026
+offset_top = 585.00006
+offset_right = 2397.7026
+offset_bottom = 790.00006
 rotation = 1.353502
 scale = Vector2(0.5402984, 0.90954906)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -415,32 +416,32 @@ theme_override_constants/outline_size = 19
 theme_override_font_sizes/font_size = 130
 text = "D"
 
-[node name="BuildingBlocks" type="Sprite2D" parent="Panel" unique_id=1410406240]
+[node name="BuildingBlocks" type="Sprite2D" parent="BarOnboard" unique_id=1410406240]
 z_index = 10
-position = Vector2(288.99994, 771)
+position = Vector2(196.70282, 672)
 scale = Vector2(2.9257426, 2.9257426)
 texture = SubResource("AtlasTexture_1cyt5")
 
-[node name="Eye2" type="Sprite2D" parent="Panel/BuildingBlocks" unique_id=1713293327]
+[node name="Eye2" type="Sprite2D" parent="BarOnboard/BuildingBlocks" unique_id=1713293327]
 position = Vector2(-14.013506, -36.571907)
 scale = Vector2(0.040659014, 0.038814984)
 texture = ExtResource("18_jhx1v")
 flip_h = true
 
-[node name="Eye" type="Sprite2D" parent="Panel/BuildingBlocks" unique_id=768008019]
+[node name="Eye" type="Sprite2D" parent="BarOnboard/BuildingBlocks" unique_id=768008019]
 position = Vector2(11.621015, -36.211388)
 scale = Vector2(0.04038071, 0.039250273)
 texture = ExtResource("18_jhx1v")
 flip_h = true
 flip_v = true
 
-[node name="Label6" type="Label" parent="Panel" unique_id=1246046691]
+[node name="Label6" type="Label" parent="BarOnboard" unique_id=1246046691]
 z_index = 11
 layout_mode = 0
-offset_left = 329.00006
-offset_top = 713.00006
-offset_right = 513.0
-offset_bottom = 918.00006
+offset_left = 236.70294
+offset_top = 614.00006
+offset_right = 420.70288
+offset_bottom = 819.00006
 rotation = 1.8154508
 scale = Vector2(0.5788348, 0.90954906)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -448,8 +449,10 @@ theme_override_constants/outline_size = 19
 theme_override_font_sizes/font_size = 80
 text = "0"
 
+[connection signal="pressed" from="ControlUI/CloseButton" to="." method="CloseShop"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Drinks/UpgradeButton" to="." method="UpgradeBar"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Bouncer/Upgrade2" to="." method="UpgradeBouncer"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/Advertisement/AdButton" to="." method="UpgradeAds"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/NewMachine/Upgrade3" to="." method="BuyMachine"]
 [connection signal="pressed" from="ControlUI/VBoxContainer/AdFreeButton" to="." method="AdFree"]
+[connection signal="pressed" from="BarOnboard/Button" to="." method="CloseBar"]
