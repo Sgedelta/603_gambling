@@ -201,6 +201,7 @@ position = Vector2(3247, 5537)
 
 [node name="Shop" parent="." unique_id=1065227419 instance=ExtResource("14_sftma")]
 position = Vector2(1755, 511)
+BarUpgradeVals = Array[Array]([])
 
 [node name="Mrbeast" parent="." unique_id=2083618555 instance=ExtResource("13_c78sm")]
 position = Vector2(-775, 1104)

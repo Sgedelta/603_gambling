@@ -12,6 +12,8 @@
 [ext_resource type="Curve" uid="uid://wgs0dv5afqge" path="res://Resources/Curves/CustomerFleeHighHope.tres" id="5_glosv"]
 [ext_resource type="Texture2D" uid="uid://jauyoi2jphmc" path="res://Resources/Sprites/alertimg.png" id="5_vkxjs"]
 [ext_resource type="Curve" uid="uid://bu14u0vc0enh4" path="res://Resources/Curves/CustomerHopeToAlcoholism.tres" id="6_2nln4"]
+[ext_resource type="PackedScene" uid="uid://828epw5fas73" path="res://Scenes/explosion.tscn" id="8_2nln4"]
+[ext_resource type="Texture2D" uid="uid://dy7vqv4ujf0j8" path="res://Resources/Sprites/playing.png" id="13_o7qao"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0v30w"]
 atlas = ExtResource("2_7c3kf")
@@ -37,6 +39,7 @@ HopeToAlcoholismCurve = ExtResource("6_2nln4")
 MachineConsiderations = 4
 _hopeGradient = ExtResource("2_0v30w")
 killCursor = ExtResource("3_2o0mk")
+_explosion = ExtResource("8_2nln4")
 
 [node name="Display" type="Sprite2D" parent="." unique_id=1269357853]
 scale = Vector2(1.5, 1.5)
@@ -75,3 +78,9 @@ visible = false
 position = Vector2(2, -192)
 scale = Vector2(0.55668014, 0.5243902)
 texture = ExtResource("5_vkxjs")
+
+[node name="PlayingGame" type="Sprite2D" parent="." unique_id=1595537642]
+visible = false
+position = Vector2(3, -150)
+scale = Vector2(0.40666667, 0.46)
+texture = ExtResource("13_o7qao")
