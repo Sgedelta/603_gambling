@@ -3,7 +3,6 @@ using System;
 
 public partial class MachineControlUI : Panel
 {
-
 	public Slider CostSlider;
 	public Slider PayoutSlider;
 	public Slider RateSlider;
@@ -17,16 +16,14 @@ public partial class MachineControlUI : Panel
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+		CostSlider = GetNode<Slider>("ControlMargins/VertFlow/Upgrade1/CostInteracts/HSlider");
+		PayoutSlider = GetNode<Slider>("ControlMargins/VertFlow/Upgrade2/PayoutInteracts/HSlider");
+		RateSlider = GetNode<Slider>("ControlMargins/VertFlow/Upgrade3/WinrateInteracts/HSlider");
 
-		CostSlider = GetNode<Slider>("ControlMargins/VertFlow/CostUI/HSlider");
-		PayoutSlider = GetNode<Slider>("ControlMargins/VertFlow/PayoutUI/HSlider");
-		RateSlider = GetNode<Slider>("ControlMargins/VertFlow/WinrateUI/HSlider");
 
-
-        CostLabel = GetNode<Label>("ControlMargins/VertFlow/CostUI/HBoxContainer/Val Label");
-        PayoutLabel = GetNode<Label>("ControlMargins/VertFlow/PayoutUI/HBoxContainer/Val Label");
-        RateLabel = GetNode<Label>("ControlMargins/VertFlow/WinrateUI/HBoxContainer/Val Label");
-
+        CostLabel = GetNode<Label>("ControlMargins/VertFlow/Upgrade1/CostUI/Val Label");
+        PayoutLabel = GetNode<Label>("ControlMargins/VertFlow/Upgrade2/PayoutUI/Val Label");
+        RateLabel = GetNode<Label>("ControlMargins/VertFlow/Upgrade3/WinrateUI/Val Label");
     }
 
 	public void SetAllSlidersToValues(float cost, float payout, float rate)

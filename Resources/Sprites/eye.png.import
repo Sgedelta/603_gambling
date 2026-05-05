@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bm24ye0cespvt"
-path="res://.godot/imported/bouncer.png-5fcb28cf6f4ce347a005a0e8ef87f626.ctex"
+uid="uid://coq8k0b5igm43"
+path="res://.godot/imported/eye.png-c78b890141468e4c9267507cb6023c2e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Sprites/bouncer.png"
-dest_files=["res://.godot/imported/bouncer.png-5fcb28cf6f4ce347a005a0e8ef87f626.ctex"]
+source_file="res://Resources/Sprites/eye.png"
+dest_files=["res://.godot/imported/eye.png-c78b890141468e4c9267507cb6023c2e.ctex"]
 
 [params]
 
