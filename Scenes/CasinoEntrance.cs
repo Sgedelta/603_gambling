@@ -136,7 +136,7 @@ public partial class CasinoEntrance : Node2D
 		{
 			cost = _spawnCost.Dequeue();
 			mainGame.UpdateCasinoMoney(-cost);
-			_spawnChancePerTick = Mathf.Min(_spawnChancePerTick + 0.015f, 0.5f);
+			_spawnChancePerTick = Mathf.Min(_spawnChancePerTick + 0.05f, 0.5f);
 		}
 		if (_spawnCost.Count <= 0) { return -1; }
 		return _spawnCost.Peek();

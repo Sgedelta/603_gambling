@@ -155,16 +155,34 @@ position = Vector2(170, 1850)
 [node name="Machine" parent="." unique_id=1215231208 instance=ExtResource("3_0e3vx")]
 position = Vector2(1389, 1314)
 
+[node name="CostButton" parent="Machine/ControlUI/ControlMargins/VertFlow/Upgrade1/CostInteracts" parent_id_path=PackedInt32Array(1215231208, 984374054) index="1" unique_id=889009612]
+visible = false
+
+[node name="PayoutButton" parent="Machine/ControlUI/ControlMargins/VertFlow/Upgrade2/PayoutInteracts" parent_id_path=PackedInt32Array(1215231208, 1374161360) index="1" unique_id=895336679]
+visible = false
+
 [node name="Machine2" parent="." unique_id=282144351 instance=ExtResource("3_0e3vx")]
 position = Vector2(2259, 1340)
+
+[node name="CostButton" parent="Machine2/ControlUI/ControlMargins/VertFlow/Upgrade1/CostInteracts" parent_id_path=PackedInt32Array(282144351, 984374054) index="1" unique_id=889009612]
+visible = false
+
+[node name="PayoutButton" parent="Machine2/ControlUI/ControlMargins/VertFlow/Upgrade2/PayoutInteracts" parent_id_path=PackedInt32Array(282144351, 1374161360) index="1" unique_id=895336679]
+visible = false
 
 [node name="Machine3" parent="." unique_id=1295245516 instance=ExtResource("3_0e3vx")]
 visible = false
 position = Vector2(2298, 5537)
 
+[node name="CostButton" parent="Machine3/ControlUI/ControlMargins/VertFlow/Upgrade1/CostInteracts" parent_id_path=PackedInt32Array(1295245516, 984374054) index="1" unique_id=889009612]
+visible = false
+
 [node name="Machine4" parent="." unique_id=264896314 instance=ExtResource("3_0e3vx")]
 visible = false
 position = Vector2(1096, 6314)
+
+[node name="CostButton" parent="Machine4/ControlUI/ControlMargins/VertFlow/Upgrade1/CostInteracts" parent_id_path=PackedInt32Array(264896314, 984374054) index="1" unique_id=889009612]
+visible = false
 
 [node name="Machine5" parent="." unique_id=334292708 instance=ExtResource("3_0e3vx")]
 visible = false
@@ -177,26 +195,38 @@ position = Vector2(2610, 5537)
 [node name="Machine7" parent="." unique_id=1438332027 instance=ExtResource("3_0e3vx")]
 visible = false
 position = Vector2(804, 6314)
+WinrateSliderCost = 2
 
 [node name="Machine8" parent="." unique_id=762473111 instance=ExtResource("3_0e3vx")]
 visible = false
 position = Vector2(2891, 6314)
+WinrateSliderCost = 2
 
 [node name="Machine9" parent="." unique_id=589482984 instance=ExtResource("3_0e3vx")]
 visible = false
 position = Vector2(2933, 5537)
+PayoutSliderCost = 2
+WinrateSliderCost = 2
 
 [node name="Machine10" parent="." unique_id=1728187150 instance=ExtResource("3_0e3vx")]
 visible = false
 position = Vector2(479, 6314)
+PayoutSliderCost = 2
+WinrateSliderCost = 2
 
 [node name="Machine11" parent="." unique_id=1902925526 instance=ExtResource("3_0e3vx")]
 visible = false
 position = Vector2(3218, 6314)
+CostSliderCost = 2
+PayoutSliderCost = 2
+WinrateSliderCost = 2
 
 [node name="Machine12" parent="." unique_id=1236321597 instance=ExtResource("3_0e3vx")]
 visible = false
 position = Vector2(3247, 5537)
+CostSliderCost = 2
+PayoutSliderCost = 2
+WinrateSliderCost = 2
 
 [node name="Shop" parent="." unique_id=1065227419 instance=ExtResource("14_sftma")]
 position = Vector2(1814, 511)
@@ -211,3 +241,7 @@ position = Vector2(2238, 1998)
 [connection signal="CustomerMarkedKill" from="ExitZone" to="." method="UnregisterCustomer"]
 
 [editable path="ExitZone"]
+[editable path="Machine"]
+[editable path="Machine2"]
+[editable path="Machine3"]
+[editable path="Machine4"]

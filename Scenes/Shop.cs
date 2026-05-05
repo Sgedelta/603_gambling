@@ -173,7 +173,7 @@ public partial class Shop : StaticBody2D
 		//If cost is -1, no more machines to buy, disable button
 		if (nextCost > 0)
 		{
-			costLabel = GetNode<Label>("ControlUI/ControlMargins/VertFlow/Upgrade3/WinrateUI/Label");
+			costLabel = GetNode<Label>("ControlUI/VBoxContainer/NewMachine/Upgrade3/HBoxContainer/Label");
 			costLabel.Text = nextCost.ToString();
 		}
 		else

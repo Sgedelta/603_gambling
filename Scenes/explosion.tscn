@@ -24,6 +24,8 @@ point_count = 2
 script = SubResource("GDScript_nlb0y")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1471445987]
+z_index = -1
+z_as_relative = false
 position = Vector2(1, 2)
 scale = Vector2(0.39166665, 0.365)
 texture = ExtResource("1_aayv4")
