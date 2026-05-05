@@ -24,6 +24,7 @@ public partial class CasinoEntrance : Node2D
 	[Export] private float _gameStartedCustomerInRate = 1;
 	
 	private Queue<int> _spawnCost = new Queue<int>(new[] { 120, 200, 350, 500, 800 });
+	private int nextCost;
 
 
 	[ExportGroup("Debug New Customer Controls")] //only exported for debug purposes - generally, keep these values as they are "starting" values
@@ -128,17 +129,31 @@ public partial class CasinoEntrance : Node2D
 		return _rng.RandfRange(bounds.X, bounds.Y);
 	}
 	
-	public int Purchase()
+	public bool Purchase()
 	{
 		var mainGame = GetNode<MainGame>("/root/MainGame");
-		int cost = _spawnCost.Peek();
-		if (cost <= mainGame.CasinoMoney)
+		if (_spawnCost.Count == 0)
 		{
-			cost = _spawnCost.Dequeue();
-			mainGame.UpdateCasinoMoney(-cost);
-			_spawnChancePerTick = Mathf.Min(_spawnChancePerTick + 0.05f, 0.5f);
+			nextCost = -1;
+			return false;
 		}
-		if (_spawnCost.Count <= 0) { return -1; }
-		return _spawnCost.Peek();
+			
+		int cost = _spawnCost.Peek();
+		if (cost > mainGame.CasinoMoney)
+		{
+			nextCost = cost;
+			return false;
+		}
+		_spawnCost.Dequeue();
+		mainGame.UpdateCasinoMoney(-cost);
+		_spawnChancePerTick = Mathf.Min(_spawnChancePerTick + 0.05f, 0.5f);
+
+		nextCost = _spawnCost.Count == 0 ? -1 : _spawnCost.Peek();
+		return true;
+	}
+	
+	public int GetNextCost()
+	{
+		return nextCost;
 	}
 }

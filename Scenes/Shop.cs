@@ -54,8 +54,8 @@ public partial class Shop : StaticBody2D
 
 	public void CloseBar()
 	{
-        GetNode<Panel>("BarOnboard").Visible = false;
-    }
+		GetNode<Panel>("BarOnboard").Visible = false;
+	}
 	
 	public void UpgradeBar()
 	{
@@ -102,8 +102,8 @@ public partial class Shop : StaticBody2D
 		//open bar if first upgrade
 		if (_barUpgrade == 1) //1 not 0 because it gets incremented earlier. easier to check conditions up there with it added
 		{
-            GetNode<Panel>("BarOnboard").Visible = true;
-            GD.Print("yo");
+			GetNode<Panel>("BarOnboard").Visible = true;
+			GD.Print("yo");
 			drinkBar.Visible = true;
 			mg.Bar.IsOpen = true;
 			return;
@@ -141,16 +141,20 @@ public partial class Shop : StaticBody2D
 	public void UpgradeAds()
 	{
 		var entrance = GetNode<CasinoEntrance>("/root/MainGame/CasinoEntrance");
-		int nextCost = entrance.Purchase();
+		bool purchased = entrance.Purchase();
+		int nextCost = entrance.GetNextCost();
+		
 		Label costLabel = GetNode<Label>("ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer/Label");
 		TextureProgressBar adBar = GetNodeOrNull<TextureProgressBar>("ControlUI/VBoxContainer/Advertisement/HBoxContainer/adBar");
 	
-		if (nextCost > 0)
+		if (purchased)
 		{
-			
-			costLabel.Text = nextCost.ToString();
 			adBar.Visible = true;
 			adBar.Value += 20;
+		}
+		if (nextCost > 0)
+		{
+			costLabel.Text = nextCost.ToString();
 		}
 		else
 		{

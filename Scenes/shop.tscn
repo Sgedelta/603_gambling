@@ -258,7 +258,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="ControlUI/VBoxContainer/Advertisement/AdButton/HBoxContainer" unique_id=1039385775]
 layout_mode = 2
 theme = ExtResource("8_tyrku")
-text = "20"
+text = "120"
 
 [node name="NewMachine" type="VBoxContainer" parent="ControlUI/VBoxContainer" unique_id=1718169971]
 layout_mode = 2
